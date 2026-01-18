@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ACE Platform CSV Processing Architecture</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .diagram-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .diagram-title {
+            font-size: 1.8em;
+            color: #1e3a8a;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #3b82f6;
+            padding-bottom: 10px;
+        }
+
+        .diagram {
+            width: 100%;
+            overflow-x: auto;
+            padding: 20px 0;
+        }
+
+        svg {
+            display: block;
+            margin: 0 auto;
+        }
+
+        .component {
+            fill: #4299e1;
+            stroke: #2b6cb0;
+            stroke-width: 2;
+        }
+
+        .component-critical {
+            fill: #f56565;
+            stroke: #c53030;
+            stroke-width: 2;
+        }
+
+        .component-success {
+            fill: #48bb78;
+            stroke: #2f855a;
+            stroke-width: 2;
+        }
+
+        .component-warning {
+            fill: #ed8936;
+            stroke: #c05621;
+            stroke-width: 2;
+        }
+
+        .component-info {
+            fill: #667eea;
+            stroke: #5a67d8;
+            stroke-width: 2;
+        }
+
+        .component-storage {
+            fill: #9f7aea;
+            stroke: #805ad5;
+            stroke-width: 2;
+        }
+
+        .component-ui {
+            fill: #38b2ac;
+            stroke: #319795;
+            stroke-width: 2;
+        }
+
+        .component-process {
+            fill: #4fd1c5;
+            stroke: #319795;
+            stroke-width: 2;
+        }
+
+        .text {
+            fill: white;
+            font-size: 14px;
+            font-weight: 600;
+            text-anchor: middle;
+        }
+
+        .text-small {
+            fill: white;
+            font-size: 11px;
+            text-anchor: middle;
+        }
+
+        .text-dark {
+            fill: #2d3748;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .arrow {
+            stroke: #2d3748;
+            stroke-width: 2;
+            fill: none;
+            marker-end: url(#arrowhead);
+        }
+
+        .arrow-success {
+            stroke: #48bb78;
+            stroke-width: 3;
+            fill: none;
+            marker-end: url(#arrowhead-success);
+        }
+
+        .arrow-fail {
+            stroke: #f56565;
+            stroke-width: 3;
+            fill: none;
+            marker-end: url(#arrowhead-fail);
+        }
+
+        .arrow-dashed {
+            stroke: #718096;
+            stroke-width: 2;
+            fill: none;
+            stroke-dasharray: 5,5;
+            marker-end: url(#arrowhead-dashed);
+        }
+
+        .label {
+            fill: #2d3748;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .description {
+            color: #4a5568;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #edf2f7;
+            border-radius: 8px;
+        }
+
+        .csv-record {
+            fill: #fef5e7;
+            stroke: #f59e0b;
+            stroke-width: 2;
+        }
+
+        .highlight-box {
+            fill: none;
+            stroke: #3b82f6;
+            stroke-width: 3;
+            stroke-dasharray: 10,5;
+        }
+
+        @media print {
+            body {
+                background: white;
+            }
+            .diagram-section {
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>ACE Platform: CSV Processing Architecture</h1>
+
+        <!-- Complete ACE Flow -->
+        <div class="diagram-section">
+            <h2 class="diagram-title">1. Complete ACE Processing Flow</h2>
+            <div class="description">
+                <strong>Overview:</strong> ACE receives CSV files from SFTP, creates delegator and child processes, generates human tasks for FAIL records, and provides UI for business users to take action.
+            </div>
+            <div class="diagram">
+                <svg width="1500" height="900" viewBox="0 0 1500 900">
+                    <defs>
+                        <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                            <polygon points="0 0, 10 3, 0 6" fill="#2d3748" />
+                        </marker>
+                        <marker id="arrowhead-success" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                            <polygon points="0 0, 10 3, 0 6" fill="#48bb78" />
+                        </marker>
+                        <marker id="arrowhead-fail" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                            <polygon points="0 0, 10 3, 0 6" fill="#f56565" />
+                        </marker>
+                        <marker id="arrowhead-dashed" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                            <polygon points="0 0, 10 3, 0 6" fill="#718096" />
+                        </marker>
+                    </defs>
+
+                    <!-- SFTP Zone -->
+                    <rect x="30" y="30" width="250" height="300" fill="#fef5e7" stroke="#ed8936" stroke-width="3" rx="10"/>
+                    <text x="155" y="60" font-size="18" font-weight="bold" fill="#c05621" text-anchor="middle">SFTP SERVER</text>
+
+                    <!-- CSV File -->
+                    <rect x="70" y="100" width="170" height="90" class="csv-record" rx="8"/>
+                    <text x="155" y="125" class="text-dark" font-weight="bold">CSV File</text>
+                    <text x="155" y="145" class="text-dark" font-size="10">Lumi_DQResults_</text>
+                    <text x="155" y="160" class="text-dark" font-size="10">20260116.csv</text>
+                    <text x="155" y="180" class="text-dark" font-size="10" font-weight="bold">10 Records</text>
+
+                    <!-- Folder Structure -->
+                    <rect x="70" y="220" width="170" height="80" class="component-warning" rx="8"/>
+                    <text x="155" y="245" class="text-small">📁 Folders:</text>
+                    <text x="155" y="260" class="text-small">Inbox → Outbox</text>
+                    <text x="155" y="275" class="text-small">→ Send</text>
+                    <text x="155" y="290" class="text-small">(24hr auto-delete)</text>
+
+                    <!-- ACE Scheduler -->
+                    <rect x="350" y="100" width="200" height="90" class="component-info" rx="10"/>
+                    <text x="450" y="135" class="text">ACE Scheduler</text>
+                    <text x="450" y="155" class="text-small">Hourly Check</text>
+                    <text x="450" y="170" class="text-small">Profile: UCDO_PRD</text>
+
+                    <!-- Download with Retry -->
+                    <rect x="350" y="230" width="200" height="100" class="component" rx="10"/>
+                    <text x="450" y="265" class="text">Download File</text>
+                    <text x="450" y="285" class="text-small">Retry Logic (3x):</text>
+                    <text x="450" y="300" class="text-small">1. Outbox → 2. Send</text>
+                    <text x="450" y="315" class="text-small">3. Final → Alert</text>
+
+                    <!-- File Validation -->
+                    <path d="M 450 380 L 530 430 L 450 480 L 370 430 Z" class="component-warning"/>
+                    <text x="450" y="425" class="text">File</text>
+                    <text x="450" y="443" class="text">Empty?</text>
+
+                    <!-- Empty Path -->
+                    <rect x="100" y="390" width="180" height="80" class="component-success" rx="10"/>
+                    <text x="190" y="420" class="text">Send Notification</text>
+                    <text x="190" y="440" class="text-small">"No records for</text>
+                    <text x="190" y="455" class="text-small">today's date"</text>
+
+                    <!-- Has Records Path -->
+                    <rect x="630" y="80" width="220" height="100" class="component-process" rx="10"/>
+                    <text x="740" y="120" class="text">Delegator Process</text>
+                    <text x="740" y="140" class="text-small">(Parent BPMN)</text>
+                    <text x="740" y="155" class="text-small">Parse CSV</text>
+                    <text x="740" y="170" class="text-small">Create Child Tasks</text>
+
+                    <!-- Child Processes -->
+                    <rect x="630" y="220" width="220" height="120" fill="#e0f2fe" stroke="#0284c7" stroke-width="3" rx="10"/>
+                    <text x="740" y="250" font-size="14" font-weight="bold" fill="#0c4a6e" text-anchor="middle">Child Processes</text>
+                    <text x="740" y="270" class="text-dark" font-size="11">10 Records → 10 Children</text>
+                    <text x="740" y="290" class="text-dark" font-size="11">Each contains:</text>
+                    <text x="740" y="305" class="text-dark" font-size="10">TQID, Table, Rule, Date</text>
+                    <text x="740" y="320" class="text-dark" font-size="10">Status, Actual/Expected</text>
+
+                    <!-- Decision Diamond -->
+                    <path d="M 740 390 L 830 450 L 740 510 L 650 450 Z" class="component-warning"/>
+                    <text x="740" y="445" class="text">Status</text>
+                    <text x="740" y="463" class="text">Code?</text>
+
+                    <!-- PASS Branch -->
+                    <rect x="900" y="200" width="220" height="100" class="component-success" rx="10"/>
+                    <text x="1010" y="240" class="text">PASS Records</text>
+                    <text x="1010" y="260" class="text-small">Auto-Complete</text>
+                    <text x="1010" y="275" class="text-small">No Human Task</text>
+                    <text x="1010" y="290" class="text-small">Log to Audit</text>
+
+                    <!-- FAIL Branch -->
+                    <rect x="900" y="400" width="220" height="100" class="component-critical" rx="10"/>
+                    <text x="1010" y="440" class="text">FAIL Records</text>
+                    <text x="1010" y="460" class="text-small">Create Human Task</text>
+                    <text x="1010" y="475" class="text-small">Expose in DQIM UI</text>
+                    <text x="1010" y="490" class="text-small">Await User Action</text>
+
+                    <!-- DQIM UI -->
+                    <rect x="1180" y="350" width="280" height="200" class="component-ui" rx="10"/>
+                    <text x="1320" y="385" class="text" font-size="16">DQIM Portal UI</text>
+                    <text x="1320" y="410" class="text-small">User Actions Available:</text>
+                    <text x="1320" y="430" class="text-small">✓ Reserve Task</text>
+                    <text x="1320" y="448" class="text-small">✓ Mark False Positive</text>
+                    <text x="1320" y="466" class="text-small">✓ Request Rule Change</text>
+                    <text x="1320" y="484" class="text-small">✓ Request Rule Delete</text>
+                    <text x="1320" y="502" class="text-small">✓ Create ServiceNow</text>
+                    <text x="1320" y="520" class="text-small">✓ Add Comments</text>
+
+                    <!-- ACE Control Center -->
+                    <rect x="630" y="570" width="220" height="120" class="component-info" rx="10"/>
+                    <text x="740" y="605" class="text">ACE Control Center</text>
+                    <text x="740" y="625" class="text-small">Monitor Processes</text>
+                    <text x="740" y="640" class="text-small">View Variables</text>
+                    <text x="740" y="655" class="text-small">Resume Failed Jobs</text>
+                    <text x="740" y="670" class="text-small">Track Completion</text>
+
+                    <!-- ServiceNow -->
+                    <rect x="1180" y="600" width="280" height="90" class="component-warning" rx="10"/>
+                    <text x="1320" y="635" class="text">ServiceNow</text>
+                    <text x="1320" y="655" class="text-small">Incident Creation</text>
+                    <text x="1320" y="670" class="text-small">SLA Tracking</text>
+
+                    <!-- Audit Trail -->
+                    <rect x="350" y="700" width="500" height="90" class="component-storage" rx="10"/>
+                    <text x="600" y="735" class="text">Audit Trail & Logging</text>
+                    <text x="600" y="755" class="text-small">Who | What | When | Why | Outcome</text>
+                    <text x="600" y="770" class="text-small">Complete Traceability for Compliance</text>
+
+                    <!-- Arrows -->
+                    <path d="M 240 145 L 350 145" class="arrow"/>
+                    <text x="280" y="135" class="label">Download</text>
+
+                    <path d="M 450 190 L 450 230" class="arrow"/>
+
+                    <path d="M 450 330 L 450 380" class="arrow"/>
+
+                    <!-- Empty branch -->
+                    <path d="M 370 430 L 280 430" class="arrow-success"/>
+                    <text x="310" y="420" class="label" fill="#48bb78">YES</text>
+
+                    <!-- Has records -->
+                    <path d="M 530 430 L 630 130" class="arrow-fail"/>
+                    <text x="570 " y="280" class="label" fill="#f56565">NO (Has Data)</text>
+
+                    <path d="M 740 180 L 740 220" class="arrow"/>
+
+                    <path d="M 740 340 L 740 390" class="arrow"/>
+
+                    <!-- PASS path -->
+                    <path d="M 830 450 L 900 250" class="arrow-success"/>
+                    <text x="850" y="340" class="label" fill="#48bb78">PASS</text>
+
+                    <!-- FAIL path -->
+                    <path d="M 830 450 L 900 450" class="arrow-fail"/>
+                    <text x="850" y="440" class="label" fill="#f56565">FAIL</text>
+
+                    <!-- To UI -->
+                    <path d="M 1120 450 L 1180 450" class="arrow"/>
+
+                    <!-- To ServiceNow -->
+                    <path d="M 1320 550 L 1320 600" class="arrow-dashed"/>
+                    <text x="1340" y="575" class="label" font-size="10">If true issue</text>
+
+                    <!-- To Control Center -->
+                    <path d="M 740 510 L 740 570" class="arrow-dashed"/>
+
+                    <!-- To Audit -->
+                    <path d="M 1010 500 L 850 700" class="arrow-dashed"/>
+                    <path d="M 740 690 L 740 700" class="arrow-dashed"/>
+                    <path d="M 1320 690 L 850 745" class="arrow-dashed"/>
+
+                    <!-- Stats Box -->
+                    <rect x="30" y="550" width="280" height="150" fill="#f0fdf4" stroke="#48bb78" stroke-width="3" rx="10"/>
+                    <text x="170" y="580" font-size="14" font-weight="bold" fill="#166534" text-anchor="middle">Processing Stats Example</text>
+                    <text x="45" y="605" font-size="11" fill="#166534">📊 CSV Records: 10</text>
+                    <text x="45" y="625" font-size="11" fill="#166534">✅ PASS: 7 (Auto-completed)</text>
+                    <text x="45" y="645" font-size="11" fill="#dc2626">❌ FAIL: 3 (Human Tasks)</text>
+                    <text x="45" y="665" font-size="11" fill="#0284c7">👥 Tasks in UI: 3</text>
+                    <text x="45" y="685" font-size="11" fill="#7c3aed">⏱ Process Time: ~2 min</text>
+
+                    <!-- Retry Box -->
+                    <rect x="30" y="730" width="280" height="80" fill="#fef2f2" stroke="#dc2626" stroke-width="2" rx="8"/>
+                    <text x="170" y="755" font-size="12" font-weight="bold" fill="#991b1b" text-anchor="middle">Retry & Alert Logic</text>
+                    <text x="45" y="775" font-size="10" fill="#991b1b">❌ Download Fail → Retry 3x</text>
+                    <text x="45" y="795" font-size="10" fill="#991b1b">📧 All Retries Fail → Slack/Email Alert</text>
+                </svg>
+            </div>
+        </div>
+
+        <!-- BPMN Process Detail -->
+        <div class="diagram-section">
+            <h2 class="diagram-title">2. BPMN Delegator & Child Process Architecture</h2>
+            <div class="description">
+                <strong>Process Hierarchy:</strong> One delegator (parent) process spawns multiple child processes. Each child represents one CSV record and executes independently based on its status code.
+            </div>
+            <div class="diagram">
+                <svg width="1400" height="800" viewBox="0 0 1400 800">
+                    <!-- CSV Input -->
+                    <rect x="50" y="50" width="300" height="200" class="csv-record" rx="10"/>
+                    <text x="200" y="80" class="text-dark" font-size="16" font-weight="bold">CSV File Content (3 Records)</text>
+                    
+                    <rect x="70" y="100" width="260" height="35" fill="white" stroke="#f59e0b" stroke-width="1" rx="4"/>
+                    <text x="80" y="122" class="text-dark" font-size="10" text-anchor="start">TQID: 123 | employee_table | FAIL</text>
+
+                    <rect x="70" y="145" width="260" height="35" fill="white" stroke="#f59e0b" stroke-width="1" rx="4"/>
+                    <text x="80" y="167" class="text-dark" font-size="10" text-anchor="start">TQID: 124 | sales_table | PASS</text>
+
+                    <rect x="70" y="190" width="260" height="35" fill="white" stroke="#f59e0b" stroke-width="1" rx="4"/>
+                    <text x="80" y="212" class="text-dark" font-size="10" text-anchor="start">TQID: 125 | customer_table | FAIL</text>
+
+                    <!-- Delegator Process -->
+                    <rect x="450" y="50" width="280" height="200" class="component-process" rx="10"/>
+                    <text x="590" y="90" class="text" font-size="18">Delegator Process</text>
+                    <text x="590" y="115" class="text-small">(Parent BPMN)</text>
+                    <text x="590" y="140" class="text-small">Process ID: DEL-2026-001</text>
+                    <text x="590" y="160" class="text-small">Status: Active</text>
+                    <text x="590" y="180" class="text-small">Child Count: 3</text>
+                    <text x="590" y="200" class="text-small">Completed: 0/3</text>
+                    <text x="590" y="220" class="text-small">Created: 2026-01-16 11:00</text>
+
+                    <!-- Child Process 1 - FAIL -->
+                    <rect x="850" y="20" width="250" height="180" class="component-critical" rx="10"/>
+                    <text x="975" y="50" class="text" font-size="14">Child Process 1</text>
+                    <text x="975" y="70" class="text-small">ID: CHILD-123</text>
+                    <text x="975" y="90" class="text-small">TQID: 123</text>
+                    <text x="975" y="105" class="text-small">Table: employee_table</text>
+                    <text x="975" y="120" class="text-small">Rule: Email not null</text>
+                    <text x="975" y="135" class="text-small">Status Code: FAIL</text>
+                    <text x="975" y="150" class="text-small">Expected: 0 | Actual: 5</text>
+                    <text x="975" y="170" class="text-small" font-weight="bold">→ CREATE HUMAN TASK</text>
+
+                    <!-- Child Process 2 - PASS -->
+                    <rect x="850" y="220" width="250" height="180" class="component-success" rx="10"/>
+                    <text x="975" y="250" class="text" font-size="14">Child Process 2</text>
+                    <text x="975" y="270" class="text-small">ID: CHILD-124</text>
+                    <text x="975" y="290" class="text-small">TQID: 124</text>
+                    <text x="975" y="305" class="text-small">Table: sales_table</text>
+                    <text x="975" y="320" class="text-small">Rule: Daily threshold</text>
+                    <text x="975" y="335" class="text-small">Status Code: PASS</text>
+                    <text x="975" y="350" class="text-small">Expected: 1000-1500 | Actual: 1250</text>
+                    <text x="975" y="370" class="text-small" font-weight="bold">→ AUTO-COMPLETE</text>
+
+                    <!-- Child Process 3 - FAIL -->
+                    <rect x="850" y="420" width="250" height="180" class="component-critical" rx="10"/>
+                    <text x="975" y="450" class="text" font-size="14">Child Process 3</text>
+                    <text x="975" y="470" class="text-small">ID: CHILD-125</text>
+                    <text x="975" y="490" class="text-small">TQID: 125</text>
+                    <text x="975" y="505" class="text-small">Table: customer_table</text>
+                    <text x="975" y="520" class="text-small">Rule: No duplicates</text>
+                    <text x="975" y="535" class="text-small">Status Code: FAIL</text>
+                    <text x="975" y="550" class="text-small">Expected: 0 | Actual: 2</text>
+                    <text x="975" y="570" class="text-small" font-weight="bold">→ CREATE HUMAN TASK</text>
+
+                    <!-- Human Tasks in UI -->
+                    <rect x="1150" y="50" width="200" height="120" class="component-ui" rx="10"/>
+                    <text x="1250" y="85" class="text">Human Task #1</text>
+                    <text x="1250" y="105" class="text-small">TQID: 123</text>
+                    <text x="1250" y="120" class="text-small">Status: Open</text>
+                    <text x="1250" y="135" class="text-small">Reserved: None</text>
+                    <text x="1250" y="155" class="text-small" font-weight="bold">Awaiting Action</text>
+
+                    <!-- Completed Marker -->
+                    <rect x="1150" y="200" width="200" height="100" fill="#d1fae5" stroke="#10b981" stroke-width="3" rx="10"/>
+                    <text x="1250" y="235" font-size="14" font-weight="bold" fill="#065f46" text-anchor="middle">✓ Completed</text>
+                    <text x="1250" y="255" class="text-dark">TQID: 124</text>
+                    <text x="1250" y="275" class="text-dark">Auto-closed</text>
+
+                    <!-- Human Tasks in UI -->
+                    <rect x="1150" y="350" width="200" height="120" class="component-ui" rx="10"/>
+                    <text x="1250" y="385" class="text">Human Task #2</text>
+                    <text x="1250" y="405" class="text-small">TQID: 125</text>
+                    <text x="1250" y="420" class="text-small">Status: Open</text>
+                    <text x="1250" y="435" class="text-small">Reserved: None</text>
+                    <text x="1250" y="455" class="text-small" font-weight="bold">Awaiting Action</text>
+
+                    <!-- Process Variables Box -->
+                    <rect x="50" y="300" width="680" height="220" fill="#eff6ff" stroke="#3b82f6" stroke-width="3" rx="10"/>
+                    <text x="390" y="330" font-size="16" font-weight="bold" fill="#1e40af" text-anchor="middle">Process Variables (Stored in Each Child)</text>
+                    
+                    <text x="70" y="360" class="text-dark" font-weight="bold">Variable Name</text>
+                    <text x="300" y="360" class="text-dark" font-weight="bold">Example Value</text>
+                    <text x="520" y="360" class="text-dark" font-weight="bold">Purpose</text>
+
+                    <text x="70" y="385" class="text-dark" font-size="11">TQID</text>
+                    <text x="300" y="385" class="text-dark" font-size="11">123</text>
+                    <text x="520" y="385" class="text-dark" font-size="11">Unique Task Identifier</text>
+
+                    <text x="70" y="405" class="text-dark" font-size="11">TableName</text>
+                    <text x="300" y="405" class="text-dark" font-size="11">employee_table</text>
+                    <text x="520" y="405" class="text-dark" font-size="11">Source Table</text>
+
+                    <text x="70" y="425" class="text-dark" font-size="11">RuleDescription</text>
+                    <text x="300" y="425" class="text-dark" font-size="11">Email ID should not be null</text>
+                    <text x="520" y="425" class="text-dark" font-size="11">What rule checks</text>
+
+                    <text x="70" y="445" class="text-dark" font-size="11">RuleDate</text>
+                    <text x="300" y="445" class="text-dark" font-size="11">2026-01-16</text>
+                    <text x="520" y="445" class="text-dark" font-size="11">Execution date</text>
+
+                    <text x="70" y="465" class="text-dark" font-size="11">StatusCode</text>
+                    <text x="300" y="465" class="text-dark" font-size="11" font-weight="bold" fill="#dc2626">FAIL</text>
+                    <text x="520" y="465" class="text-dark" font-size="11">Pass/Fail indicator</text>
+
+                    <text x="70" y="485" class="text-dark" font-size="11">ExpectedValue</text>
+                    <text x="300" y="485" class="text-dark" font-size="11">0</text>
+                    <text x="520" y="485" class="text-dark" font-size="11">Threshold for pass</text>
+
+                    <text x="70" y="505" class="text-dark" font-size="11">ActualValue</text>
+                    <text x="300" y="505" class="text-dark" font-size="11" font-weight="bold" fill="#dc2626">5</text>
+                    <text x="520" y="505" class="text-dark" font-size="11">Actual count found</text>
+
+                    <!-- Arrows -->
+                    <path d="M 350 150 L 450 150" class="arrow"/>
+                    <text x="380" y="140" class="label">Parse & Create</text>
+
+                    <path d="M 730 110 L 850 110" class="arrow"/>
+                    <path d="M 730 150 L 850 310" class="arrow"/>
+                    <path d="M 730 190 L 850 510" class="arrow"/>
+
+                    <path d="M 1100 110 L 1150 110" class="arrow-fail"/>
+                    <path d="M 1100 510 L 1150 410" class="arrow-fail"/>
+
+                    <!-- Completion Status -->
+                    <rect x="50" y="570" width="680" height="180" fill="#fef3c7" stroke="#f59e0b" stroke-width="3" rx="10"/>
+                    <text x="390" y="600" font-size="16" font-weight="bold" fill="#92400e" text-anchor="middle">Delegator Completion Logic</text>
+                    
+                    <text x="70" y="630" class="text-dark" font-size="12">📊 <tspan font-weight="bold">Total Child Processes:</tspan> 3</text>
+                    <text x="70" y="655" class="text-dark" font-size="12">✅ <tspan font-weight="bold">Completed:</tspan> 1 (CHILD-124 Auto-completed)</text>
+                    <text x="70" y="680" class="text-dark" font-size="12">⏳ <tspan font-weight="bold">Active (Human Tasks):</tspan> 2 (CHILD-123, CHILD-125)</text>
+                    <text x="70" y="705" class="text-dark" font-size="12">🎯 <tspan font-weight="bold">Delegator Status:</tspan> Active (waits for all children)</text>
+                    <text x="70" y="730" class="text-dark" font-size="12" font-weight="bold" fill="#dc2626">⚠ Delegator completes ONLY when all 3 children complete</text>
+                </svg>
+            </div>
+        </div>
+
+        <!-- User Action Flow -->
+        <div class="diagram-section">
+            <h2 class="diagram-title">3. DQIM UI - User Action Workflow</h2>
+            <div class="description">
+                <strong>User Interaction:</strong> Business users access DQIM portal, view human tasks, take various actions (reserve, false positive, create incident, etc.), which updates ACE and closes tasks.
+            </div>
+            <div class="diagram">
+                <svg width="1400" height="900" viewBox="0 0 1400 900">
+                    <!-- User -->
+                    <circle cx="100" cy="100" r="50" fill="#667eea" stroke="#5a67d8" stroke-width="3"/>
+                    <text x="100" y="110" class="text" font-size="18">👤</text>
+                    <text x="100" y="175" class="text-dark" font-weight="bold">Business User</text>
+
+                    <!-- DQIM Portal Login -->
+                    <rect x="250" y="50" width="200" height="100" class="component-ui" rx="10"/>
+                    <text x="350" y="85" class="text">DQIM Portal</text>
+                    <text x="350" y="105" class="text-small">Login & Access</text>
+                    <text x="350" y="125" class="text-small">View Human Tasks</text>
+
+                    <!-- Task List -->
+                    <rect x="250" y="200" width="200" height="180" class="component-ui" rx="10"/>
+                    <text x="350" y="230" class="text">Task List</text>
+                    <text x="350" y="255" class="text-small">📋 Open Tasks: 2</text>
+                    
+                    <rect x="270" y="270" width="160" height="40" fill="white" stroke="#38b2ac" stroke-width="2" rx="5"/>
+                    <text x="350" y="293" class="text-dark" font-size="10">TQID: 123 | employee_table</text>
+
+                    <rect x="270" y="320" width="160" height="40" fill="white" stroke="#38b2ac" stroke-width="2" rx="5"/>
+                    <text x="350" y="343" class="text-dark" font-size="10">TQID: 125 | customer_table</text>
+
+                    <!-- Click Action -->
+                    <rect x="520" y="200" width="200" height="100" class="component-info" rx="10"/>
+                    <text x="620" y="235" class="text">Click Task</text>
+                    <text x="620" y="255" class="text-small">View Details</text>
+                    <text x="620" y="275" class="text-small">TQID: 123</text>
+
+                    <!-- Task Details -->
+                    <rect x="520" y="340" width="200" height="200" fill="#e0f2fe" stroke="#0284c7" stroke-width="3" rx="10"/>
+                    <text x="620" y="370" font-size="14" font-weight="bold" fill="#0c4a6e" text-anchor="middle">Task Details</text>
+                    <text x="530" y="395" class="text-dark" font-size="10" text-anchor="start">TQID: 123</text>
+                    <text x="530" y="413" class="text-dark" font-size="10" text-anchor="start">Table: employee_table</text>
+                    <text x="530" y="431" class="text-dark" font-size="10" text-anchor="start">Rule: Email not null</text>
+                    <text x="530" y="449" class="text-dark" font-size="10" text-anchor="start">Date: 2026-01-16</text>
+                    <text x="530" y="467" class="text-dark" font-size="10" text-anchor="start">Expected: 0 | Actual: 5</text>
+                    <text x="530" y="485" class="text-dark" font-size="10" text-anchor="start" font-weight="bold" fill="#dc2626">Status: FAIL</text>
+                    <text x="530" y="503" class="text-dark" font-size="10" text-anchor="start">Created: 11:05 AM</text>
+                    <text x="530" y="521" class="text-dark" font-size="10" text-anchor="start">Reserved: None</text>
+
+                    <!-- Action Buttons -->
+                    <rect x="780" y="80" width="580" height="600" fill="#f9fafb" stroke="#4b5563" stroke-width="3" rx="10"/>
+                    <text x="1070" y="115" font-size="18" font-weight="bold" fill="#1f2937" text-anchor="middle">Available Actions</text>
+
+                    <!-- Action 1: Reserve -->
+                    <rect x="820" y="140" width="240" height="70" class="component-ui" rx="8"/>
+                    <text x="940" y="165" class="text">1️⃣ Reserve Task</text>
+                    <text x="940" y="185" class="text-small">Assign to yourself</text>
+                    <text x="940" y="200" class="text-small">Prevent duplicate work</text>
+
+                    <!-- Action 2: False Positive -->
+                    <rect x="1090" y="140" width="240" height="70" class="component-success" rx="8"/>
+                    <text x="1210" y="165" class="text">2️⃣ False Positive</text>
+                    <text x="1210" y="185" class="text-small">Rule failed but OK</text>
+                    <text x="1210" y="200" class="text-small">Close task + comment</text>
+
+                    <!-- Action 3: Rule Modification -->
+                    <rect x="820" y="230" width="240" height="70" class="component-warning" rx="8"/>
+                    <text x="940" y="255" class="text">3️⃣ Request Rule Change</text>
+                    <text x="940" y="275" class="text-small">Adjust threshold</text>
+                    <text x="940" y="290" class="text-small">Goes to PO approval</text>
+
+                    <!-- Action 4: Delete Rule -->
+                    <rect x="1090" y="230" width="240" height="70" class="component-critical" rx="8"/>
+                    <text x="1210" y="255" class="text">4️⃣ Request Rule Delete</text>
+                    <text x="1210" y="275" class="text-small">Rule no longer needed</text>
+                    <text x="1210" y="290" class="text-small">Approval workflow</text>
+
+                    <!-- Action 5: ServiceNow -->
+                    <rect x="820" y="320" width="240" height="70" class="component-info" rx="8"/>
+                    <text x="940" y="345" class="text">5️⃣ Create ServiceNow</text>
+                    <text x="940" y="365" class="text-small">True data issue</text>
+                    <text x="940" y="380" class="text-small">Engineering fix needed</text>
+
+                    <!-- Action 6: Comments -->
+                    <rect x="1090" y="320" width="240" height="70" class="component" rx="8"/>
+                    <text x="1210" y="345" class="text">6️⃣ Add Comments</text>
+                    <text x="1210" y="365" class="text-small">Document findings</text>
+                    <text x="1210" y="380" class="text-small">Collaborate with team</text>
+
+                    <!-- Example: User selects ServiceNow -->
+                    <rect x="820" y="420" width="510" height="230" fill="#dbeafe" stroke="#2563eb" stroke-width="3" rx="10"/>
+                    <text x="1075" y="450" font-size="14" font-weight="bold" fill="#1e3a8a" text-anchor="middle">Example: User Creates ServiceNow Incident</text>
+                    
+                    <text x="840" y="480" class="text-dark" font-size="11" text-anchor="start">1. User clicks "Create ServiceNow Incident"</text>
+                    <text x="840" y="500" class="text-dark" font-size="11" text-anchor="start">2. UI sends request to ACE with task details</text>
+                    <text x="840" y="520" class="text-dark" font-size="11" text-anchor="start">3. ACE calls ServiceNow API</text>
+                    <text x="840" y="540" class="text-dark" font-size="11" text-anchor="start">4. ServiceNow creates incident #INC0012345</text>
+                    <text x="840" y="560" class="text-dark" font-size="11" text-anchor="start">5. Incident assigned to Data Engineering team</text>
+                    <text x="840" y="580" class="text-dark" font-size="11" text-anchor="start">6. SLA tracking begins (24-48 hours)</text>
+                    <text x="840" y="600" class="text-dark" font-size="11" text-anchor="start">7. ACE updates child process status → "Incident Created"</text>
+                    <text x="840" y="620" class="text-dark" font-size="11" text-anchor="start">8. Human task marked as complete in DQIM UI</text>
+                    <text x="840" y="640" class="text-dark" font-size="11" text-anchor="start" font-weight="bold" fill="#16a34a">✅ Task closed, audit trail updated</text>
+
+                    <!-- Outcomes -->
+                    <rect x="50" y="420" width="670" height="450" fill="#fef3c7" stroke="#f59e0b" stroke-width="3" rx="10"/>
+                    <text x="385" y="455" font-size="16" font-weight="bold" fill="#92400e" text-anchor="middle">Task Completion Outcomes</text>
+
+                    <!-- Outcome Table -->
+                    <rect x="70" y="480" width="200" height="40" fill="#fbbf24" rx="5"/>
+                    <text x="170" y="505" class="text" font-size="12">Action Taken</text>
+
+                    <rect x="280" y="480" width="420" height="40" fill="#fbbf24" rx="5"/>
+                    <text x="490" y="505" class="text" font-size="12">What Happens</text>
+
+                    <!-- Row 1 -->
+                    <rect x="70" y="530" width="200" height="50" fill="white" stroke="#f59e0b" rx="5"/>
+                    <text x="170" y="560" class="text-dark" font-size="10">Reserve Task</text>
+
+                    <rect x="280" y="530" width="420" height="50" fill="white" stroke="#f59e0b" rx="5"/>
+                    <text x="490" y="555" class="text-dark" font-size="10">Task assigned to user; still open; others can't edit</text>
+
+                    <!-- Row 2 -->
+                    <rect x="70" y="590" width="200" height="50" fill="white" stroke="#f59e0b" rx="5"/>
+                    <text x="170" y="620" class="text-dark" font-size="10">False Positive</text>
+
+                    <rect x="280" y="590" width="420" height="50" fill="white" stroke="#f59e0b" rx="5"/>
+                    <text x="490" y="610" class="text-dark" font-size="10">Child process → Complete; Task closed;</text>
+                    <text x="490" y="625" class="text-dark" font-size="10">Audit: "False positive - seasonal spike normal"</text>
+
+                    <!-- Row 3 -->
+                    <rect x="70" y="650" width="200" height="50" fill="white" stroke="#f59e0b" rx="5"/>
+                    <text x="170" y="680" class="text-dark" font-size="10">Rule Change</text>
+
+                    <rect x="280" y="650" width="420" height="50" fill="white" stroke="#f59e0b" rx="5"/>
+                    <text x="490" y="670" class="text-dark" font-size="10">Request sent to PO; Task remains open;</text>
+                    <text x="490" y="685" class="text-dark" font-size="10">Closed after approval + rule updated in DQ Repo</text>
+
+                    <!-- Row 4 -->
+                    <rect x="70" y="710" width="200" height="50" fill="white" stroke="#f59e0b" rx="5"/>
+                    <text x="170" y="740" class="text-dark" font-size="10">Rule Delete</text>
+
+                    <rect x="280" y="710" width="420" height="50" fill="white" stroke="#f59e0b" rx="5"/>
+                    <text x="490" y="730" class="text-dark" font-size="10">Approval workflow; Rule removed from DQ Repo;</text>
+                    <text x="490" y="745" class="text-dark" font-size="10">Task closed; Future runs skip this rule</text>
+
+                    <!-- Row 5 -->
+                    <rect x="70" y="770" width="200" height="50" fill="white" stroke="#f59e0b" rx="5"/>
+                    <text x="170" y="800" class="text-dark" font-size="10">ServiceNow</text>
+
+                    <rect x="280" y="770" width="420" height="50" fill="white" stroke="#f59e0b" rx="5"/>
+                    <text x="490" y="790" class="text-dark" font-size="10">Incident #INC created; Routed to support;</text>
+                    <text x="490" y="805" class="text-dark" font-size="10">Task status → "Incident Created"; Closed after fix</text>
+
+                    <!-- Row 6 -->
+                    <rect x="70" y="830" width="200" height="30" fill="white" stroke="#f59e0b" rx="5"/>
+                    <text x="170" y="850" class="text-dark" font-size="10">Add Comment</text>
+
+                    <rect x="280" y="830" width="420" height="30" fill="white" stroke="#f59e0b" rx="5"/>
+                    <text x="490" y="850" class="text-dark" font-size="10">Comment saved; Task remains open for further action</text>
+
+                    <!-- Arrows -->
+                    <path d="M 150 100 L 250 100" class="arrow"/>
+                    <path d="M 350 150 L 350 200" class="arrow"/>
+                    <path d="M 450 290 L 520 250" class="arrow"/>
+                    <path d="M 620 300 L 620 340" class="arrow"/>
+                    <path d="M 720 450 L 780 350" class="arrow-dashed"/>
+                    <text x="740" y="390" class="label" font-size="10">Example Flow</text>
+                </svg>
+            </div>
+        </div>
+
+        <!-- ACE Control Center -->
+        <div class="diagram-section">
+            <h2 class="diagram-title">4. ACE Control Center - Monitoring & Management</h2>
+            <div class="description">
+                <strong>Operations:</strong> Platform team uses ACE Control Center to monitor process health, view execution details, inspect variables, and resume failed jobs.
+            </div>
+            <div class="diagram">
+                <svg width="1400" height="700" viewBox="0 0 1400 700">
+                    <!-- Control Center UI -->
+                    <rect x="50" y="50" width="1300" height="600" fill="#f0f9ff" stroke="#0284c7" stroke-width="4" rx="15"/>
+                    <text x="700" y="95" font-size="24" font-weight="bold" fill="#0c4a6e" text-anchor="middle">ACE Control Center Dashboard</text>
+
+                    <!-- Left Panel: Navigation -->
+                    <rect x="80" y="120" width="280" height="500" fill="white" stroke="#94a3b8" stroke-width="2" rx="10"/>
+                    <text x="220" y="150" font-size="14" font-weight="bold" fill="#1e293b" text-anchor="middle">Navigation Menu</text>
+
+                    <rect x="100" y="170" width="240" height="40" class="component-info" rx="5"/>
+                    <text x="220" y="195" class="text-small">📊 Process Management</text>
+
+                    <rect x="100" y="220" width="240" height="40" fill="#e0f2fe" stroke="#0284c7" stroke-width="2" rx="5"/>
+                    <text x="220" y="245" class="text-dark" font-weight="bold">Case Management</text>
+
+                    <rect x="100" y="270" width="240" height="40" class="component" rx="5"/>
+                    <text x="220" y="295" class="text-small">👷 Work Management</text>
+
+                    <rect x="100" y="320" width="240" height="40" class="component" rx="5"/>
+                    <text x="220" y="345" class="text-small">📋 Rule Engine</text>
+
+                    <rect x="100" y="370" width="240" height="40" class="component" rx="5"/>
+                    <text x="220" y="395" class="text-small">⏰ Scheduler</text>
+
+                    <rect x="100" y="420" width="240" height="40" class="component" rx="5"/>
+                    <text x="220" y="445" class="text-small">🔐 Security</text>
+
+                    <rect x="100" y="470" width="240" height="40" class="component" rx="5"/>
+                    <text x="220" y="495" class="text-small">🤖 Robot Tasks</text>
+
+                    <rect x="100" y="520" width="240" height="40" class="component" rx="5"/>
+                    <text x="220" y="545" class="text-small">🔑 Secret Management</text>
+
+                    <!-- Main Panel: Process List -->
+                    <rect x="400" y="120" width="920" height="200" fill="white" stroke="#cbd5e0" stroke-width="2" rx="10"/>
+                    <text x="860" y="150" font-size="14" font-weight="bold" fill="#1e293b" text-anchor="middle">Active Processes - USCDO Tenancy</text>
+
+                    <!-- Table Header -->
+                    <rect x="420" y="165" width="880" height="35" fill="#3b82f6" rx="5"/>
+                    <text x="480" y="187" class="text" font-size="11">Process Name</text>
+                    <text x="730" y="187" class="text" font-size="11">Instance ID</text>
+                    <text x="920" y="187" class="text" font-size="11">Status</text>
+                    <text x="1080" y="187" class="text" font-size="11">Children</text>
+                    <text x="1220" y="187" class="text" font-size="11">Actions</text>
+
+                    <!-- Row 1: Delegator -->
+                    <rect x="420" y="205" width="880" height="40" fill="#dbeafe" stroke="#60a5fa" stroke-width="1" rx="3"/>
+                    <text x="430" y="230" class="text-dark" font-size="10" text-anchor="start">QTrack_Delegator_2.0</text>
+                    <text x="730" y="230" class="text-dark" font-size="10">DEL-2026-001</text>
+                    <text x="920" y="230" class="text-dark" font-size="10" fill="#16a34a" font-weight="bold">Active</text>
+                    <text x="1080" y="230" class="text-dark" font-size="10">10 (7✓ 3⏳)</text>
+                    <text x="1220" y="230" class="text-dark" font-size="10" fill="#2563eb" font-weight="bold">View ▼</text>
+
+                    <!-- Row 2: Child Active -->
+                    <rect x="420" y="250" width="880" height="35" fill="white" stroke="#cbd5e0" stroke-width="1" rx="3"/>
+                    <text x="430" y="272" class="text-dark" font-size="10" text-anchor="start">  └─ Task_Creation_2.0</text>
+                    <text x="730" y="272" class="text-dark" font-size="10">CHILD-123</text>
+                    <text x="920" y="272" class="text-dark" font-size="10" fill="#ea580c" font-weight="bold">Active</text>
+                    <text x="1080" y="272" class="text-dark" font-size="10">N/A</text>
+                    <text x="1220" y="272" class="text-dark" font-size="10" fill="#2563eb" font-weight="bold">Details</text>
+
+                    <!-- Row 3: Child Completed -->
+                    <rect x="420" y="290" width="880" height="25" fill="white" stroke="#cbd5e0" stroke-width="1" rx="3"/>
+                    <text x="430" y="307" class="text-dark" font-size="10" text-anchor="start">  └─ Task_Creation_2.0</text>
+                    <text x="730" y="307" class="text-dark" font-size="10">CHILD-124</text>
+                    <text x="920" y="307" class="text-dark" font-size="10" fill="#16a34a">Completed</text>
+                    <text x="1080" y="307" class="text-dark" font-size="10">-</text>
+                    <text x="1220" y="307" class="text-dark" font-size="10" fill="#6b7280">Archived</text>
+
+                    <!-- Details Panel -->
+                    <rect x="400" y="350" width="920" height="270" fill="white" stroke="#cbd5e0" stroke-width="2" rx="10"/>
+                    <text x="860" y="380" font-size="14" font-weight="bold" fill="#1e293b" text-anchor="middle">Process Details: CHILD-123 (Human Task Pending)</text>
+
+                    <!-- Details Grid -->
+                    <rect x="420" y="400" width="420" height="200" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1" rx="5"/>
+                    <text x="630" y="425" font-size="12" font-weight="bold" fill="#475569" text-anchor="middle">Process Variables</text>
+
+                    <text x="440" y="450" class="text-dark" font-size="10" text-anchor="start"><tspan font-weight="bold">TQID:</tspan> 123</text>
+                    <text x="440" y="470" class="text-dark" font-size="10" text-anchor="start"><tspan font-weight="bold">Table:</tspan> employee_table</text>
+                    <text x="440" y="490" class="text-dark" font-size="10" text-anchor="start"><tspan font-weight="bold">Rule:</tspan> Email ID should not be null</text>
+                    <text x="440" y="510" class="text-dark" font-size="10" text-anchor="start"><tspan font-weight="bold">Date:</tspan> 2026-01-16</text>
+                    <text x="440" y="530" class="text-dark" font-size="10" text-anchor="start"><tspan font-weight="bold">Status Code:</tspan> <tspan fill="#dc2626" font-weight="bold">FAIL</tspan></text>
+                    <text x="440" y="550" class="text-dark" font-size="10" text-anchor="start"><tspan font-weight="bold">Expected:</tspan> 0  |  <tspan font-weight="bold">Actual:</tspan> <tspan fill="#dc2626">5</tspan></text>
+                    <text x="440" y="570" class="text-dark" font-size="10" text-anchor="start"><tspan font-weight="bold">Human Task:</tspan> #HT-456 (Open)</text>
+
+                    <!-- Action Buttons -->
+                    <rect x="880" y="400" width="420" height="200" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1" rx="5"/>
+                    <text x="1090" y="425" font-size="12" font-weight="bold" fill="#475569" text-anchor="middle">Available Actions</text>
+
+                    <rect x="900" y="445" width="180" height="35" class="component-success" rx="5"/>
+                    <text x="990" y="468" class="text-small">▶ Resume Process</text>
+
+                    <rect x="1100" y="445" width="180" height="35" class="component-warning" rx="5"/>
+                    <text x="1190" y="468" class="text-small">⏸ Suspend Process</text>
+
+                    <rect x="900" y="490" width="180" height="35" class="component-info" rx="5"/>
+                    <text x="990" y="513" class="text-small">📄 View Full Log</text>
+
+                    <rect x="1100" y="490" width="180" height="35" class="component" rx="5"/>
+                    <text x="1190" y="513" class="text-small">🔄 Refresh Status</text>
+
+                    <rect x="900" y="535" width="380" height="35" class="component-critical" rx="5"/>
+                    <text x="1090" y="558" class="text-small">⚠ Terminate Process (Use with caution)</text>
+
+                    <!-- Statistics -->
+                    <rect x="80" y="640" width="1240" height="20" fill="#0284c7" rx="3"/>
+                    <text x="120" y="655" class="text" font-size="11">📊 System Stats:</text>
+                    <text x="320" y="655" class="text-small">Total Processes Today: 47</text>
+                    <text x="560" y="655" class="text-small">Completed: 39</text>
+                    <text x="740" y="655" class="text-small">Active: 8</text>
+                    <text x="900" y="655" class="text-small">Failed: 0</text>
+                    <text x="1050" y="655" class="text-small">Success Rate: 100%</text>
+                </svg>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Q-Track Architecture Diagrams</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .diagram-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .diagram-title {
+            font-size: 1.8em;
+            color: #667eea;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .diagram {
+            width: 100%;
+            overflow-x: auto;
+            padding: 20px 0;
+        }
+
+        svg {
+            display: block;
+            margin: 0 auto;
+        }
+
+        .component {
+            fill: #4299e1;
+            stroke: #2b6cb0;
+            stroke-width: 2;
+        }
+
+        .component-critical {
+            fill: #f56565;
+            stroke: #c53030;
+            stroke-width: 2;
+        }
+
+        .component-success {
+            fill: #48bb78;
+            stroke: #2f855a;
+            stroke-width: 2;
+        }
+
+        .component-warning {
+            fill: #ed8936;
+            stroke: #c05621;
+            stroke-width: 2;
+        }
+
+        .component-info {
+            fill: #667eea;
+            stroke: #5a67d8;
+            stroke-width: 2;
+        }
+
+        .component-storage {
+            fill: #9f7aea;
+            stroke: #805ad5;
+            stroke-width: 2;
+        }
+
+        .component-ui {
+            fill: #38b2ac;
+            stroke: #319795;
+            stroke-width: 2;
+        }
+
+        .text {
+            fill: white;
+            font-size: 14px;
+            font-weight: 600;
+            text-anchor: middle;
+        }
+
+        .text-small {
+            fill: white;
+            font-size: 11px;
+            text-anchor: middle;
+        }
+
+        .arrow {
+            stroke: #2d3748;
+            stroke-width: 2;
+            fill: none;
+            marker-end: url(#arrowhead);
+        }
+
+        .arrow-success {
+            stroke: #48bb78;
+            stroke-width: 2;
+            fill: none;
+            marker-end: url(#arrowhead-success);
+        }
+
+        .arrow-fail {
+            stroke: #f56565;
+            stroke-width: 2;
+            fill: none;
+            marker-end: url(#arrowhead-fail);
+        }
+
+        .label {
+            fill: #2d3748;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .legend {
+            background: #f7fafc;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+
+        .legend-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #2d3748;
+        }
+
+        .legend-item {
+            display: inline-block;
+            margin-right: 20px;
+            margin-bottom: 10px;
+        }
+
+        .legend-color {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            margin-right: 8px;
+            vertical-align: middle;
+            border: 2px solid #2d3748;
+        }
+
+        .description {
+            color: #4a5568;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #edf2f7;
+            border-radius: 8px;
+        }
+
+        @media print {
+            body {
+                background: white;
+            }
+            .diagram-section {
+                page-break-inside: avoid;
+                box-shadow: none;
+                border: 1px solid #e2e8f0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Q-Track Architecture Diagrams</h1>
+
+        <!-- High-Level Architecture -->
+        <div class="diagram-section">
+            <h2 class="diagram-title">1. High-Level System Architecture</h2>
+            <div class="description">
+                <strong>Overview:</strong> Q-Track follows the Capture → Cure → Consume paradigm, processing data from source systems through BigQuery, executing quality rules, and presenting results through multiple interfaces.
+            </div>
+            <div class="diagram">
+                <svg width="1200" height="600" viewBox="0 0 1200 600">
+                    <defs>
+                        <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                            <polygon points="0 0, 10 3, 0 6" fill="#2d3748" />
+                        </marker>
+                    </defs>
+
+                    <!-- Source Systems -->
+                    <rect x="50" y="50" width="150" height="80" class="component-warning" rx="10"/>
+                    <text x="125" y="85" class="text">Source Systems</text>
+                    <text x="125" y="105" class="text-small">Cornerstone/Legacy</text>
+
+                    <!-- Lumi/BigQuery -->
+                    <rect x="50" y="200" width="150" height="100" class="component-info" rx="10"/>
+                    <text x="125" y="240" class="text">Lumi Platform</text>
+                    <text x="125" y="260" class="text-small">(BigQuery/GCP)</text>
+                    <text x="125" y="280" class="text-small">Data Warehouse</text>
+
+                    <!-- DQ Repository -->
+                    <rect x="300" y="50" width="180" height="80" class="component-storage" rx="10"/>
+                    <text x="390" y="85" class="text">DQ Repository</text>
+                    <text x="390" y="105" class="text-small">Rule Definitions</text>
+
+                    <!-- Airflow/Composer -->
+                    <rect x="300" y="200" width="180" height="100" class="component-info" rx="10"/>
+                    <text x="390" y="235" class="text">Airflow/Composer</text>
+                    <text x="390" y="255" class="text-small">Scheduled DAGs</text>
+                    <text x="390" y="275" class="text-small">Rule Execution</text>
+
+                    <!-- DQ Results -->
+                    <rect x="580" y="50" width="180" height="80" class="component-storage" rx="10"/>
+                    <text x="670" y="85" class="text">DQ Results Table</text>
+                    <text x="670" y="105" class="text-small">Pass/Fail Records</text>
+
+                    <!-- Email Alerts -->
+                    <rect x="580" y="200" width="180" height="80" class="component-critical" rx="10"/>
+                    <text x="670" y="235" class="text">Email Alerts</text>
+                    <text x="670" y="255" class="text-small">Business Users</text>
+
+                    <!-- SFTP -->
+                    <rect x="850" y="50" width="150" height="80" class="component-warning" rx="10"/>
+                    <text x="925" y="85" class="text">SFTP Server</text>
+                    <text x="925" y="105" class="text-small">File Transfer</text>
+
+                    <!-- ACE/BPMN -->
+                    <rect x="850" y="200" width="150" height="100" class="component-info" rx="10"/>
+                    <text x="925" y="235" class="text">ACE Platform</text>
+                    <text x="925" y="255" class="text-small">BPMN Engine</text>
+                    <text x="925" y="275" class="text-small">Human Tasks</text>
+
+                    <!-- DQIM UI -->
+                    <rect x="850" y="360" width="150" height="100" class="component-ui" rx="10"/>
+                    <text x="925" y="400" class="text">DQIM Portal</text>
+                    <text x="925" y="420" class="text-small">Issue Management</text>
+                    <text x="925" y="440" class="text-small">UI</text>
+
+                    <!-- Reporting Dashboard -->
+                    <rect x="580" y="360" width="180" height="100" class="component-ui" rx="10"/>
+                    <text x="670" y="400" class="text">Reporting</text>
+                    <text x="670" y="420" class="text-small">Dashboard</text>
+                    <text x="670" y="440" class="text-small">Kibana/Elastic</text>
+
+                    <!-- ServiceNow -->
+                    <rect x="1050" y="360" width="130" height="80" class="component-warning" rx="10"/>
+                    <text x="1115" y="395" class="text">ServiceNow</text>
+                    <text x="1115" y="415" class="text-small">Incidents</text>
+
+                    <!-- Arrows -->
+                    <path d="M 125 130 L 125 200" class="arrow"/>
+                    <text x="140" y="165" class="label">Ingest</text>
+
+                    <path d="M 200 250 L 300 250" class="arrow"/>
+                    <text x="240" y="240" class="label">Query</text>
+
+                    <path d="M 390 130 L 390 200" class="arrow"/>
+                    <text x="420" y="165" class="label">Rules</text>
+
+                    <path d="M 480 250 L 580 235" class="arrow"/>
+                    <text x="520" y="235" class="label">Results</text>
+
+                    <path d="M 670 130 L 670 200" class="arrow"/>
+                    <text x="700" y="165" class="label">Fail</text>
+
+                    <path d="M 760 90 L 850 90" class="arrow"/>
+                    <text x="795" y="80" class="label">CSV File</text>
+
+                    <path d="M 925 130 L 925 200" class="arrow"/>
+                    <text x="960" y="165" class="label">Download</text>
+
+                    <path d="M 925 300 L 925 360" class="arrow"/>
+                    <text x="960" y="330" class="label">Display</text>
+
+                    <path d="M 670 130 L 670 360" class="arrow"/>
+                    <text x="700" y="245" class="label">Metrics</text>
+
+                    <path d="M 1000 410 L 1050 410" class="arrow"/>
+                    <text x="1015" y="400" class="label">Create</text>
+
+                    <!-- Phase Labels -->
+                    <rect x="30" y="490" width="200" height="60" fill="#48bb78" rx="10" opacity="0.3"/>
+                    <text x="130" y="520" class="text" fill="#2f855a" font-size="16">CAPTURE</text>
+                    <text x="130" y="540" class="text-small" fill="#2f855a">Data Ingestion</text>
+
+                    <rect x="280" y="490" width="220" height="60" fill="#4299e1" rx="10" opacity="0.3"/>
+                    <text x="390" y="520" class="text" fill="#2b6cb0" font-size="16">CURE</text>
+                    <text x="390" y="540" class="text-small" fill="#2b6cb0">Rule Execution</text>
+
+                    <rect x="560" y="490" width="640" height="60" fill="#9f7aea" rx="10" opacity="0.3"/>
+                    <text x="880" y="520" class="text" fill="#805ad5" font-size="16">CONSUME</text>
+                    <text x="880" y="540" class="text-small" fill="#805ad5">Alerts, UI, Reporting, Incidents</text>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Rule Execution Flow -->
+        <div class="diagram-section">
+            <h2 class="diagram-title">2. Rule Execution Workflow</h2>
+            <div class="description">
+                <strong>Process Flow:</strong> Rules are read from the repository, executed against BigQuery tables, results are compared against expected values, and alerts are generated for failures.
+            </div>
+            <div class="diagram">
+                <svg width="1100" height="700" viewBox="0 0 1100 700">
+                    <defs>
+                        <marker id="arrowhead-success" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                            <polygon points="0 0, 10 3, 0 6" fill="#48bb78" />
+                        </marker>
+                        <marker id="arrowhead-fail" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                            <polygon points="0 0, 10 3, 0 6" fill="#f56565" />
+                        </marker>
+                    </defs>
+
+                    <!-- Start -->
+                    <circle cx="550" cy="50" r="30" fill="#48bb78" stroke="#2f855a" stroke-width="2"/>
+                    <text x="550" y="58" class="text" font-size="16">START</text>
+
+                    <!-- DQ Repository -->
+                    <rect x="450" y="120" width="200" height="80" class="component-storage" rx="10"/>
+                    <text x="550" y="150" class="text">DQ Repository Table</text>
+                    <text x="550" y="170" class="text-small">Load Rule Definition</text>
+                    <text x="550" y="185" class="text-small">- Rule ID, Table, Filters</text>
+
+                    <!-- Scheduled Job -->
+                    <rect x="450" y="240" width="200" height="80" class="component-info" rx="10"/>
+                    <text x="550" y="270" class="text">Scheduled DAG/Job</text>
+                    <text x="550" y="290" class="text-small">Airflow Composer</text>
+                    <text x="550" y="305" class="text-small">Trigger: Cron/Daily/Monthly</text>
+
+                    <!-- Execute SQL -->
+                    <rect x="450" y="360" width="200" height="80" class="component" rx="10"/>
+                    <text x="550" y="390" class="text">Execute SQL Query</text>
+                    <text x="550" y="410" class="text-small">Against BigQuery Table</text>
+                    <text x="550" y="425" class="text-small">Apply Filters & Aggregations</text>
+
+                    <!-- Compare Values -->
+                    <path d="M 550 480 L 650 540 L 550 600 L 450 540 Z" class="component-warning"/>
+                    <text x="550" y="535" class="text">Compare</text>
+                    <text x="550" y="555" class="text-small">Actual vs Expected</text>
+
+                    <!-- PASS Path -->
+                    <rect x="150" y="500" width="180" height="80" class="component-success" rx="10"/>
+                    <text x="240" y="530" class="text">PASS</text>
+                    <text x="240" y="550" class="text-small">Store Result</text>
+                    <text x="240" y="565" class="text-small">No Alert Sent</text>
+
+                    <!-- FAIL Path -->
+                    <rect x="770" y="500" width="180" height="80" class="component-critical" rx="10"/>
+                    <text x="860" y="530" class="text">FAIL</text>
+                    <text x="860" y="550" class="text-small">Store Result</text>
+                    <text x="860" y="565" class="text-small">Generate Alert</text>
+
+                    <!-- Store Results -->
+                    <rect x="360" y="620" width="380" height="60" class="component-storage" rx="10"/>
+                    <text x="550" y="650" class="text">DQ Results Table</text>
+                    <text x="550" y="665" class="text-small">Timestamp | Rule ID | Actual | Expected | Status</text>
+
+                    <!-- Arrows -->
+                    <path d="M 550 80 L 550 120" class="arrow"/>
+                    <path d="M 550 200 L 550 240" class="arrow"/>
+                    <path d="M 550 320 L 550 360" class="arrow"/>
+                    <path d="M 550 440 L 550 480" class="arrow"/>
+
+                    <!-- PASS Arrow -->
+                    <path d="M 450 540 L 330 540" class="arrow-success"/>
+                    <text x="380" y="530" class="label" fill="#48bb78">Expected = Actual</text>
+
+                    <!-- FAIL Arrow -->
+                    <path d="M 650 540 L 770 540" class="arrow-fail"/>
+                    <text x="700" y="530" class="label" fill="#f56565">Expected ≠ Actual</text>
+
+                    <!-- To Results -->
+                    <path d="M 240 580 L 400 620" class="arrow-success"/>
+                    <path d="M 860 580 L 700 620" class="arrow-fail"/>
+
+                    <!-- Example Box -->
+                    <rect x="50" y="30" width="280" height="120" fill="#edf2f7" stroke="#cbd5e0" stroke-width="2" rx="8"/>
+                    <text x="190" y="55" font-size="14" font-weight="bold" fill="#2d3748" text-anchor="middle">Example Rule</text>
+                    <text x="60" y="80" font-size="11" fill="#4a5568">Rule ID: 10</text>
+                    <text x="60" y="100" font-size="11" fill="#4a5568">Table: employee_table</text>
+                    <text x="60" y="120" font-size="11" fill="#4a5568">Filter: email_id IS NULL</text>
+                    <text x="60" y="140" font-size="11" fill="#4a5568">Expected: 0 | Frequency: Monthly</text>
+                </svg>
+            </div>
+        </div>
+
+        <!-- DQIM UI Workflow -->
+        <div class="diagram-section">
+            <h2 class="diagram-title">3. DQIM Portal (Human Task Workflow)</h2>
+            <div class="description">
+                <strong>Daily Processing:</strong> At end of day, all DQ results are processed. Failed results create human tasks in the UI for business user triage and remediation.
+            </div>
+            <div class="diagram">
+                <svg width="1200" height="650" viewBox="0 0 1200 650">
+                    <!-- End of Day Trigger -->
+                    <rect x="50" y="50" width="200" height="80" class="component-info" rx="10"/>
+                    <text x="150" y="80" class="text">End of Day</text>
+                    <text x="150" y="100" class="text-small">12:00 AM Trigger</text>
+
+                    <!-- Pull Results -->
+                    <rect x="50" y="180" width="200" height="80" class="component" rx="10"/>
+                    <text x="150" y="210" class="text">Pull All DQ Results</text>
+                    <text x="150" y="230" class="text-small">Example: 100 entries</text>
+
+                    <!-- Decision Diamond -->
+                    <path d="M 150 310 L 250 360 L 150 410 L 50 360 Z" class="component-warning"/>
+                    <text x="150" y="365" class="text">Split by</text>
+                    <text x="150" y="380" class="text-small">Status</text>
+
+                    <!-- PASS Branch -->
+                    <rect x="350" y="50" width="180" height="100" class="component-success" rx="10"/>
+                    <text x="440" y="90" class="text">90 PASS</text>
+                    <text x="440" y="110" class="text-small">Store for</text>
+                    <text x="440" y="125" class="text-small">Monitoring Only</text>
+
+                    <!-- No Action -->
+                    <rect x="350" y="200" width="180" height="70" class="component-success" rx="10"/>
+                    <text x="440" y="230" class="text">No Action Required</text>
+                    <text x="440" y="245" class="text-small">Internal Metrics</text>
+
+                    <!-- FAIL Branch -->
+                    <rect x="650" y="50" width="180" height="100" class="component-critical" rx="10"/>
+                    <text x="740" y="90" class="text">10 FAIL</text>
+                    <text x="740" y="110" class="text-small">Require</text>
+                    <text x="740" y="125" class="text-small">Attention</text>
+
+                    <!-- Create Human Tasks -->
+                    <rect x="650" y="200" width="180" height="80" class="component-critical" rx="10"/>
+                    <text x="740" y="230" class="text">Create 10 Human</text>
+                    <text x="740" y="250" class="text-small">Tasks in DQIM UI</text>
+
+                    <!-- DQIM Portal -->
+                    <rect x="650" y="330" width="180" height="80" class="component-ui" rx="10"/>
+                    <text x="740" y="360" class="text">DQIM Portal</text>
+                    <text x="740" y="380" class="text-small">Issue Management UI</text>
+
+                    <!-- User Actions -->
+                    <rect x="900" y="50" width="250" height="360" fill="#edf2f7" stroke="#4299e1" stroke-width="3" rx="10"/>
+                    <text x="1025" y="80" font-size="16" font-weight="bold" fill="#2b6cb0" text-anchor="middle">User Actions</text>
+                    
+                    <rect x="920" y="100" width="210" height="45" class="component-ui" rx="5"/>
+                    <text x="1025" y="125" class="text-small">1. Reserve Task</text>
+
+                    <rect x="920" y="155" width="210" height="45" class="component-success" rx="5"/>
+                    <text x="1025" y="180" class="text-small">2. Mark False Positive</text>
+
+                    <rect x="920" y="210" width="210" height="45" class="component-warning" rx="5"/>
+                    <text x="1025" y="235" class="text-small">3. Request Rule Change</text>
+
+                    <rect x="920" y="265" width="210" height="45" class="component-critical" rx="5"/>
+                    <text x="1025" y="290" class="text-small">4. Request Rule Delete</text>
+
+                    <rect x="920" y="320" width="210" height="45" class="component-info" rx="5"/>
+                    <text x="1025" y="345" class="text-small">5. Create ServiceNow Incident</text>
+
+                    <!-- ServiceNow -->
+                    <rect x="925" y="450" width="200" height="80" class="component-warning" rx="10"/>
+                    <text x="1025" y="480" class="text">ServiceNow</text>
+                    <text x="1025" y="500" class="text-small">True Data Issue</text>
+                    <text x="1025" y="515" class="text-small">Engineering Fix</text>
+
+                    <!-- Approval Workflow -->
+                    <rect x="350" y="450" width="180" height="80" class="component-info" rx="10"/>
+                    <text x="440" y="480" class="text">Approval Workflow</text>
+                    <text x="440" y="500" class="text-small">Product Owner</text>
+                    <text x="440" y="515" class="text-small">Rule Changes</text>
+
+                    <!-- Arrows -->
+                    <path d="M 150 130 L 150 180" class="arrow"/>
+                    <path d="M 150 260 L 150 310" class="arrow"/>
+                    
+                    <!-- PASS Path -->
+                    <path d="M 250 360 L 350 100" class="arrow-success"/>
+                    <text x="280" y="220" class="label" fill="#48bb78">90 PASS</text>
+                    <path d="M 440 150 L 440 200" class="arrow-success"/>
+
+                    <!-- FAIL Path -->
+                    <path d="M 250 360 L 650 100" class="arrow-fail"/>
+                    <text x="420" y="220" class="label" fill="#f56565">10 FAIL</text>
+                    <path d="M 740 150 L 740 200" class="arrow-fail"/>
+                    <path d="M 740 280 L 740 330" class="arrow"/>
+
+                    <!-- To Actions -->
+                    <path d="M 830 370 L 900 250" class="arrow"/>
+
+                    <!-- To ServiceNow -->
+                    <path d="M 1025 370 L 1025 450" class="arrow"/>
+
+                    <!-- To Approval -->
+                    <path d="M 740 410 L 440 450" class="arrow"/>
+
+                    <!-- Stats Box -->
+                    <rect x="50" y="500" width="250" height="120" fill="#f7fafc" stroke="#4299e1" stroke-width="2" rx="8"/>
+                    <text x="175" y="525" font-size="14" font-weight="bold" fill="#2d3748" text-anchor="middle">Processing Stats</text>
+                    <text x="65" y="550" font-size="11" fill="#4a5568">📊 Total Records: 100</text>
+                    <text x="65" y="570" font-size="11" fill="#48bb78">✓ Pass: 90 (no action)</text>
+                    <text x="65" y="590" font-size="11" fill="#f56565">✗ Fail: 10 (human tasks)</text>
+                    <text x="65" y="610" font-size="11" fill="#4299e1">⏱ Process Time: ~5 minutes</text>
+                </svg>
+            </div>
+        </div>
+
+        <!-- SFTP Data Transfer -->
+        <div class="diagram-section">
+            <h2 class="diagram-title">4. Lumi to ACE Data Transfer (SFTP Flow)</h2>
+            <div class="description">
+                <strong>File Transfer:</strong> Failed DQ results are packaged as CSV files, transferred via SFTP, and processed by ACE to create human tasks in the DQIM portal.
+            </div>
+            <div class="diagram">
+                <svg width="1200" height="700" viewBox="0 0 1200 700">
+                    <!-- Lumi Side -->
+                    <rect x="50" y="30" width="400" height="580" fill="#ebf4ff" stroke="#4299e1" stroke-width="3" rx="10"/>
+                    <text x="250" y="60" font-size="18" font-weight="bold" fill="#2b6cb0" text-anchor="middle">LUMI PLATFORM</text>
+
+                    <!-- DQ Results Query -->
+                    <rect x="80" y="90" width="340" height="80" class="component" rx="10"/>
+                    <text x="250" y="120" class="text">BigQuery Query</text>
+                    <text x="250" y="140" class="text-small">SELECT * FROM dq_results</text>
+                    <text x="250" y="155" class="text-small">WHERE date = CURRENT_DATE</text>
+
+                    <!-- Create CSV -->
+                    <rect x="80" y="210" width="340" height="80" class="component-info" rx="10"/>
+                    <text x="250" y="240" class="text">Create CSV File</text>
+                    <text x="250" y="260" class="text-small">Lumi_DQResults_20260116.csv</text>
+
+                    <!-- Dataproc Cluster -->
+                    <rect x="80" y="330" width="340" height="100" class="component-warning" rx="10"/>
+                    <text x="250" y="365" class="text">Dataproc Cluster</text>
+                    <text x="250" y="385" class="text-small">PySpark Job</text>
+                    <text x="250" y="405" class="text-small">SFTP Connection (pysftp)</text>
+
+                    <!-- Upload -->
+                    <rect x="80" y="470" width="340" height="80" class="component-success" rx="10"/>
+                    <text x="250" y="500" class="text">Upload to SFTP</text>
+                    <text x="250" y="520" class="text-small">Profile: LUMI_PRD</text>
+                    <text x="250" y="535" class="text-small">Destination: /inbox/</text>
+
+                    <!-- SFTP Middle -->
+                    <rect x="500" y="30" width="200" height="580" fill="#fef5e7" stroke="#ed8936" stroke-width="3" rx="10"/>
+                    <text x="600" y="60" font-size="18" font-weight="bold" fill="#c05621" text-anchor="middle">SFTP SERVER</text>
+
+                    <!--
