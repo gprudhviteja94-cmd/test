@@ -1,0 +1,1396 @@
+2026-01-20 Data Ingestion Monitoring and Sprint Planning Discussion
+
+Creation Time: 2026/1/20
+
+
+📅About Meeting
+
+  • Date & Time: 2026-01-20 12:33 (Duration: 3607 seconds)
+  • Location: Online meeting (screen-share, Rally/Lumi/UMDL referenced)
+  • Attendee: Anand, Jason, Raj, Sachin, Sindhuja, Rachna, Karthik, Kundan, Prithvi, Sameer, Suman, Aipa, Nirmal, Aman, (others referenced: Jason, Gundan, Athar, Sajan)
+
+
+📒Meeting Outline
+
+
+Data ingestion & monitoring (Ingestion reliability & alerts)
+
+  • ingestion failures observed Discussion about ingestion failures beginning after 7th Jan for several tables (notably tables 66, 68, 69 and possibly others). Some tables (64, 65) are working fine. The ingestion gaps have persisted for ~two weeks.
+  • existing alerts / "Where is my data" capability Team noted that Lumi has a capability ("Where is my data") and that alerts were previously set up for ingestion failures. For the affected tables alerts were not received; attendees will investigate whether the alerts were not configured for those specific tables or if Lumi failed to send them.
+  • recommended automation Analyst recommended building an automation job that monitors these tables daily and sends a consolidated daily report (success/failure/no-file/sequence mismatch). Team agreed this automation can be built from their side and will produce daily email updates so owners can act (e.g., Karthik can fix sequence issues and re-send files).
+  • next steps / ownership Sachin / Raj / relevant owners to double-check Lumi alert configuration for missing tables and correct any misconfigurations. Build automation for consolidated daily ingestion status report (team to discuss offline to avoid hijacking current call).
+
+
+Epic / Capability / Feature setup in Rally (Planning & backlog organization)
+
+  • epic shared and visibility Anand confirmed he included Jason in the epic email; Jason reviewed it. Some attendees cannot see the epic/features in Rally — likely due to missing iteration/project mapping or permission/visibility issues.
+  • capability & feature structure Anand showed the UMDL capability "USCDO Q Drafts Initiative 2626 UM" containing ~12 features covering 26.1 and 26.2. Features include DQ Portal (self-serve), new use cases, existing use case modifications, cleanup, production support, data load stories, human task enhancements, reporting considerations, build/implementation stories, and bug update features.
+  • feature/story creation guidance Guidance was provided to create features then child user stories (or placeholder tasks if breakdown unknown). Use bulk edit at feature level to set Project/Iteration to ensure visibility. When creating stories, include description and acceptance criteria; design tasks can be marked as 'build' rather than separate design items per guidance from attendees.
+  • visibility / access troubleshooting Some team members reported "item not found" when accessing the capability items; likely missing iteration field or incorrect project selection. Action: check feature/capability-level project/iteration settings and bulk-update where needed. Add Jason as product owner on capability so he can view and add items (Sachin to add him post-call).
+
+
+Sprint planning / capacity & story-point allocation (Sprint starting today)
+
+  • sprint timing & coordination Iteration planning to follow this meeting; planning requires walkthrough for Jason on what to add and how to create capabilities/features/stories.
+  • assignments & story-point proposals
+    • Self-serve front-end build: assign to Jason (or designated FE owner) — suggested 3 story points for front-end; Sindhuja/Anand to confirm.
+    • Self-serve back-end / API design (Anand working): assign 5 story points to Sindhuja for back-end design/build.
+    • ServiceNow integration: paused; needs move to E3. Assign to Kundan (or Gundan) with 1–2 story points depending on order with Data Load. Plan to move to E3 (possible target adjusted from 27th to 2nd/3rd due to dependencies).
+    • Data load (January migration): small effort — 1 story point; ensure TQ result table migration prior to cut-off (31st) and account for public holiday adjustments.
+    • Human task enhancements / monitor justification / actual value: assign backend story to Kundan.
+    • New use case builds / validation: assign to Sameer / Samir / Prithvi as applicable. Prithvi to be onboarded gradually with smaller point allocations until ramped up.
+    • Rule updates (67 model IDs / 267 DQ IDs): create stories under Rule Modification / Cleanup. Suggested 1–2 story points for table-level updates; may be 2 if deployment/migration steps required (requires E3/E2 access).
+    • Insurance validation & implementation: give 1 point for build; validation and launch combined require additional points — recommended assignment to Aipa and Suman for validation with proposed points adjusted by complexity (some suggested values: implementation/validation = 3–5 points depending on review needs).
+    • SME story: postpone for this sprint (defer to next sprint when demand clarified).
+  • capacity & holidays Team noted public holiday on 26th only; adjust story-point allocations accordingly. Some members’ available capacities were discussed (e.g., Aipa 7 points, Kundan 7 points).
+
+
+Specific features / stories discussed
+
+  • DQ Portal / Self-serve Features and child stories created: front-end, back-end automation, human task enhancements, data load. Discussion on not creating separate design tasks; mark as build and include required details in description. Rachna exploring generic capability for automation — exploration to continue in coming weeks.
+  • Reporting / QTrack DQAM Reporting will be added under existing feature rather than a new feature; E3 deployment may require additional effort once data is available.
+  • Production support Recurring production support story created for each sprint; ensure descriptions and acceptance criteria are complete. Assign monitoring tasks and on-call responsibilities; give Suman specific monitoring and production support tasks with story-point allocations.
+  • RAC / RACI / Coordination Some RACI/coordination tasks pending until Jason and Nirmal align; allocation may change post-Jason walkthrough.
+
+
+Follow-ups, demos & handoffs
+
+  • Walkthroughs & onboarding After this call, a short walkthrough will be given to Jason (product-owner role) to create capability/features and stories; Sachin to reconnect with Jason and Anand for access and quick training (few hours total).
+  • Demo scheduling Demo of functionality (selection/incidence creation) planned for tomorrow (not today) — DSU call can be used for a short 5-minute demo. Anand requested a quick live test to see how incidents are created/appear.
+  • Permission & access adjustments Add Jason as product owner on the capability; check Rally permissions for those who cannot see epic/features and update iteration/project at feature level.
+
+
+📋Overview
+
+  • Ingestion failures detected post-7 Jan for specific tables (66, 68, 69). Team to investigate missing Lumi alerts and implement automation for daily ingestion reports.
+  • Lumi "Where is my data" alerts exist but did not surface for some tables; owners to validate alert configuration and correct omissions.
+  • Epic/capability and features are created in Rally (USCDO Q Drafts Initiative 2626 UM); some attendees lack visibility due to iteration/project mapping or permissions. Bulk update at feature/capability level recommended.
+  • Self-serve DQ Portal features and child stories created; front-end/back-end allocations discussed. Avoid separate design artifacts; mark as build where appropriate.
+  • ServiceNow integration needs to be moved to E3; dependent on merging and test readiness — target may shift to early Feb.
+  • Data migration (Jan) must be performed prior to month-end; account for holidays when assigning story points.
+  • Rule updates (67 model IDs / 267 DQ IDs) require story creation and deployment/migration steps; assign appropriate points and ensure access path is available for implementers.
+  • Resource allocations proposed (Anand, Sindhuja, Kundan, Sameer, Aipa, Suman, Prithvi, Nirmal) with recommended story-point values; final adjustments pending individual capacity confirmations.
+  • Demo to be done tomorrow; brief walkthrough for Jason to be scheduled; Sachin to add Jason to capability and help with Rally tasks.
+
+
+🎯Todo List
+
+  • Anand:
+    
+    • Investigate ingestion failures with Lumi alerts and confirm which tables are missing alert configuration (ASAP).
+    • Provide list of affected tables and confirm ownership for each (ASAP).
+    • Continue as owner for self-serve back-end design work; accept assigned 5 story points (this sprint).
+
+  • Sachin:
+    
+    • Add Jason to capability as product owner and provide a short Rally walkthrough (today / before iteration planning).
+    • Verify Lumi alert configuration for affected tables and follow up with Raj/Sindhuja if misconfigured (ASAP).
+    • Reconnect with Jason and Anand for capability/feature/story creation support (today/now).
+
+  • Raj / Sindhuja:
+    
+    • Bulk-check and update Project/Iteration fields at feature/capability level in Rally to resolve visibility issues (today).
+    • Adjust feature-level settings and/or perform bulk update for the created features so all team members can view items (today).
+
+  • Rachna:
+    
+    • Continue exploring generic automation capabilities for self-serve backend and report findings in 1–2 weeks (by end of next 2 weeks).
+
+  • Karthik:
+    
+    • Be prepared to fix sequence mismatches/file resends when alerted by the daily ingestion report automation (once automation in place).
+
+  • Engineering team (Kundan, Sameer, Aipa, Suman, Prithvi, Nirmal, Aman):
+    
+    • Update Rally stories assigned to you with detailed descriptions and acceptance criteria (by tomorrow).
+    • Accept and confirm story-point assignments:
+      • Kundan: ServiceNow integration + backend stories (1–2 points for SN, additional points per assignment) — confirm capacity (today).
+      • Aipa: Implementation & validation for Insurance checks (assign as discussed, confirm 2–5 points).
+      • Suman: Validation tasks and production monitoring (assign 3–5 points, confirm).
+      • Sameer / Samir: New use case builds & validations (assign points per plan, confirm).
+      • Prithvi: Onboard with lower point tasks initially (confirm ramp-up).
+      • Nirmal: Await Jason input for RACI tasks; then update assignments.
+
+  • DevOps / Automation owner (TBD):
+    
+    • Design and build daily ingestion-monitoring automation that consolidates table ingestion status and emails report (deliverable: daily email report) — coordinate offline; target prototype discussion this week.
+
+  • All resources:
+    
+    • Add your tasks to Rally and update descriptions by tomorrow (as requested by Anand).
+    • Be available for iteration planning immediately following this call and for short walkthroughs as needed.
+
+Notes:
+
+  • Demo of live selection/incident creation to be scheduled for tomorrow (DSU call acceptable) — Anand to confirm timing.
+  • ServiceNow integration target date may shift due to dependencies; plan to move to E3 and confirm final date in iteration planning.
+  • Follow-ups on ingestion alerts and automation agreed to be handled offline to avoid long call extension.
+
+Thank you — meeting adjourned with Sachin asked to stay back for a short follow-up.
+
+
+Transcription
+
+00:00:22 - 00:05:47 Unknown Speaker:
+
+Have you shared the epic for the. No, Anand. I think the email I sent, right, I had included him in that email, if I'm not wrong. Jason, did you have a chance to look at the epic that I had sent? In the email? Yes, in the email, yes. I did. Was I supposed to edit that? Yeah, I mean, no issues. We can do it on the call or later on. We'll just do it on the call because planning is right after this. Store is added for this print. Is that correct Anand? Should I go to the feature? Just give me a second. Not a problem, I can talk to him, you know, individually, that's fine. Um, yeah, possible, and that's when you, you know, consider the weekends and the public holidays, or somebody's on leave, right?
+
+00:05:47 - 00:07:08 Unknown Speaker:
+
+What I have observed it right now, few of the tables, uh, I'll just take couple of minutes, just give me a couple of minutes. So there is a, you know, ingestion failure for few of the tables, and that is being happening from post 7th, there is no ingestion. And it was failing because they were sending sorry. ANALYSt Yeah, correct, so post 7th of Jan. There was no ingestion to this table because, similarly, few other tables also. You know, getting failed, like 64 is working fine, 65 is working fine, 66, 68 and 69. These three tables were not having an ingestion from a quite a long time now, almost from couple of difficult. Because again, you have to go, you know, and always check on this table whether the ingestion happened or not.
+
+00:07:08 - 00:07:53 Unknown Speaker:
+
+One recommendation I can provide you that we need to create an automation job that would monitor this table on a daily basis. And this is going to send you a report like whether the ingestion was successful or failed for this, uh, particular table. And then that is already existing, right? I'm not sure why we did not get those alerts. Yeah, right, we are not getting that alert. Yeah, I had to check if for this table that is done, but I think for some of the I think for all nine endless table. I created some alerts on Lumi, so there is this capability called as Where is my data? Right? So if let's say the ingestion fails, you remember there were some alerts we got earlier and when the ingestion was failing.
+
+00:07:53 - 00:08:55 Unknown Speaker:
+
+Not sure why for this table, we have not received it, but let me check it quickly. We can go ahead and apply those alerts because right now I'm just getting for those. One which, you know, we are sending the files, right? The alert that we set it up, correct failure we, we if. I'm not sure if I'm part of those emails, so you know, you are including and included in all, you are including all. But I have to check if this table is missing from that, what is it? Quickly tell me the MCG product details, right? Yeah, for for, uh, six, eight. It is a trip, uh. Details U.S. CS travel insurance, trip detail, and this table is already part of that, so we need to check why it is not working then, and that's a clear possibility.
+
+00:08:55 - 00:09:57 Unknown Speaker:
+
+Loomy issue Yeah, okay, six, six is, uh, what? Policy? No, no, no policy Purchaser details, U.S. CS Travel Insurance policy, Purchaser details. Detail. It's not us, it's only detail, detail that is also there. So I can just quickly show you the list of tables, right? So there is already a let me know if the screen is visible, right? This is the uh thing, right? So it kind of does the and ideally, you should be getting. I'll double check maybe there is something missing or which I did not apply. I'll just double check that and let you know. If there is anything missing, I'll correct it. But apart from this, you were saying some automation at your end or like what was the solution you would have? Yeah, if some automation is required, we can build automation at our end.
+
+00:09:59 - 00:11:02 Unknown Speaker:
+
+Because look, they are not sending the file. They are randomly sending, you know, sometimes at 4 p.m., 6 p.m. or 7 p.m., whatever, right? We can build one automation, okay? That would give you a consolidated list, like these are the tables, whether the ingestion was successful or it has failed or there was no file has been retrieved. So we can build that automation from our side. And that would be, you know, sending you an email communication on a daily basis. So email communication on like, what is this? You? Okay forward? We have noticed you got it a daily kind of update. Yeah, yeah, daily kind of update, right? So, uh, like if there was a sequence mismatch or something, right? So even Karthik can fix it here. Send the file. Yeah, okay, yeah, I think we can do that.
+
+00:11:02 - 00:12:31 Unknown Speaker:
+
+Let's, uh, kind of talk offline on that. Maybe, yeah, exactly. We don't want to hijack this call. I just wanted to let you know those are production data and it, you know, almost couple of weeks, the data's are not coming. So I thought of, you know, intimating you immediately on that. Yeah, sure, okay, okay, you can carry on. Adan, can you please share your screen with the future? Yeah, you can see my screen, right? See the same one. Yeah, I'm getting item not found for me, I'm not sure why. The same link. I've created it on that UMDL one itself, which Raj was mentioning, right? This is the one, this is the capability I've created. Okay, yeah, I'll just figure it out later, probably we'll just, in the interest of time, continue.
+
+00:12:31 - 00:13:29 Unknown Speaker:
+
+If that's fine, still get like item not found yet. So Sachin I mean, even for two for you, right? I mean, Raj asked me to create it under this one. Uh, so I've created this USCDO Q Drafts Initiative 2626 UM capability here, right? And under this capability. There are uh, 12 features that I've created for both 26.1 and 26.2, both I've created for now. Uh okay. For 26.1. We have, uh, uh. DQL Portal, self-serve, new use cases, existing use cases, modification, cleanup, and production support. Okay, yeah, so yeah, I think those are the yeah, those are the features we are targeting for. 26.1 description acceptance criteria, and then child nodes also have. Like, what I've done is 25.6. I think the last one, right?
+
+00:13:29 - 00:14:34 Unknown Speaker:
+
+I've moved a lot of the WAS, I think, even into testing, validation was already created over there, so I've moved all of those to this. Yeah, and yeah, I've included one more build as well, and similarly, let me just quickly show it for others as well. For DQM portal I have created created for child loans. We can again like create loans or whatever you want to do, right? One is for the human task enhancements, which is basically that expected value and then the monitor justification on that. And then data load, I created one feature. This is for like January data or December data. January data, basically, which you want to load, right? You can do that. And then bug update feature. Once we have done these three, we can focus on this. Okay. Yeah.
+
+00:14:34 - 00:15:32 Unknown Speaker:
+
+The reporting goes under that QTrack DQAM or somewhere else? Yeah, we can add it here itself. But I was expecting it was over, right? So that's why I have not created a new feature for that one. Okay. But for that, anyhow, like in case of E3 deployment, right? To require an effort on it. Okay, yeah, yeah, but that's after, uh, once we have the data and everything right, so I'll create one. Yes, yes, yeah, okay, okay. Um, okay, let me go to the next one we have for self-service. I've created basically a couple of stories of our features for now, one is for sorry stories for now, one is for. Like, the front-end design if you want to complete that in this print or something, right, and then the back-end design.
+
+00:15:32 - 00:16:20 Unknown Speaker:
+
+The how to automate the entire uh chain part of it. No, no, don't create a design one, you can just mark it as build, like build one, build two, you already created, right? Yeah, okay, design part. I'll take care. Uh, yeah, okay. And also in this also. Sachin Oh, I mean, let's focus on the front end part of it for now, how we are getting the input and everything. But on the back end, front of it, right? Even Rachna is exploring if we can leverage some kind of a generic capability for that to automate that as well. So we can also think on that front. She will. I think we will explore this in a couple of weeks and we can discuss that. But that's also just wanted to intimidate you on that. Okay, yeah.
+
+00:16:20 - 00:17:15 Unknown Speaker:
+
+And next is I'll create one more, which I was in a call right now. So PZN has come back. Uh, whether it will go or not is something even. Still I'm not sure, but at least we got the requirements we have sent out, uh, after validating and everything, but let's now see what happens. So I'm just going to use the story. But anyway, insurance you're already doing good. Will be expecting the requirements in this week or next week, so once we get that, we can share. And then, um, alerts also. We got like, we had a discussion right now, so they'll send out the requirements by next week, I think. And then AFC is also a similar case key. They have done the discussions, but we're awaiting the requirements. Okay, I've created like build and implementation stories for that.
+
+00:17:15 - 00:18:43 Unknown Speaker:
+
+Uh, next is I think no modification. That one that I've just like created template stories for now because are just like ad hoc activities, right? So, yeah, correct, yeah, but actually created these stories so like for every screen. Because, uh, yeah, today morning only app ping this to me that he needs some user story for this rule update, there are, I think he has pointed out, 67 model ID and 267 DQ IDs rule updation. I just wanted to cross check if that is regarding the DQ repository description update that Sachin just mentioned. Yes. Yeah, yeah, yeah. So you have shared the one so that one I highlighted here. So this is the same. Shared on our 9th or 9th actually January. One of the main, so that one having the total 67 model IDs and a rule description.
+
+00:18:43 - 00:19:54 Unknown Speaker:
+
+Update. Oh, okay, yeah, thank you, yeah, thank you, yeah, like anyhow, this is this would be required, as I was mentioning, right, right, yeah. And I think finally just production support as well. That also is like every sprint I've created just one story. Yeah. Yeah. But description, acceptance criteria, everything I've filled out. You can let me know, Sindhuja, I think what has to be changed for that to reflect on that portal or the main page. Yeah, actually I checked with another team member. He's also not able to see the epic. We'll have to like, cross check with the previous feature, like if there's something missing. Okay, okay, sure, sure, we can do that. Yeah, he'll do that. Yeah, after this call, probably, uh, now, I mean, like, since we also have like, iteration planning, uh, right after this, right?
+
+00:19:54 - 00:20:43 Unknown Speaker:
+
+Uh? We can just probably give a walk through to Jason. Like, what is needed, uh, from him for, you know, like to these items and stuff, and then we can proceed to the planning. If that's okay with everyone, yeah, yeah, makes sense. Yeah. Generally, there is an iteration column as well here. That is something that I did not fill out. I think that is the reason. Probably maybe it's the Uh, project, like, did you cross check with the feature? Yeah, Project was fine, I think Project is U.S. Consumer Gallery. You're right, not this. Oh, I think for this, okay, for the individual, the story. Is it different? Is it this one? No, no. Choose the second one in recent titles. Yes, yeah, okay, okay, let me do that then.
+
+00:20:43 - 00:23:57 Unknown Speaker:
+
+Yeah, if I change it at the feature level, would it reflect? Yes, yeah, change it at the feature level? Yeah, I think, or even at the capability level, I can change it. You can do a bulk update, maybe just choose all the feature items on the left hand side with that small square check box, and then do a edit and then choose Project. Here. Do, yeah. All the items in loading, though. Yeah, I'll stop sharing my screen, okay, um, so, um, reason? I mean, just to give you a walkthrough, I'm not sure. Uh, if you have any items, uh, you know, like this print for us. But in the epic ID that I have shared of work that you have planned for the team. You can create various features, um, after that you can update it here.
+
+00:23:57 - 00:25:32 Unknown Speaker:
+
+Like in general, if you want, like only one feature to be created under AC, it's fine. And if you want to do another division, you can just add another row here probably, and once the feature is created, work. If you know the breakdown, if you do not know the breakdown, then probably you can just add like a placeholder task. Okay? And we'll take this as reference and we will pull it into, uh, our current sprint when we are doing the planning session. Um, are you clear? Like, do you have any doubts for the upcoming sprint, which starts today? Like, Yes, yes, I do, okay, then I will share it with you now. Uh, probably. Then you can add it while we go through, like other items, create features, and then beneath features, the user stories.
+
+00:25:33 - 00:27:19 Unknown Speaker:
+
+Got it. I'm sure I will do something wrong the first time, so I'm glad we're all on the call. Sure, sure. You can probably share your screen and do it, at least the capability and feature, so that we can just guide you through it, and it's quicker. If it is going to take time, right, we can ask them, they can drop up and then focus on the work that they are doing and we can continue over here. For the planning, at least we'll need them, right? Like, or you can take care of it. We can, probably we'll finish planning for items from Anand and Rachana and then like guide Jason and you can help him out on good stories to pull out. Task enhancement But there would be a copy of this which would be assigned to Gundan.
+
+00:27:19 - 00:30:25 Unknown Speaker:
+
+Also actual value, the another one that monitor rules need to be there. Here. You can mention, like, you know, back-end changes human task enhancement, post that like back-end changes that story and assign it to Kundan. Uh, data load, so Kundan. We have to keep, uh, keep a mind that whatever uh results are there in the TQ result table for the month of, uh, this 31st, right prior to 31st. We do this data migration, Jan data. I'll I'll give you a preview. So in this one, let me assign him one story pointer. This would not take much, give it two story pointer, because one is public holiday, right? So we have to adjust with that couple of story pointers. And then can you go to Q track self serve now? DQIM, I think we are...
+
+00:30:25 - 00:31:34 Unknown Speaker:
+
+Hold on. Hold on for a second. Can you go back there? Yeah. So, Anand, this is fine, right? Service now integration, we have paused right now, right? Or that also you need to move it to E3. Just let me know. Yeah, we'll have to move that as well, right? So, that's why I wanted to check and update as well. Where are we all with that, all those changes, right? Did we have a word? It hasn't been merged yesterday, so we'll do that. Follow up with him on that one by end of this print. Anyhow, this would move to the production. But 27th, it seems like bit difficult. Okay, by when do you think this will go? This all depends on. There is a dependency, right? Okay, so instead of 27th, if I move it to three, right?
+
+00:31:34 - 00:32:45 Unknown Speaker:
+
+Third is basically the last day of the split, or basically second is the last day of the split. So in that way, that should be fine, right? Yeah, then then this should go, this will go to the products and take it, sure, and then then, yeah, uh, uh, uh. Pick up this service. Now. Assign this to Gundan. Uh. With one story pointer. Because all the build and updates for this one earlier and then just let me know means, if the story pointed out, fine. So such, in my second, all those enhancement plus service now integration, all of it will go to each rewrite. Just need to move it to E3, okay, or vice versa. You can do like Service Now 2 and then Data Load 1, because data load would not take much time.
+
+00:32:45 - 00:34:52 Unknown Speaker:
+
+You can do it vice versa, Service Now 2 and the data load as well be modified. In the BPMN, in the LUMI, in the ISO. I'll give you that. So, on this self-serve one front-end design, you can assign it to a third with three story pointer is having five story pointer. Uh, capacity, right, yeah, does he have any coordination thing left right with? Uh, GCST? Yep, yeah, five, yeah, that is something. Yeah, okay, fine, right? And if you can go back there, assign couple of story pointer to Kundan. From there Kundan is having seven story pointer, right for this one. Yes, yeah, yeah, build piece. Resources are done right, and now you are now, Anand. First of all, let me know, is there a new use case build that is required?
+
+00:34:52 - 00:35:48 Unknown Speaker:
+
+First, go to the Control one control, we can assign it to Samir. Yeah, go to the Control one. You guys can view these stories over the rally. Uh, please take a look, uh, till the time we are assigning the stories to other. And, you know, let us know in case any issue. Bill you can assign to Sameer. So, Anand, here you need to, you know, let us know your expectations. Like, one of the story, like, you know, we would add that in the description itself. The one that we were discussing, right, that part is almost ready, right? What is the expectation in this print apart from that one? Do we need to move to the second stage where we would start, you know, just validating this? No, no, no, definitely.
+
+00:35:48 - 00:37:23 Unknown Speaker:
+
+So, after step one, the second part of it, which is basically your auto updating as well, right? That code also has to be completed in this print itself, for sure. Okay, yeah, okay, okay. So assign this with five story pointer with, uh, maybe five story pointers. So on him, we would just on board Prithvi, who would? He would not be that fast like Samir right now. Uh, you know, uh. We would start giving him some some sort of work from the point row so that he can come up with the speed in the next minute. And that's why we are not utilizing each story pointer for him for this print, sure, and couple of story pointer for Valid. Is Prithvi onboarded? I don't think. Yeah, yeah. He has it. Yeah. Okay. Okay.
+
+00:37:23 - 00:39:00 Unknown Speaker:
+
+Shamir and Prithvi are done then. Yeah. Just remove that copy one and then maybe you can... some build part of it also. Maybe something like spying. Sorry, spying. Basically a spike story. Yeah, we use it. Yeah, it's mostly like analysis and, uh, discovery kind of a thing. Uh, okay, yeah. So now I'll leave it on. Like, uh, how much Anand is comfortable to, you know, accept those five story pointer because I end up the sprint, uh, we need that acceptance one. And just let us know, like if that five story point is fine, or how you would like to take it up. He should build something, it should not be, you know, complete blank for this print. Yeah, but I need your input. No, I think that should be fine. Okay, okay, yeah, okay.
+
+00:39:00 - 00:40:45 Unknown Speaker:
+
+And now on the new use case on. And then, first of all, uh. What we need is that we need some capacity for the insurance that we have, so we need some capacity for this one. Anand work is there in crazy also, man, okay, not this one. The tech business channel, Yeah, so on. And we need this DQ rule update, uh, description which we were discussing, right? That is one, uh, insurance table validation is there is looking into Maestro Notification app. This is just a follow-up so we can do it right. All user story is not required for this one, so these would go on a new use case validation and all, or how you would like to. Also, this is under the rule modification and deletion Cleanup itself.
+
+00:40:45 - 00:43:00 Unknown Speaker:
+
+Point number one one you can directly tag under Root Modification Cleaner, four under use case and five is under promotion. Anyway. Okay, no Maestro notification for Maestro notification. Uh, I, I don't need a user story. Uh, that we can consider that production issue, so for insurance anyway, we have a user story, right? You can add it over. Yeah, that can be used there. Okay, then, uh, go back to that, so that from there and how much capacity, uh, you need for those rule modifications? That is, uh, this, yeah. Is this the new use case? What is it? This feature need to go? How much? Story, point, term? Yes, that one is a one point vision of. It is just a table update thing and I have provided the exact details. Also.
+
+00:43:00 - 00:44:01 Unknown Speaker:
+
+No, uh, I know those are minor details. But what happens when he is going to modify that one? He, he don't have a right access, right? So he had to go to that use case to use his migration path. Where you know that can go via tag and all. That is the reason I was asking if one day is sufficient or in case he needs some action. Because it should not come back to us. Maybe I can take it to two pointers. Maybe I can leverage if any bandwidth available. I will leverage those others into other uses. Okay. Right now make it to Sindhuja. Because we don't have a right access on E3, Rachna. Right, right. Got it. Yeah, that makes sense. Okay, so this is one on the use case validation, go to the insurance one.
+
+00:44:01 - 00:45:52 Unknown Speaker:
+
+Uh, sindhuja, and then you can pull now IPO, you, you have a build also one, right? And then, uh, go to the new use case. Much effort you need. Yeah, Bill, uh, one point is enough for this. Okay, uh, give one pointer for the insurance check implementation. Yeah, in implementation, I have like, included validation and launch both. Okay, okay, then implementation. One. Assign it to Ayapa, uh, maybe with, uh, he's having seven story pointer, right? Bandwidth, so two went there, two, maybe build, and then this validation with three. Uh, let him complete this insurance, one one. Also, you have to assign it to, uh, okay, implementation, also you want me to assign to Ayapa. Yes, yes, so as Anand mentioned, the implementation is, uh, having that build also, sorry, validation also.
+
+00:45:52 - 00:47:37 Unknown Speaker:
+
+And then we have to create a copy of this one. Can this also be two story pointer? Market has three if he has been a bandwidth of seven. No other holiday operates apart from 26. Yeah, yeah, no holiday. Yeah, seven pointers capacity. Will it still be three story pointer for? Let me know how much capacity you need for the validation. And see if you're there. So I think five would be needed, validation and both if any changes are required in this group. Five would be too much. How much complex are the scripts? To deploy it in E2 and, uh, then validate and share the results. Yeah, okay, uh, did the code have been reviewed by HNA? We are still waiting for that. Oh no. I had a conversation with ANSI and I was suggesting that it's better to share the code and results together.
+
+00:47:37 - 00:49:00 Unknown Speaker:
+
+Because what happens is like, sometimes something gets missed, right? It's better to review both of them together. Okay, okay, uh. Then assign to five story point, Uh, Cinderella, in that case to N. C. And then there is a production issue which is under her bucket, right? So there would be a production support, so assign couple of story point advancing from the production support. And see no other holiday right apart from 26th. Yeah, no other. Okay, so ANSI done, Kundan done, Athar done, Sameer done, Aipa done, Prithvi done, right? Now we are left with Suman. So Suman is also having that three stories, three user story which he need to do the validation. So copy that implementation and assign to the Suman with five story pointer for the validation.
+
+00:49:02 - 00:50:25 Unknown Speaker:
+
+You want to add, like, what kind of implementation they are doing, because, or they will, we will. We will describe it in the description or part of it. So that is something I'll modify based on the details that we have. And it will be like, what a five story pointer for someone. Or, yes, yes, he is new, so we have to give him some time. And then the production support to him with three-story pointer when he is monitoring some jobs during the hours. He doesn't have any holiday, so you can just give him eight-story pointer. I need to check on the RAZ1 home to assign. I think you and Prithvi are left. Sorry, you and Nirmal are left. So for Nirmal, you can go to self-serve one and assign in that build one.
+
+00:50:27 - 00:51:49 Unknown Speaker:
+
+We still have like RAC, so do you want to like wait until Jason, yeah, until like rearrange it, yeah. But even for RAC, we would need some age. We need somebody who can guide, you know, Nirmal on RACI. Okay. So let's wait for Jason input and post that. I'll just, you know, make a change between Sameer and Nirmal. Yeah, sure. Okay. And go to that feature of. It has been created. We need one story pointer for insurance also, so if you can ask Aman to create one feature for insurance, uh, we, we can get a story pointer for insurance. Also, this is I'm currently working on so you can assign it to me. I have six story pointer, right? So two would go to insurance. You can assign a couple of story pointer for this one.
+
+00:51:50 - 00:54:00 Unknown Speaker:
+
+Anand, don't we have any SNE story pointer? No, Sajan, I've not created it. I think even last time you were creating it yourself, I think, right? If you want, I can... But under which feature? But under which feature? I don't know. What we were doing last year. Oh, okay, oh, then how to, because it would be, you know, Razy plus Q track, plus the insurance. So, yeah, he hasn't shared anything in general, at least with my other teams. Wherever additional design effort is needed, right there, they create an SME story, so if there's something like that, like, you can just add the SME support story for that feature. Probably we could just alternate it between, uh, two, three initiatives. For different sprints, like for example, if this sprint is effort is mostly towards racy design, then, or Quantum or something like that, then for that you create it next sprint.
+
+00:54:00 - 00:54:57 Unknown Speaker:
+
+It'll be like insurance, and then it's Q track in that way makes sense to me. Such, and so you can. Where you feel like the most effort will go here, right, would be self-serve, because I'm working on that, you know, back-end API design and all right. Yeah, let's do one thing for self-serve. Right now. You can give me five-story pointer, Sindhuja, and then maybe insurance. You can ask Aman to create one, and then I'll leverage the insurance story pointer. Not here. This back-end design. Assign a five-story pointer to me. And then, once Aman create a feature right from there, we can pull for insurance one. And what about SME? You do not want in this sprint? SME, yeah, let's avoid that during the sprint.
+
+00:54:58 - 00:56:24 Unknown Speaker:
+
+I can, you know, maybe from the next sprint we can check where is the effort and then we can plan accordingly. Got it, got it, yeah. I've added, yeah. Okay. So, Anand, I think from QTAC point of view, right, we covered up everything. Yeah. Here, okay, okay, there might be just a suffering of Sameer based on, you know what Jason would like to build it. So maybe on his validation part, we can give him two story pointer. Uh, for guiding, maybe, you know, yeah, so once he, uh, once it's approved, Jason, if you can just reach out back to me, right? I'll add you like with the product owner role. Um, and um, probably, uh. I think it'll take like a couple of hours only.
+
+00:56:24 - 00:58:01 Unknown Speaker:
+
+So Sachin, if you're available, uh, I'll reconnect back with you, uh, you, me and Jason, and we'll add stories. If that's okay, yeah, yeah, like you can just text me, then it'll take like another few minutes for me to add you. Okay, uh, other than if you are available, I'll also just add you just for the capability and feature part. Okay, and then let's add on Cinderella, because, you know, it's, uh, doing right. So, yes, I will do that. But we would like to know exactly what we would like to build so that would get more clarification. Continuously for my GCS team. Um, in case if it's like quite late, like, post that if I don't find time, I will at least, um, you know, like, connect you guys, like, if that's okay, if I can't make it tomorrow.
+
+00:58:01 - 00:58:58 Unknown Speaker:
+
+So if there is any, any changes that is required. So just one thing with Anand, like, are we going for demo today? Or you wanted to do it tomorrow? Um, let's do it tomorrow. That should be fine, I'll set up some time. Okay, sure, thank you in the sense, Anand, you just need the. Just wanted to test it out live on call once. Once I select, how will it show up, right? Where will the incident get created? All those things. You can do during the DSU call also, Anand. It would not take more than five minutes. Sure, sure. Yeah, right. Yeah, additional call is not required. We can do it now. You know, once we are done with the update, we can just demo it to you. Sure, sure, yeah.
+
+00:58:58 - 00:59:58 Unknown Speaker:
+
+And then, Anand, There is a call at 8.30 regarding those... required in that crazy kitty call. No, no, you're not required today, that's fine. Okay, okay, yeah, okay, oh, nothing from my side. I request all the resources to add your task uh, and then, like, just go to like, uh, and update your description. Okay, like by tomorrow. Thank you, everyone. Thank you. Sachin, could you please stay back for a minute? Yeah, yeah. So, Sachin, this guy actually, I shared these details, right, like, they are a mix.2026-01-21 Data Backup and UI Change Coordination
+
+Creation Time: 2026/1/21
+
+
+📅About Meeting
+
+  • Date & Time: 2026-01-21 12:37 (Duration: 1149 seconds)
+  • Location: Stand-up call (remote)
+  • Attendee: Sachin, Anand, Kundan, Srishti, Bhagwan, Saurabh, Nirmal, (others implied: meeting host)
+
+
+📒Meeting Outline
+
+
+Backups & Data Ingestion (Insurance use case / DW tables)
+
+  • Current ask Discussed backing up multiple tables related to the insurance use case to avoid data loss if pipelines (E3/DCU) run or overwrite data.
+  • Discussion details
+    • There are three relevant tables mentioned:
+      • First table: November data — pipeline intermediate table (contains last pipeline run data).
+      • Second table: the problematic table that DCU may auto-fix (requires confirmation from Srishti / DC process).
+      • Third table: December backup created last week (already exists).
+    • Sachin asked to keep backups of:
+      • The full DW table (DW1) as-is today.
+      • November intermediate table (pipeline output).
+      • December table (already backed up but reconfirmed).
+    • Agreed approach:
+      • Create backups for the November and the current (visible) table. Option to create separate backup tables in the use-case folder for each (two separate backups).
+      • Ensure all three datasets (table1, table2, table3) are present in the DW once DCU fixes are applied.
+      • If DCU automatically fixes the second dataset, then ingest the first and third as new once fix completes.
+    • Action intent:
+      • Cross-check counts between the warehouse and intermediate table; if identical, backups can be reconciled later. However, team expects data changes so will keep backups.
+      • Anand / Sachin to coordinate and confirm backup creation and locations.
+
+
+UI Changes, Merge, and Deployment (Justification field, false-positive flow, E3 deployment)
+
+  • Current ask Small UI/UX change and related backend/service-now integration; determine readiness and deployment timeline.
+  • Discussion details
+    • Kundan reported the merge of changes (escalated today). UI change required: sub-filling between two text fields and move justification textbox to appear at the end and make it mandatory at submission.
+    • Concern: The justification field was previously conditional (single JSON entry). With false-positive moved to second position, there will be two JSON entries (true/false). Need to review config and possibly tweak to accommodate additional entries without breaking existing flows.
+    • Kundan estimates UI changes take ~half a day + end-to-end testing.
+    • RFC unlikely to be raised this Friday due to current sprint load; proposed deployment target Tuesday (subject to testing and approvals).
+    • Dependencies: Review and merge by Bhagwan and Saurabh may be required; service-now integration also to be coordinated. If dependencies hold, could demo on E3 (or postpone demo).
+    • Testing note: Trooper’s tape submit button not enabling — requires testing and fix prior to E3 demo.
+    • Decision: Do not change existing behavior that affects false-positive flow beyond adding justification; keep justification box last in UI. Kundan to show config and discuss tweaks with team before finalizing.
+
+
+Notification/Monitoring Automation (Ingestion failure alerts)
+
+  • Current ask Implement automated notification (email) from Lumi system when ingestion fails for insurance tables, similar to earlier ZODL API alert emails.
+  • Discussion details
+    • Team wants automatic emails when ingestion fails (not daily status, but on failure).
+    • Options discussed:
+      • Single aggregated email for groups of tables (lower effort).
+      • Individual email per table/job (higher effort and testing overhead).
+    • Effort:
+      • Automation is feasible and can be built within a sprint, but not in current sprint (work planned for upcoming sprint).
+      • If individual table-level alerts required, effort/testing increases proportionally; aggregated alerts are simpler.
+    • Additional requirement:
+      • Email recipients should be relevant downstream users (ideally recent/active users of a table) — noted as a future enhancement and a non-trivial capability.
+    • Next steps:
+      • Create a feature/story for the insurance ingestion alert automation so work can be scheduled in an upcoming sprint. Team to record sessions and coordinate handoff for implementation.
+
+
+Session Recording, Demos, and Onboarding Links
+
+  • Current ask Ensure recordings are available and shared; confirm onboarding/training links.
+  • Discussion details
+    • Meeting recordings are being saved; some older recordings appeared in meeting videos.
+    • A previously shared onboarding/training link was not visible in one participant’s mailbox; discussion to re-share links and recordings.
+    • Suggestion: When someone shares a screen and records the session, others (Nirmal, team) should join to ensure recording contains all necessary content.
+    • Anand / meeting host to re-check and re-share training/onboarding links and recordings.
+
+
+Config Review & Follow-ups
+
+  • Current ask Review configuration that controls justification/false-positive JSON structure.
+  • Discussion details
+    • Kundan will share the config page and discuss how to adapt the config to accept multiple entries (true positive / false positive) without breaking existing logic.
+    • Team to join a follow-up in ~5 minutes (or a short session) to review proposed changes.
+    • Recording of that session requested for team members who cannot attend.
+
+
+📋Overview
+
+  • Back up November intermediate table and the current DW table snapshot (DW1) to prevent data loss during E3/DCU runs.
+  • DCU may auto-fix the second dataset — confirm with Srishti; ingest first and third datasets as new after DCU fix.
+  • UI change: move justification textbox to the end and make it mandatory at submission; avoid changing existing false-positive behavior besides adding justification.
+  • Kundan’s merge exists; UI changes estimated half-day plus testing; RFC and deployment likely next Tuesday (pending approvals and testing).
+  • Trooper’s tape submit issue requires testing and fix before E3 demo.
+  • Build ingestion-failure email automation (feature to be created); aggregated alerts easier, per-table alerts costlier.
+  • Re-share recordings and onboarding/training links; record config review session for later reference.
+  • Kundan to share config and schedule a short review session (~in 5 minutes as mentioned).
+
+
+🎯Todo List
+
+  • Sachin:
+    • Confirm final list of tables to back up (DW1 full table, November intermediate table, December table) and desired backup locations — due: ASAP / before backup work begins.
+    • Coordinate with Anand and confirm counts/cross-check between warehouse and intermediate table — due: by end of day (or before ingestion actions).
+  • Anand:
+    • Create backups for the November and current DW table (create separate backup tables in use-case folder as discussed) — due: ASAP.
+    • Re-share recording(s) and onboarding/training links that were missing for some attendees — due: today.
+  • Kundan:
+    • Share config page and walkthrough for justification/false-positive JSON structure changes; schedule 5-minute review session and record it — due: today (immediate follow-up).
+    • Implement UI change (move justification textbox to the end and make it mandatory), estimate half-day for development + end-to-end testing — target: finish dev & initial testing by next working day.
+    • Investigate Trooper’s tape submit-button issue and provide fix or test plan — due: before E3 demo attempt.
+  • Srishti:
+    • Confirm DCU behavior: whether the second dataset will be auto-fixed and expected timeline — due: ASAP.
+  • Bhagwan & Saurabh:
+    • Be available for review/merge of UI/service-now changes when PRs are ready (timing: per Kundan’s readiness; merges may affect deployment timing).
+  • Product / PM (owner for feature creation):
+    • Create feature/user story for ingestion-failure email automation for insurance tables (include scope: aggregated vs per-table, recipients scope) — due: create story this sprint for scheduling in next sprint.
+  • QA / Testers (assigned by team):
+    • Perform end-to-end testing of UI changes, justification submission, and trooper’s tape submit flow on QA/E3 before deployment — schedule test window aligned with Kundan’s completion.
+  • Recording & Documentation:
+    • Record config review session and store link in team shared location (owner: Kundan/Anand) — due: immediately after session.
+
+
+Transcription
+
+00:00:00 - 00:01:00 Unknown Speaker:
+
+Stand-up call. Use case one. Yeah, the use case table. There, the number details are there, right? This is backup and... Yeah, that one. Just go to details. Go to details. Sorry. Yeah, go to details. Preview. Yeah, no, no, no. Here, last modified is 28. Ah, it's by the year 2020. Okay, 2021-25. Then it will not get deleted. Okay. So, two things, right? I mean, one thing is December data that you created a backup, you remember, right? I think last week or something we created that. Yes. That has to be loaded as well as this data, this exact table that you're seeing right now. This also has to be loaded once this MD fix gets placed, right? If you want, you can create one backup for this table as well.
+
+00:01:00 - 00:01:47 Unknown Speaker:
+
+I mean, because in case the E3 pipelines runs or something, right, I don't want this to be erased. So what Sachin is asking is like, ask me to this DW1, right? Like this, the entire table, what is available today, keep a backup of that, that is this table. What I am saying is November data, which is on the top. That first table that also created a backup, and then obviously we have already created this backup of December, which is the third table, right? Yeah, okay. So basically, you want me to back up both Navable data and Azure data, data warehouse data. Yeah, correct. So ideally, once they know all those challenges, right, the table one, table two, table three, all three data should be there inside the DW table. So we just have to make sure that happens.
+
+00:01:48 - 00:02:33 Unknown Speaker:
+
+Because what they're saying is through DCU, the second data will get fixed automatically. That is something we have to understand from them. And then once that is done, the first table and the third table, we have to ingest as new. Okay. Got it, right? Yeah. So if you want to create a backup for the first table also, in case that gets erased, if you run the pipeline or something. Yeah, yeah. This will erase definitely. So I will backup this one and as well as this one. Yeah. Yeah, if you want, you can create a different, different two set of table in our use case folder. That is fine. Yeah, similarly like backup for Jan 8, what I will do is like, I will create for November and as well as this data one. Yeah, correct.
+
+00:02:34 - 00:03:28 Unknown Speaker:
+
+What is the difference between these two, warehouse and this one? Because I think warehouse... The first one is your pipeline intermediate table, right? Which has the November data, last time the pipeline ran. Yes, this will also have the same, right? This will have the data warehouse. So this has the ingested data in the main warehouse table. So this has, I think, July, August, September, October data, something like that. Not December. Correct. Take the count. I think it would be having couple of months or three months data. In the second one, second one, warehouse one. Just cross check and have a backup. If the data remains same, we can, you know, discard it later. But keep a backup. I mean, the data will not remain same, Sachin. That we know for sure.
+
+00:03:28 - 00:04:32 Unknown Speaker:
+
+So just keep a backup for everything, yeah. Yeah, correct. I'll take a backup. Yeah. Yeah. But also understand the DC process also, Sachin. Once from Srishti, right? I'll pause a bit. Yeah. Yeah, I think, you know, I mean... Either they need to be very uniform with their structure that they are following right now. I don't know. Because we are already almost the end of JAR also, right? Exactly. I'll talk to Anand and maybe post this one. Anything else, Anand? The other thing is with Kundan, I just wanted to understand that flow. So, Kundan, Uh, if you can share your screen. So even though, you know, changes have been merged by, uh, uh, today, I, I just escalated it today. So if he has merged it, uh. Second, then I need, uh, you know, maybe, uh, some design change.
+
+00:04:32 - 00:05:42 Unknown Speaker:
+
+But, uh, I think you are sharing the screen to me, right? Can you go ahead and just share it to us? Speaking on Mute. So if the merge has happened, Sachin, when can this be deployed? On E3, I need a sub-filling between two text fields. If that can be done today, then we can plan for an E3 deployment also. Kundan, you are speaking on mute, man. Is he there? For the UI changes, I would need half a day or something. So we can plan accordingly just to test the flow. Okay. Okay. Okay. No, no, no. Hold on. The problem is RFC won't be raised for Friday for sure. Because we are already popped. Got it. No, that's fine. We can go ahead with Tuesday itself, but what I'm, what I'm trying to understand is Tuesday.
+
+00:05:42 - 00:06:53 Unknown Speaker:
+
+If then, uh, our UI changes, plus service now will go together, right? Oh, Sachin, you're on mute or other if you want to take that. I thought if you can just hold it. First of all, you know, let the things to be fixed. Kunal, if you can share your screen, first of all. Yeah. Share it. Okay. Yeah, so if you are viewing it on QA environment on it, you can see that, you know, expected value and actual values are coming. And here, other one thing I I don't have a problem in the way you are going to save the data on the justification. Uh, but one review comment is that populate this justification. At the very end. Once this uh, you know pop-up gets selected, uh, this doesn't look good.
+
+00:06:53 - 00:07:48 Unknown Speaker:
+
+Uh, if you ask me, yeah, has to come first, then justification, then action. Reason. No, no. Even if he is, you know, making that, uh, at the very end, just like, uh, whatever he is selecting, right? A justification should come at the very end of. Make it mandatory for submission. And the way you would like to take the value, right? But at least at the UI side, make this justification box at the very end. This is one change and that is the reason and I was avoiding to showcase to you right now. Yeah, I mean, just don't change anything that is already existing, right? If we because see for false positive, we just wanted to add justification, so let's not, like, change the order. Yeah, yeah, correct. That box should appear at the very last, the reason being this doesn't look good.
+
+00:07:48 - 00:08:44 Unknown Speaker:
+
+See such. And so the thing is, initially this was a conditional text box. Okay, so that was, uh, basically, a single object was going inside. The false positive option now we are going to place at the second. Then there would be two entries in the JSON. Okay, basically one inside the true positive and the false positive. Maybe I can just discuss with you. With respect to the config that is there, which we just got much, we can tweak it. But the number of entries same entries would be increased in that case. So we can discuss on that. I'll just show you the config and maybe we can take up that. Okay, okay, uh, uh, let me come back to you on this one, okay, and then then I'll for me on this, okay, one more thing, like, Uh, for trooper's tape.
+
+00:08:44 - 00:09:35 Unknown Speaker:
+
+This submit button is not getting enabled. Well, those are things you need to, you know, that is the reason I was telling, right, this need a testing before, you know. I just got this now, so like half and half, even I need an end-to-end testing. Yeah, and these are the reason, Anand, I'm not going to communicate to you that, you know, this should be ready by Tuesday. The reason being, again, if they need a change, right, that need to be reviewed from Bhagwan and Saurabh. Again for a merge. And uh, this, this, uh. That is the reason I was taking this complete spin. Because if there is a, you know, direct uh access that I have got, then we can do it quickly. But as we have a dependency, right again, this would, this might get delayed.
+
+00:09:35 - 00:10:33 Unknown Speaker:
+
+Yeah, okay, like, Uh, today's demo call we have to postpone because we are not going to showcase the incident. I got it. Yeah, so this has been changed, right? So we won't be able to do it right now. I'll keep you posted. I think this should get sorted out by tomorrow. Or by Friday, for sure. Maybe what you can do, you can, you know, if you want to keep the call, you can demo it on E3. Okay, and then just for this service, now integration, and then this expected value, actual value. You can let them know that these are, uh, going to be deployed to the E3 environment in upcoming days, right? But anyway, I was like, I mentioned that I was planning it for like, third of February, which is the end of the spend, right?
+
+00:10:33 - 00:11:45 Unknown Speaker:
+
+So we should be able to do that, right? Yeah, yeah, um, we should be able to do it. Yeah, yeah, okay, okay. Yeah, okay. Thank you. Yeah, you can go ahead. Yeah, Sachin. So, let me just... So, what we wanted was similar to the email that was sent out for the ZODLs, right, when we were updating the API attack. So, That was... an email sent by the Lumi system itself. Can we have something similar for insurance orders, where if the pipeline fails, then from the Lumi system itself, right? We get a notification. Essentially, this is regarding the ingestion that we are doing on a daily basis. Yeah, so if it ever fails, yeah, that is where I was discussing yesterday also, right? That we can build a, uh, you know, automation for that, uh, that would require an effort.
+
+00:11:45 - 00:12:53 Unknown Speaker:
+
+And then, uh, you know, that's something we can take it up in the upcoming split. Not this print, because we are, you know, already occupied, everything has been planned for this print. So maybe let me show my screen once so similar to this email, right? That was sent out for T. I.attacking. So I believe this is sort of an embed, so something like this, if we can have right. So whenever the ingestion fails, right, we don't need to receive it every day. But whenever the ingestion fails, an automatic email is sent to us. As well as all the users of Yeah, we can do it, yeah. So what would be the effort required to set up something like this? We have 15 tables, so you know, if you, if you need a individual report for individual table, that would require a multiple effort.
+
+00:12:53 - 00:13:51 Unknown Speaker:
+
+But if we would just like to monitor, like if there is a, you know, failure in the ingestion for a particular. For those sets of tables, then that doesn't require lots of effort because we will club all those tables in a single email. But if it would be a different job for different table, then that many job, that many diagonal you have to create. Which I just don't understand. But this is something that would be less effort relative to the capability that we were discussing yesterday. Yeah, yeah, you know, this is not going for an indefinite time. Like, you know, we would be able to build it within a sprint, that's for sure. And then maybe testing department that would require another setup. Okay, it just that if you want, uh, individual email for individual table, then your effort, uh, you know, increase the refunding.
+
+00:13:51 - 00:14:57 Unknown Speaker:
+
+Although it would be a copy paste code, but still, that required, uh, testing and, you know, deployment a certain team is using, right? They should only receive an email for that is what we want, right? So across the downstream as well, right? Because right now there's like a couple of primary users, but going forward that might increase, right? And then it would be hard for us to keep tabs on who is using a table or not, right? So automatically we can do something better. Recent users or something like that get an email for failure. It doesn't matter. For that, I guess. Now, I'm not sure if this would require different capabilities for each table or if you can club them in one, but that is sort of what we would try.
+
+00:15:00 - 00:16:27 Unknown Speaker:
+
+So if there is an ingestion failure, yeah. Again, that too depends on you. If you want to make it an independent table one, we can go ahead and begin to create that independent table. Not a problem. Understood. So, we would need today's user story for this. Yeah, please create a feature anyhow. We are required a feature for insurance. Just let us know. I'm going to move the process or even you can connect with us. Uh so once we have a future and a hugest story we can start uh taking these initiative from upcoming or you need me over there. You can cover it up. Okay. So, you know, just record that session. Okay. And anyhow, this sessions are getting played now. The previous session. I have seen that recordings have came back to my meeting videos.
+
+00:16:27 - 00:18:17 Unknown Speaker:
+
+The oldest one. Oh, okay. Uh, can you share? Like? I will check once? What was that? Uh link where it was onboarding link earlier? It was not coming right that day. You have seen this email box is completely blank. Yes, but then when I have checked it out, I have said it over the same message. Only, right? You can switch with onboard. I guess no, no, no, he has pinged it as training, something like training. Okay, yeah, this is the one. So if the lazy one is running, even you don't need to do a, you know, again, this is something not available. Oh man, no, it's not there. Yeah, no, then go ahead and record it, and then maybe I'll pitch it in between and better you.
+
+00:18:17 - 00:18:58 Unknown Speaker:
+
+If you can share your screen, okay, and then record it, because in my screen you might not be able to record it. So with this woman and Nirmal, you guys can jump into some speech. Uh uh, thank you guys, go ahead. Uh, let me know what changes you are proposing? Yes, so basically, if let me share the config page, yes, feel free to drop up. Uh, yeah, you guys can join us. Yeah, in five minutes, I, I will share with you, okay?2026-01-21 RESI to MX Matching Process and Lumi DT Flow Migration
+
+Creation Time: 2026/1/21
+
+
+📅About Meeting
+
+  • Date & Time: 2026-01-21 13:03 (Duration: 3544 seconds)
+  • Location: Screen share / virtual
+  • Attendee: Sameer, Sachin, Putri, Reggie, Nirmal, Shamil (presenter), Prithvi (and others as on call)
+
+
+📒Meeting Outline
+
+
+DT flow migration & RESI–MX matching process
+
+  • RESI vs MX use case The team explained the business use case: RESI is an external application that captures users who book dining/appointments. MX (Amex) maintains Customer 360 data. The goal is to identify which RESI users are also MX customers by matching identifiers (full name, first name, last name, mobile number, email, service email) and produce a final table with matched results and derived columns (e.g., most denied over periods). Downstream teams will consume this final table for offers/communications; the data engineering team only prepares and refreshes the table (does not initiate emails).
+
+  • Source code and migration motivation Existing matching code is in Hive (on Cornerstone/on-prem). Cornerstone is being decommissioned and workloads are migrating to Lumi (GCP). To migrate, Hive SQL is converted to Lumi Data Transformation (DT) flows which visually represent the transformations and outputs.
+
+  • Matching logic and prioritization Matching is priority/order-based (not strictly binary). Examples discussed:
+    
+    • 100% match: full name + phone + email -> accepted.
+    • Partial matches: combinations of first/last name with phone, or other fields, are prioritized with thresholds (example: ~80% criteria). Only matches meeting certain business rules are retained; records failing to meet criteria are discarded. The team emphasized full-refresh daily runs (no incremental deltas), so matches can improve over time as RESI or MX records change.
+
+  • Output and downstream usage The DT flow produces a final table combining RESI users and matched MX customers. A downstream ingestion pipeline moves the DT flow output to a data warehouse table. Downstream business teams use the table for campaigns, offers, analytics; data engineering’s responsibility is to provide refreshed, correct match tables.
+
+
+Lumi Data Transformation (DT) tool — features & operations
+
+  • DT flow creation (import) The DT tool can import SQL/Hive/Spark/Postgres/BigQuery and auto-convert to a visual DT flow. Steps: choose SQL dialect (Hive chosen for this use case), upload SQL/Hive script, provide flow name/description, then import to get node-by-node visual flow. Maglian map (JSON) exists but SQL import used here.
+
+  • DT flow structure & debugging The left side shows source tables (e.g., MX Customer360, RESI source). Each node represents transforms/filters/joins; final node is the output table. Preview/Debug lets you inspect node SQL and run node-level debug. Typical DT flow here has many nodes (estimated ~25–30). Typical execution time ~15–20 minutes for complete flow in Lumi.
+
+  • Versioning and edits DT flows are versioned. Changes (adding a column, datatype changes, transformation logic) create a new DT flow version (e.g., v0.1 -> v0.2). To run a specific version via orchestration, the DAG config must point to that version.
+
+  • Common failure causes Schema/data mismatches (datatype incompatibilities, string length exceeding schema limit) can cause flow/job failures. Logs on nodes show where a step failed. After deployment, logs provide point-of-failure diagnostics.
+
+
+Orchestration — auto-creating DAGs & scheduling
+
+  • DAG configuration To schedule DT flows in Lumi, two configuration files are required:
+    
+    • a DT config file (DT flow name, version, execution mode default/debug, DT parameters, notification emails), and
+    • a DAG config file (DAG ID, task IDs [must match DT task IDs], schedule interval, start date, email notifications, retry policies). Task IDs in the DAG config must match the task names in DT config — otherwise the DAG will fail.
+
+  • Scheduling semantics The RESI job runs daily (full refresh). The DAG triggers the DT flow. The DAG also triggers ingestion pipelines that move DT output to the data warehouse (target table). Start date must be set earlier than intended run (previous day) to allow the DAG to pick up runs.
+
+  • Ingestion pipeline A separate pipeline (configured in Data Engines) does full-refresh ingestion from the DT output table to the designated warehouse table. Pipeline metadata defines target table name, refresh type (full refresh), columns, column lengths, etc. Sachin typically owns creating pipelines/target table names; DT/DAG team requests target names from him.
+
+  • Historical archive There is an additional monthly job that stores monthly snapshots/backups of final tables for history (full-refresh as well). This provides monthly backup/archival of matched data.
+
+
+Operational details, counts, environments, and hands-on guidance
+
+  • Data volume and frequency Example counts discussed: historical runs showed increases (e.g., 49,736 -> 73,736 -> 96,000 — approximate counts). These indicate periodic growth and updates; still described as “not extremely large” but full refresh is performed daily.
+
+  • Environments There are lower/dev environments (with smaller/dummy data) for testing, and production contains real data. Deploying a DT flow version saves and deploys to E1 (lower env) and must be validated before production DAG execution.
+
+  • Debugging practice Use DT preview/debug to inspect node-by-node SQL; run test/debug in E1. Use logs from the DAG and DT flow runs to find failing nodes/steps. Typical turnaround to run a full DT flow is ~15–20 minutes.
+
+  • Team responsibilities & onboarding
+    
+    • Data engineering (Sameer, Shamil, Sachin, others) maintain DT flows, DAGs, ingestion pipelines.
+    • Sachin typically creates pipelines and handles target table creation.
+    • Samir has done logic improvements (matching prioritization) and is a reference for the matching algorithm changes.
+    • New team members (e.g., Putri) will be assigned KT and small tasks (create DT flow + DAG) to learn; mentor sessions and follow-ups planned.
+
+
+Q-Track / Intelligent Data Quality Spike
+
+  • Spike objective Build an intelligent data quality tool (spike/story assigned) to detect anomalies/skews automatically via statistical analysis and light ML. The concept is similar to Q-Track rules: ingest rules, compute a focus metric (mean, average, etc.) over a historical window (e.g., 1–2 years), establish thresholds, and alert when daily metrics fall outside thresholds.
+
+  • Execution & automation Historically, Q-Track rules ran manually in Cornerstone; now runs will be converted to Lumi/BigQuery and orchestrated via DAGs. The spike: review the SQL/scripts for one focus metric (team will provide SQL), understand metric computation and thresholds, then extend to other metrics and create DAGs for automated runs.
+
+  • Next steps for spike Shamil will share one SQL/focus-metric example. The plan: review that SQL, understand business meaning of the rule and the metric, then create DAG/DT flow(s) for automated execution. KT session and pairing will be scheduled to onboard.
+
+
+📋Overview
+
+  • RESI-to-MX matching is implemented as a Hive SQL job migrated to Lumi DT flow; the DT flow performs prioritized matching and creates a final table consumed by downstream teams.
+  • DT flows are created by importing existing SQL (Hive dialect) and converting to visual nodes; they are versioned; changes create new versions that must be referenced by DAG configs.
+  • Two config files are required to auto-create/schedule DAGs: DT config (flow name, version, params) and DAG config (DAG ID, task IDs, schedule, notifications). Task IDs must match across configs.
+  • Jobs are scheduled daily as full refreshes; an ingestion pipeline moves DT output to a warehouse target table; monthly archive jobs capture monthly snapshots.
+  • Common failure reasons: datatype mismatches, string-length > schema limit, schema drift; logs allow node-level debugging.
+  • Q-Track spike: build/automate rule-based anomaly detection with statistical thresholds; team will provide SQL example for KT and tasks.
+
+
+🎯Todo List
+
+  • Sameer:
+    
+    • Review provided RESI Hive SQL / DT flow nodes and run DT flow in dev (E1) — due: 2026-01-23 EOD
+    • Create a DT flow and corresponding DAG for a small test case (end-to-end: DT -> DAG -> ingestion pipeline) — due: 2026-01-27
+
+  • Putri:
+    
+    • Go through the RESI SQL logic provided by Shamil; identify nodes that would need changes for a sample requirement (e.g., add 1 new column) — due: 2026-01-23
+    • Attempt to create/edit a DT flow version (v0.2) and validate in E1 — due: 2026-01-26
+
+  • Sachin:
+    
+    • Provide target warehouse table name and create/confirm ingestion pipeline for the test DT flow (or provide access/details to create pipeline) — due: 2026-01-24
+    • Assist on pipeline permissions and metadata (column definitions/lengths) needed for DT flow -> ingestion — due: 2026-01-24
+
+  • Shamil:
+    
+    • Share the specific RESI SQL and one example focus-metric SQL for the Q-Track spike (send SQL files / repo link) — due: 2026-01-22 (ASAP)
+    • Schedule a KT follow-up session to review the SQL and matching logic (suggested: morning next day) — due: schedule by 2026-01-22
+
+  • Samir:
+    
+    • Walkthrough of matching prioritization logic and recent changes (pairing session to explain order/prioritization) — due: 2026-01-25 (coordinate time)
+
+  • Nirmal:
+    
+    • Connect separately with Shamil to review errors/questions mentioned, follow-up discussion post-meeting — due: 2026-01-22
+
+  • Team (collective):
+    
+    • Prepare a short checklist/document listing common failure modes and how to remediate (schema mismatch, data length, datatype casts) for on-call troubleshooting — due: 2026-01-29
+
+Notes / Next steps:
+
+  • Shamil will stop recording and share SQL artifacts and repo links. Team agreed to pair for KT sessions; small first tasks assigned to learn DT flow -> DAG -> ingestion end-to-end.
+  • If any member needs production data visibility for business understanding, request access via Sachin (production read-only) or use production queries under supervision.
+
+
+Transcription
+
+00:00:05 - 00:01:52 Unknown Speaker:
+
+Let me share my screen and let me know if you're able to see my screen hope you are able to see my screen yes yeah let me record it. This meeting is being recorded. Is a application like Swiggy like, where we can, we can book our dinnings and everything, okay, so what? What we are doing here is like, we are getting RESI data, like RESI users data, and we are trying to match the data with MX customers. And we are preparing a table, basically, like the final table. Uh, so you got my point, right? Like, where we have the RESI users and we are trying to identify the MX customers who are using RESI. And also in the in this process, we are also, uh, as per the business logic.
+
+00:01:52 - 00:02:53 Unknown Speaker:
+
+We are also, uh, uh, finding something like, uh, most denied, or like, from our last one year or 30 days, uh, those those columns also like, uh. Additionally, we are adding to this table. So, if you see here, previously our RISI use case was in cornerstone system. So, as MX, in the MX, everything was going to Lumi, right? So, that's why like, so our RISI job also got migrated to Lumi. Let me see how can I, okay. So, I will explain. Uh, I will brief you, like, how we have migrated the Uh high code to bigquery, like in the Lumi, Uh high code to DT flow. Uh, so here we have an option, like you see, you can see that data transformation tool in the Lumi page, right? Like, if you go to SO Here directly.
+
+00:02:53 - 00:03:48 Unknown Speaker:
+
+We can see the Data Transformation dashboard, or we can go to manage and we can go to the Transform Transform data. So here in this way, also, we can, uh, uh, you like, go to the Data Transformation Tool dashboard. So how this dashboard will looks like is something like this. Uh, so here we have a few options like where we can create a new data Uh data flow or like. If you have any code like Hive, SQL or BigQuery or anything, we can import that and directly convert it into the DT flow. So, explore flows is like where we can explore the existing flows and explore parameters like system variables or like the parameter variables which we use are defined variables, something like that. We can define those from here.
+
+00:03:49 - 00:04:42 Unknown Speaker:
+
+So, once like as I mentioned earlier, the resume is in Hive, right? Like Hive code or SQL code. So what we have done is like, we use this data transformation tool and converted that high query to DT flow. So so as we have already high query, right? So we use the import flow here, we have a option to import any query and convert it into DT flow, so here we have selected this auto import. And if you see here, it will show something like SQL and Maglian map, like Maglian map is like JSON format. I'm not much aware of that, but like as our use case is in SQL, we utilize this option and converted this to a data flow.
+
+00:04:43 - 00:05:42 Unknown Speaker:
+
+So once we select that SQL, type is SQL, and we have to give some details like, Like, what is the flow name you are going to give to that DT flow? And we have to give some sort of description. And as well as you have to select, you see here. SQL dialect is there, right? Like in that you can see multiple options like where your queries in Postgres, SQL or Oracle, MySql, Spark, Sql, Hive, Bigquery, everything like. So here we have selected Hive and we converted that to a DT flow. So, once we have selected that one, we have to upload that Hive query or SQL query. So, you can see here the external Hive or SQL query got uploaded here. And once you do import, what it will do is like it will convert that Hive query to a data flow something like this.
+
+00:05:45 - 00:06:49 Unknown Speaker:
+
+So, do you have any questions still here? So basically, it's a transformation of data, so you, we initially start loading the data. Uh, yeah, so so what we are doing here is like, uh, we have the code in hive. And we are converting into a visual representation of a data flow, like how the data is flowing. Suppose if you see this data flow, the left side is around the source tables, some source tables like MX, Customer 360, or anything like customer data or anything. So those are the things how our business logic is flowing. So if you suppose, like, if you see here from the first two source tables, we are trying to convert some data, uh, like, we are only from those tables, right? Like, Then it is creating a further transformation.
+
+00:06:50 - 00:07:51 Unknown Speaker:
+
+And from there, if you want to do some filters or transformations, we can see the next flow, how this flow is actually moving. And finally, if you see the last node, that is the final output, the final table you can call. Okay, as I mean, literally, so okay. This is data transformation, and uh, so why is this? Hive is coming into picture, so why can't we write one something? Uh, okay, the data need to be flown like this from here to here. No, there is no particular rule that we have to use Hive only since our user is already existing Hive. And we have the High code, so we have transformed that Hive code to DT flow. So here we have lot of options, like if your coding is in Spark SQL, you can use that and you can convert that into a DT flow.
+
+00:07:51 - 00:08:45 Unknown Speaker:
+
+Okay, okay, there is no like we are. We are not saying that like Hive is only the option to convert it, but like, as our use case is already there in Hive, we just replace that option. So, as part of this, we are getting Hive queries and migrating to Lumi. Suppose like there is a new use case, you got a new use case and that is something like a post SQL file and they want you to convert that into or migrate it to Lumi to a data transformation tool. Then what you can do is like, you can upload that post Sql, sQl here, that file to here, and you can convert it to a DT flow. Okay, once that is done, they won't be running that hive program there.
+
+00:08:45 - 00:09:56 Unknown Speaker:
+
+In the big data, we are not running that time, we are running the DT flows only, but the whole hive thing. No. Existing Hive is running or we'll stop that completely? Yeah, we will decommission. As I mentioned, since Cornerstone is actually decommissioning, maybe next year or this year, so everything is moving to Lumi or GCP platform in MX. So in that way, we have migrated this one. So, I will show you how our resi one is there, like resi dt flow is there. So, let me show you the dt flow once and after that I will go to the air flow, how we orchestrated that DAG. The example that you have shown, This one is for just converting a query from height to some other language. Like On duty, as you have mentioned, not the Tatas, not only the Hive.
+
+00:09:56 - 00:10:54 Unknown Speaker:
+
+Like any file. Yeah, just for, like, converting the query from one language to the two. Duty, right? Yes, thank you. So, currently, all our use cases are written in Hive only in the on-premise system that is constant. Yes, yeah. On premises we are using MX, we are using high data warehouse, so or in the Lumi, we are using Google Cloud. Google Stories, Sorry, Google Stories. Okay, so if you see this one, I'm not sure like you're able to see, but like this is a big one. The transformation is big, little, big, and so this is how the transformation is looks like. And here also, we are finally creating a final table, like there is Z users and MX users, like both combined data you can see in this final table.
+
+00:10:54 - 00:11:52 Unknown Speaker:
+
+If you want the code, we can go to Preview and go to Debug here. It will show node by node queries, like you can debug here, like each node, what it will do. Okay, so I mean, if okay, you migrate some particular high code, high base QL here. And how how we will actually run. I mean, looks like this is so complicated, right? So because it's connecting to multiple tables and joints, it is doing so. It's it's very complicated. So how would we? How do we debug it? So it's. It is going to take a lot of time to go through each query and make sure it is up and running. Even in the Lumi side also is it. Yeah, like, no, it won't take that much of time, maybe like 15 minutes, the entire query will run in a 15 to 20 minutes of time.
+
+00:11:53 - 00:12:45 Unknown Speaker:
+
+So like, yeah, so if you know the basic knowledge, if you go through the code, like how they are matching the data, like the RISI customers and MX customers. So once you have some idea, like once you get a requirement that you need to add a column, like where, Uh, if if the RESI and MS customers are actually having the same match, you have to give a hundred percent of match. In a separate column. Then you have to go to the Put to that particular node and you can add that column. And you have to test it in E1 like you have to deploy it in E1, once you save it, it will directly deploy to E1. So so after that we have DAX, so once we trigger the DAG, it will actually trigger this DT flow and run the query for us.
+
+00:12:45 - 00:13:43 Unknown Speaker:
+
+So there we have logs, and and the logs you can see that at which point it got failed. One question, Sorry, basic question, I maybe I missed it. What is RESI customer and Amex customer here. So, see MX customer is like basically MX customers, right? Like who have purchased the credit cards are like who have the accounts in the MX. Likewise, the RISI users are like who are utilizing or using that app application, RISI application to book appointment or to book the dinnings. Okay. So, what we are trying to do is like we are trying to identify the resi customers and like we have the MX customers data anyway we as we are MX. Yeah. Right, but we don't who are resi users.
+
+00:13:43 - 00:14:27 Unknown Speaker:
+
+So, what we are trying to do is like we have the names like we have the like we are getting the data resi data to a particular table in our platform. So, what we are trying to do is like we are trying to read that each customer name. Mobile number, phone number, or like email address or service email address. And we are trying to match that data with our MX data, okay data, or we we are leaving that data. No, so suppose we have five records, and in and in this five records. You may be matched with a hundred percent. Like full name is matched, last name is matched, and phone number is also matched, and email address also match.
+
+00:14:28 - 00:15:18 Unknown Speaker:
+
+But there is another customer who like where the first name is not matching but the last name is matching and phone number is matching and email address is not matching. And there is another customer where the only full name is matching but rest are not matching. So this way we have prioritizing like and we are constructing a table like. So we are supposing this five records like first come customer anyway everything is matching. We are sure that that is the match data. And in the next four records, again, we are trying to check whether it at least matched for first name or last name and phone number. And I suppose sometimes what happened, as I mentioned, only first name or last name will match and phone number and email address will be matched.
+
+00:15:18 - 00:16:17 Unknown Speaker:
+
+So the criteria here is like not 100%, but like 80% matched. Something like that. So we have periodized an order and accordingly we are trying to match and return the data. So this is one use case, or this is how all the use, I mean, only so. With respect to RESI, okay, complete RESI is this one only? We get some records and we match it with the existing AMEX records. If the customer information is found, then we trigger out something. Is it some mails or something? Is that? Yes? If we, if the job got failed, we are trying to, uh, like, we will notify that, uh, business that today's daily run was failed. Okay, so only one job in raising, nothing else. Yes, okay, okay, got it, and we have others. Yeah, yeah.
+
+00:16:18 - 00:17:25 Unknown Speaker:
+
+So what is the like, uh, consequence of this? Like? If you? Uh, let's say some of the records are not getting matched, or let's say 50, 60 matches there, so you just store those records or do something with those reports. Now we only get the match data only. Like we have some set of business role, like, uh, this one, then, uh. So based on that we are trying to get match the data and we are getting that. Yeah, if it is 100% not matching, then we are not considering that. Okay, okay, okay. So if 100% match, we're just getting the data and if that isn't the case, then we just discard it, right? Yeah, yeah. Okay. So this is our daily run. So we have logs here.
+
+00:17:25 - 00:18:35 Unknown Speaker:
+
+So here if you see, so node by node are like the chunks we can see in that here, right? The preview. So you can find these in this logs and you can see that got completed successfully, that step. Okay, you got my part right. This is the query. This is trying to execute that chunk and it got successfully ranked and it will go to the block three. So how many blocks are there like that that I haven't checked, but yeah, it may be around 25 or 30. Okay, yeah, I have to check that one. So will there be any failures for this job? FS What would be the reason? What could be the reason? So, like, suppose if you are trying to add a column, and, uh, if it is a, uh, you are already added that column.
+
+00:18:35 - 00:19:35 Unknown Speaker:
+
+But the input we are getting as an integer, or like, if your column is an integer. And it is coming as a string or datatype server or something like that, you may get. Okay. Or like if you have a column length with the column length that the character should get only 50 characters. But like if you receive the data like 100 characters length and that length was not matching with this schema length and it got and it will fail. So those cases we can see till now. Sameer, Like, when did the like? Let's say there are some tables are there in the hype and in your Google cloud. Also, so that we can take those questions in the last. So that okay, so so till now, we were able to see. You know that how?
+
+00:19:35 - 00:20:21 Unknown Speaker:
+
+At least you understand how to create it like a DT flow based on a existing file, right? So once we have a DT flow, we have to, what we have to do, like we have to execute that and we have to schedule it for a day or like daily base or monthly base based on the frequency. So for that, what we are doing is like we need a DAG, which is this one, Airflow DAG. So to auto create this DAG, like we have to configure two files. One is like config file and one is like a DT config file, DAG config file. So what is this? This DT config file will do is like it will. Here we will give what is the DT flow name and what is the version you want to.
+
+00:20:21 - 00:21:07 Unknown Speaker:
+
+Trying to execute and execute mode, whether it is a default or debug mode. And we have to not. If you want to notify these values to the team, you have to give those email address and everything. And the parameter or the user variables you have you want to pass it and use in our query, this is a simple one. Like, you know, if you know, once you created a DAg, it will. Here, you can identify the version number and the flow name. This is the primary where or like the default values we have to give. So here you can see this uh, default name and this one, right? So this is a task, uh ID, the task name or task ID. Okay, you just need to give the same value in the deck.
+
+00:21:07 - 00:21:57 Unknown Speaker:
+
+That means we are interlinking this DT flow and DAG one. You go here, you are giving a DAG ID. And the tasks if you see here the tasks, so here we want to run this task, so this task will be matched with this task name. Okay, so if it is not fine, it will fail. And here you can see. That's like we are giving DAG ID and schedule interval, which on which schedule? Uh, at which time you need to schedule, whether daily or monthly or weekly. Something like and start date should be suppose you are trying to execute from tomorrow, this should be prior to this tomorrow date or today date. That means at least you have to give two days or one day back, that means yesterday date, you have to give clear to clear dates.
+
+00:21:57 - 00:22:47 Unknown Speaker:
+
+We have to give, that's it. There is no specific value mentioned, but like, we have to give it as a previous, uh, day, or like a pre pre-date value. So, the job gets executed when there is an input file or it will always execute daily once? I did not get your question. So, when, see, you said there is an input resif ID that need to be compared with our Amex data, okay? So, this file... No, no, no, no, no. It is a logic in the SQL query. What I am trying to tell you is like the entire query here written here, right? Like if you go to the preview, Yeah, you can see here they are matching the data, so they are trying to retrieve the data from RESI.
+
+00:22:47 - 00:23:34 Unknown Speaker:
+
+Yeah, and so it is user you got, and after that, uh, so it's connecting to the easy database itself, is it? Yeah, so we have a table and we have a customer 360 MX data here. Okay, so based on this data and RESI data. They are doing all these matchings, all file, all phone name match and everything, mobile number match. Okay, they are doing everything, bring every aspect of matching. That that's the thing I am trying to explain. Okay, this is the data flow. DT job, right? Yeah, DT job. So now what I am trying to say is like how to configure, like how to orchestrate or schedule the job. So we need to create a tag, and we have to create, we have to create a tag, something like this, and we have to schedule it right.
+
+00:23:34 - 00:24:22 Unknown Speaker:
+
+Okay, so. In this Lumi platform, we have an option to auto create a DAG and schedule it. So for that, we have to configure these two DAGs, so configs. As I mentioned, one is for DT config where we will give all the DT flow details and one is like DAG details, like what is the DAG name you are trying to give and what is the schedule interval that you need to schedule it for. Okay. And and you know, like, if you want that email to be raised on success, you can make it as true or false, and failure you can make it to what false or like. If it is failed and it is trying to retry, then also we can schedule it, like we can also configure it to Horizon email notification.
+
+00:24:22 - 00:25:17 Unknown Speaker:
+
+So here, this one should be the same task name task ID, which we are giving in the DT DT config file. So this is the uh thing we have to remember, and this is the other task where if you, so what here we are doing is like, if you see here there is a target table name, so this is a warehouse table. The final output of the DT flow, right, like as I shown previously, there is a final table, this one. So this data is actually migrating out, like moving this data to the target table, which is in data warehouse, which is this one. For this, we have an ingestion job always running like we have to configure it like so that what it will do, it will take the data from here and it will move the data to this warehouse.
+
+00:25:17 - 00:26:09 Unknown Speaker:
+
+For this, we have to configure a pipeline. So I will show you the pipeline, how it looks and so that you will get some idea. So the target name should be given here. So if you see here the same trigger ingestion, you can see here, right? Like, this will trigger that ingestion job. And it will migrate all the data which was created by the DT flow, like the final table of the DT flow will migrate that data to, UH, data warehouse. If you see here, we are trying to migrate these ones, like update or move the data to the data warehouse table. These many records and the pipeline, if you want to go see the pipelines if you go to the Data engines and view all engines.
+
+00:26:09 - 00:27:32 Unknown Speaker:
+
+For RESI ODL, we have a pipeline and I will show the pipeline how it looks. So this is the one resume X cursed clone is there, right? This is the pipeline name, and if you see here, these are all the pipeline details, so this is the metadata details. Like how the uh, so see, this is the target table name, and this is a type of full, full refresh. And if you see if you go below, you can also find what are all the columns and SD groups are given, and what is the length of each column. You can see and all the details will be there here. So I think like once you have like. If you look for any other use case from like by creating a pipeline, or like generally, these pipelines will be created by Sachin.
+
+00:27:32 - 00:28:31 Unknown Speaker:
+
+This task will handle like Sachin will handle these types of tasks. And once we have like, configured these and created these DAGs. And we have to take the target table name from Sachin and we have to give that name accordingly here, so that our ingestion will try to move the data to. I am missing actually some connecting points, I don't know for others, but uh, okay, I asked some maybe dumb questions. So there is, um, there is an uh query, okay, the how you carry that you migrated to Lumi, and that query is there, and uh, once we migrated it, that is an auto query. That is a DT flow, we have a DT flow, yeah, so we have a DT flow that is fixed, right? Okay, even if we change something, maybe you will have multiple versions of it.
+
+00:28:31 - 00:29:15 Unknown Speaker:
+
+Yes, okay, so that will keep changing is it will not be constant, it will keep changing. Got a requirement, and if you so suppose, it will start from zero zero point one. If you need to add a column to your node so you can click on that node. And, uh, you can see there there is a option to add it, and you can also write a code like it want. Uh, that should be into two office, another column, something like that. And you create a new column and the version you and you do save like. It will create a new version with 0.2, and for that version, we need to create, uh, so if you have a question, change there, then to creating a deck, you already have it. As I mentioned, we have to configure two config files.
+
+00:29:15 - 00:30:01 Unknown Speaker:
+
+So you already created for 0.1 version. Now what you have done, you have added a column and you have another version like 0.2. Now you have to update this file with 0.2 so that this tag will run this version. Okay, so when you run this program, then it will create one more tag. That is, with version 1.9. Yeah, the drag remains same here, pointing to the version is different, that's it. You will have only one tag for one DT flow. But if if there is any version change and you want to try to execute that version, you have to specify here which which version of that DT flow you have to run. Okay, so once it is executed, so it will give you a report, is it okay? What is matched and what is not matched?
+
+00:30:01 - 00:30:48 Unknown Speaker:
+
+No, it won't, it will, so yeah, it will give a report like, but like, that is little different. Like not matched on match, not something like that, we have some name and email, match ne Nep, something like that. If you go through that code and once you run that, like, final table, okay, uh, you can see that as it is in recording, right? Like, I just don't want to show it. But if you want, if you want, you can go to this target table name, right? Like, if you execute, select Star and limit with 10 resume excursed, you can either. You can see the data so that you will get some idea. Okay, there is no lower environment for this, is it. Now, you have the lower environment also, but like it will have some less data and it is a dummy data.
+
+00:30:49 - 00:31:38 Unknown Speaker:
+
+Okay. You get, if you want to get some idea like at the business side, like what type of data it is getting, then you have to go and see the data from production. So, then you will have better understanding of the data. So, Reggie, so what are we achieving with that by matching, sorry, it's related to business. My question is related to business. So we matched, okay, we found the customer. So what type of mail will trickle to him? No, uh, so we'll have that, uh. Resi users also, right? Like, maybe if you want to do some offers or anything, you maybe you can find the best customer over there. And the downstream team will take that, use the data and they'll perform some business logics and everything on that table.
+
+00:31:38 - 00:32:31 Unknown Speaker:
+
+So basically, we are finding the if those regime customers are our customers, and we'll give offers related to regime. Oh, we won't do anything. The downstream team, Yeah, I understand. Now we they are matching and giving it to that list to them, they will, uh, give that the particular mail to them. Okay? What we are trying to do is like, we are storing that data, a particular table, and we are notifying that every data was like, refreshed and updating into this table. That's it, the downstream, that team, what they are doing is like, we like. We haven't no idea on that, but like, they will utilize this data for their business purpose. Got it, got it. And why? These columns keep changing because they are coming up with new new, uh, columns, is it? RESI?
+
+00:32:31 - 00:33:21 Unknown Speaker:
+
+Resi is coming up in new columns. Suppose if you based on that existing data, they may to calculate maybe for two years of most denied. When you are like, location or like, maybe you have, you will book that dining. Maybe by the URL, or like by using the application, or like direct by a call. Something like that, right? Like, uh, and you have, like, uh, people made, like, uh, deny that, uh, maybe once book it got denied, like they may be denied, right? Like maybe with some other ideas or something like that, then so that, like, uh, business team may need that percentage of denial or anything. So that should be stored in a separate column so they will come up with some other requirement.
+
+00:33:21 - 00:34:16 Unknown Speaker:
+
+So this column should be needed for us so that in the final table, so the downstream team will use that column for other something like that. Okay. But Shamir, if we are having access to RISI database and we have access to NEMX, so once the customer is matched, do we store any information related to RISI in our system? We already matched this customer with our database. No, no, no. We are not doing that. Because this is a full refresh. Suppose, as I mentioned earlier, based on the percentage criteria, we are matching. Suppose there is a customer or that customer match with only, uh, last name and the phone number. Maybe in the tomorrow or like. One month later, he updated his profile by with the full name and as well as mobile number.
+
+00:34:16 - 00:35:09 Unknown Speaker:
+
+In that criteria, what it will do like it will match with hundred percent, right? Okay, so that way we will every time we are full, uh, doing the full refresh. Like. We are running the entire process and we are trying to match the data and we are updating every day. We have the fresh data, like fresh match data, so everyday lazy data is a fresh data for us. Yeah, and how many entries? Usually? I mean, any idea? Oh, how many millions of data? I haven't actually monitored that, uh, but like, it will be few only, like, not that much, but like, as, uh, as we. As I mentioned, it's a full refresh, right? Like, maybe, uh, it will get God updated, or maybe it will get new records, right, like, uh, so it's little like.
+
+00:35:09 - 00:36:12 Unknown Speaker:
+
+I never noticed that count, actually, we can notice that like today, it is like this much of count, right? Like maybe once tomorrow run was completed, we can see check and I can see, suppose, okay. Yeah, let me see if we can. Just a rough count, it doesn't need to be the same. Because I wanted to understand how many such records comes daily that we need to map it with our system. See here, this is something like four days back. So here the count is something like that, this 736. And after that, it got updated to this number, 236. Okay. 4, 6, 4, 9, 7, 3, 6. 4, 6, 4, 9, 7, 3, 6, right? 4, 6, 4, 9. See, 4, 6, 4, 9 means, like, suppose let's check only the last five digits. 49,736.
+
+00:36:12 - 00:37:10 Unknown Speaker:
+
+Yeah. And if you go here, 73,000, like, means around 23,000 data was, like, data increased. And after that, we got 96,000. And from last two days we don't get a new new data, but like, maybe there is a chance that already existing data may be updated. So this counter obviously will be increasing. So we will only take the differential data, or we run it on the complete data again, complete data. And that's why I'm saying, full refresh. Okay, okay, got it okay. So try to create a DT flow and try to, uh, create a uh, dag. Like if you were, like, if you have, uh. Like if you are having a free time. So that you will have get more doubts, or like, uh, to. To actually interlink this DT flow and the airflow deck?
+
+00:37:10 - 00:38:11 Unknown Speaker:
+
+Okay, also, let me stop the recording. I I think apart from this, if you have any doubts, maybe we can take it in the off record. Sameer, what was the frequency for this job to run? Daily. Daily. So daily we are comparing all the Amex customer records with all the WG records. And that's the job of the duty flow. And the DAG is just to trigger the duty flow, right? Yeah. Okay. And there is also another job which is storing those results into another table. That's a history job like which we such and just spoken, right? Like that is like, we are storing monthly data to a separate table. Okay, monthly data we are storing into that separate table. The pipeline that we have shown, yeah, yeah, not that pipeline, that pipeline is for this one.
+
+00:38:11 - 00:38:56 Unknown Speaker:
+
+We have another job for Reggie, but that job is actually for monthly, monthly store like we are retrieving monthly data and storing monthly. Like it will trigger for every month 28th or something like that. No, what is it? Again? It's a full refresh only, right? Full refresh of data, right? So why do we need to run it for a month again? So they need the data to be backed up at least for a month, what data that is the match data or the RESI data, the final table which we are creating, right? Like, okay, okay, that data, okay, suppose from, uh? In the first day you have 100 records, but like, in the next 30 days you your data got updated to 30, 300 records.
+
+00:38:56 - 00:40:03 Unknown Speaker:
+
+And that entire 300 records we are storing in a bag or taking every month back up to your table. Okay, duplicate values also duplicate data. Let me stop the recording. Yeah, we are getting, uh, for suppose the first month, one customer will come to the restaurant and maybe he will come on after three months we will get the data. Actually, uh, so these are all comes under the business, you are completely going to business law. This one, uh, since we have taken the like, we haven't, uh, like, wrote the code like from the scratch. Actually, we just got that and we orchestrated, like, orchestrated our schedule, this job. And we have some, like, very minimal knowledge on the business side. Like, maybe if you go through the code, you may get to understand, like, how it works.
+
+00:40:03 - 00:40:54 Unknown Speaker:
+
+But like, basically, we are actually trying to match the data and we are applying like, getting some business logic should be applied. And we are getting some new columns like, what is the denial ratio and what are who are? All the customers are the best customers, something like that. So for that you have to go through the code and you you need to understand like each and every week. So if there is no changes to the columns or anything, we are not doing anything. It will be regular job that will continue to work. Yeah, but like from next, uh, spring time, most probably in the next week. Also, like where you may get some user stories on ResI. Okay, as mentioned by Sachin, So, yeah, so it means we're adding some columns that we are we are interested in.
+
+00:40:54 - 00:41:44 Unknown Speaker:
+
+Yeah, so we have to understand the logic, and we have to add that, incorporate that new logic to this existing flow. And we have to move to production once every day. Yeah, I mean, this was not in production right now. This is the production. So once you got a new requirement, that should also go to production, right? That's what I'm saying. Okay, okay, okay. So the new requirements means they are changing the way you are matching the data. They might be matched to some other columns and store it in a new column. That's, let's see. Last time we got a requirement like to add another column. Check out the state details. No, observe it. You got my point, right? So we have added this too.
+
+00:41:45 - 00:42:45 Unknown Speaker:
+
+Maybe in the next time they want to add that city name and everything like which we had in the MX site, then we have to add this. Or like we have, if they have come back, like that character's length of data, we need to extend the limit, then we have to extend that limit. If you are getting a failures frequently, something like that, like recently, we don't get like only one time, we have more. And uh, once we after moving in this to Loony, we got like, roughly we got two requirements or three requirements, that's it. Wow, thank you. And we have another guy like Samir who's like a little experienced guy, that guy. Actually what he done is like, he actually, uh, perform some like he operates. The code of matching like previously, it was in a different way.
+
+00:42:45 - 00:45:09 Unknown Speaker:
+
+Now, uh, he actually prioritized the order, like how to match and everything Samir means. Apart from you, somewhere, or. So, try to go to the logic and I'll show you this. Check that code also, like the business logic code. How they are trying to manage this is very starting right. Like, I, I know it is like a little confused or like too many things in there. But like, once you start with this simple TT flow, yeah, let's try to start with a smaller chunk, of course, and so that you will get some idea. And if you also hadn't it out, uh, we can, like, if I don't know, also, like we can together, like we can commonly sit and understand. Like, what is the logic and what is exactly they're trying to do so?
+
+00:45:09 - 00:46:42 Unknown Speaker:
+
+Do you have any other questions? Like, or else you can? Uh, so I think Putri is going to be work on RESI, or like, I don't know for me, he told me. Yes, yes, yes, this one is that resiliency. No, no, the contrary is different thing. Uh, like, I think we have, maybe I will. I can schedule a call today or tomorrow tomorrow morning. Yeah, please. Yeah. And since you are anyway, stop recording. There is one story assigned on my name. Let me share. It's a spike story. I'm already recording, I guess, right? Yeah, yeah. You are going to share your screen? Yeah, yeah. Can you see? Yeah, see this? Yes. Okay, yeah, they understood, like, that's a spike user story. What? In the next day? Tomorrow morning?
+
+00:46:42 - 00:47:38 Unknown Speaker:
+
+The first first thing we can do is like, I will explain you what they are trying to do. The SQL part, so I will give the SQL and you just go through that code. Maybe by today or tomorrow evening or like something like. I will give you a task so that once you got understanding of that SQL, you can start working on, like doing that chunk of code. Okay, so I don't know. Create an intelligent data quality tool, which through statistical analysis and machine learning identify the right metrics and methodologies. Yeah, Okay. Can you just brief, I mean, I don't know, what is called for? Two minutes, maybe. Yeah. So, basically, what they're trying to, like, you know the Q track, right? Like, we are getting some set of rules, if you see. Yes.
+
+00:47:38 - 00:48:32 Unknown Speaker:
+
+And based on that, we are doing, right, like, and alerting the business team that this value is not matching with the actual value and expected value. Right. Something like that, right? Like in the quantum. What we are trying to do is like, uh, so first initially we get a new rule. There is a way where they, uh, where, uh, they will. We receive a route and business team like Anand and Rajna, what they will do, they will review the rule. Uh, whether this rule should be go to the like, we have to do it or not. Like, so that once you get an entry of a rule, what we will do? We will analyze that like that rule and suppose there is a rule where in a specific table or a column.
+
+00:48:32 - 00:49:30 Unknown Speaker:
+
+With this filter, we have to do a focus metric of average or mean, like, I don't know how this focus metric is deciding, but that is also we are getting as an input. So for that they are already given our logic. We are based on specific metric. Suppose there is a metric with mean. So we are finding an average for that entire period, like, suppose for last one year for that rule or metric. ID. What is the average value or other value? And we are creating a threshold. Suppose, uh, the value of the value aggregation values. The mean value should be in between, uh, minus one to one, or like 1 to 10 only. Okay. Then you like, now daily run. If the value is actually not in between that minus 1 to 1, or like 1 to 10 ratio.
+
+00:49:30 - 00:50:30 Unknown Speaker:
+
+What we are trying to do is like the data skewness, like suppose there is in the entire year, maybe in the December, the data. Maybe you have more variation like purchasing or something like, uh, maybe maybe like December. Generally in U.S areas, the data is like, uh, purchasing is more right like offers. So then in that case, what will happen? The data will be very and so that our thresholds may be very also right for the last long month in that. So when we run our particular algorithm, it will check that threshold. And if it is meeting that threshold, it is fine. If it is not, they're alerting it. Basically, that is like something like instead of checking manually, they're checking automatically and alerting that the data skewness is there.
+
+00:50:30 - 00:51:21 Unknown Speaker:
+
+Or like there is a big variation in the data. Something like that. Q-Track, you have a lot of rules for this one also. Yes. And the execution? As for the business logic, maybe I need to need to get like, more like. I have a knowledge on the coding perspective, but like, on which data, or like, what is this? D2 rules are like, actually representing that. We need to get more idea. Since we have started from last two weeks only, or like last one month, we have started. But like, that is completely automating the process. Only like they have the code, but isn't like they are running manually each, uh, each code. Now is it now? Now it is in GCP, okay?
+
+00:51:21 - 00:52:16 Unknown Speaker:
+
+So we have created a DAX for that and scheduled it like you each, uh, for the last two years or one year, it, uh, we have to run that, uh, for each pool, something like that. So, again, my jobs were present in Cornerstone previously. This one, Yeah, maybe, yeah, they used to run in Cornerstone only. But like for us. Like they've given the code directly to move to write it in like schedule, it in Lumi only. Okay, understood? Okay, yeah. I have changed a little bit, like based as per the big query, but like, that's not like a big deal. I guess. Very late, like based on the that is done previously in high right? So maybe some obligate, like APIS or like functions may be having a different format, like in the query, right?
+
+00:52:16 - 00:53:18 Unknown Speaker:
+
+Those changes I have done. Okay, okay, yeah. Tomorrow what we can do is like, I will, uh, I will explain you the SQL query, uh for, uh, suppose? There are four, four focus matrix, I will explain for a one matrix so that you can go through for the other matrix and you can. Once you get some knowledge, right, like, then you can start creating the DAG, try to create the DAG, and I will split some. I will give some little work to you so you can try to focus and run that, like, develop that code. Sure, sure, yeah. Nice. But if you, I mean, based on what you explained, I feel like your track and control similar only, but little machine learning algorithms like the mean and you said, right, the average. Yeah.
+
+00:53:18 - 00:54:16 Unknown Speaker:
+
+So more little, this one, algorithms are being executed to find the, yes, otherwise the procedure is safe. Yes, why they are running these is like something like they are letting before anything happen. Like you got my point, right? Okay, okay, okay. In that case, in Q-Track, it is something that happened and we are reporting it. In this case, we are alerting them that something could arise. It is a future step. Yeah, something like that. So I need to go through that little bit like, and I have to understand in the business perspective also. I just understand as per the code, but like, I need to understand why, how, this, how, like. How have they have defined this rule and what this rule actually indicates in the background? What they are trying to do?
+
+00:54:16 - 00:55:11 Unknown Speaker:
+
+We need to understand a little bit so that we'll get more understanding on that. As of now, I can explain you the at the code level. And yeah, we can, uh, start tomorrow from tomorrow, like, uh, and do some KT on that and so that you can pick some work. And uh, yeah, if you, if you, if you got to know something, maybe we can share the, uh, knowledge between us. So that sure, sure, yeah, yeah, thanks for. Right now, like currently, I'm dealing with too many things, though, that's why I'm not much concentrating on that. Yeah, I need to concentrate on that business logic also. And what is the code base for Contra? Can you think that I'll just check out and go through? Meanwhile, tomorrow anyway, we'll connect. Yeah, yeah, sure, sure, uh, okay.
+
+00:55:11 - 00:56:20 Unknown Speaker:
+
+Let me share. The previous one only like, uh, so the latest one? I haven't, uh, moved to that, uh, that one, like, Uh, to the repo. I am doing some changes. Let me share you that. Okay, let me let me check and share with you. Okay, it's a Java code or a Python code, man? Those queries are so big to understand, I don't know how long I'm going to take. If it is a Java. It is simple math, some functions, some variables, properly defined. Yeah, that too. We need to have understanding on table names also. I don't know, so yeah, yeah, I understood, like I completely work on data side only. Okay, so I am. Then these guys are like Java, and then and also we are doing on Python, so I am also aware of Python.
+
+00:56:20 - 00:57:27 Unknown Speaker:
+
+So yeah, okay, so mostly SQL and then Python, not Java, Python, Java, you know. Now there is a new use case where they are doing for ace, right, like Ace composer, though, that will was like, mostly the Java, only. Okay, mostly, completely Java. In on-site, everyone will work with the Java only. Then take me also when I'm there. I'll take the next flight. If Trump backs up, it's no problem. Trump will not allow. I'm cool with it. What is that? He is a composer. Can you tell me that? So, that is also something like a data flow. Actually, here we are representing SQL query. They are representing the Java code. Okay, that's why multiple functions they will write and then in the flow they will call those functions. I mean, the endpoints. Yeah, services.
+
+00:57:27 - 00:58:36 Unknown Speaker:
+
+Services is nothing but Java classes. And there are more like pre and post services. Like where suppose you want to run a service. But before that, you need to do something like, uh, retriever data, or like, you need to check something. Those will go to the pre-service classes or something. Yeah, I saw that actually KT was given. So there are multiple steps in that particular flow, so they'll simply call those, uh, java endpoints, okay, and they'll create a flow. Yeah, yeah, I, I remember. Suman Reddy Kotha was showing me that. That's same, right, Suman? Oh, yes. Okay, great. Okay, I think enough for today. I'm exhausted. Thank you so much, Shamil. Nice getting to us. Thank you, Shamil. Thank you. Thank you so much. Thank you Prithvi. Yeah, bye.
+
+00:58:37 - 00:59:03 Unknown Speaker:
+
+Nirmal, do you have, do you face any errors, like do you need- Yeah, yeah, I will connect separately somewhere, just right after this. Okay, do you want, like, then Prithvi and someone you can- Yeah, okay. Thank you. Actually, this will take a second to share the screen. What?2026-01-22 Access Issues and Data Correction Strategies
+
+Creation Time: 2026/1/22
+
+
+📅About Meeting
+
+  • Date & Time: 2026-01-22 12:38 (Duration: 2088 seconds)
+  • Location: Virtual (call/Slack)
+  • Attendee: Anand, Aman, Sachin, Samir, Raj (referenced), Sristi, Kundan, Athar, Saurabh, Bhagwan, Sindhuja, Nirman, Ather, RICHna, plus others (product, SRE, LDOT teams referenced)
+
+
+📒Meeting Outline
+
+
+Access & Epic / Workspace Mapping
+
+  • Epic/workspace access issue Discussion that certain epics (e.g., US Consumer / Insurance epic) are not accessible for some members. Aman and Anand investigated: appears to be an enterprise LPM/project mapped incorrectly which prevents access for users without enterprise LPM1 access. Some EPICs visible only (Lumi Migration, Unified Marketing Data Layer, Global Dining).
+  • Proposed remediation Options: 1) grant enterprise LPM1 access after short navigator training; 2) request Raj to create/assign the required EPIC(s) to the US Consumer Insurance area. Interim approach: use production-support workspace so Sachin can log and track effort; create a cloned epic/task and remap when Raj provides the new epic. Anand to initiate chat with Raj to expedite new epic creation.
+
+
+RISI MX Test / Data Correction (DCU) & RFC
+
+  • Routing to SRE for DCU RISI MX Test 61 routed to SRE for data correction (DCU) involving encrypting columns (state and jail). Unclear whether SRE will handle pre- or post-RFC data migration/handling.
+  • Backup & existing data Team already backed up two months of data. Concern: if SRE handles DCU and keeps existing data intact, it avoids re-migration. Need clarity on their approach: backup, re-ingest, or DCU in-place.
+  • Next steps Samir to set up call (requested tomorrow ~3:00 PM IST) with SRE and relevant engineers to confirm process for handling existing data when metadata (RFC) is promoted to E3. If SRE commits to handle by Tuesday, proceed; otherwise RFC promotion may be delayed (pushed to Wed/Thu).
+  • Incident assignment & approvals Incident assigned and LDOT approval received. Team to verify incident details and track resolution.
+
+
+Build/Demo / Environment Promotion & Insurance Validation
+
+  • Build/demo timing First part of RISI build ready; demo planned upcoming Tuesday for Anand to validate; after validation, will promote to next environment. Remaining work in progress.
+  • Insurance validation Validation in progress; results being prepared and communicated. No questions raised during meeting.
+
+
+Human Task Creation / DQIM & Incident Flow (ACE, ServiceNow, Email notifications)
+
+  • Human task UI & justification alignment Issues observed in DQIM human task UI: justification box overlapping, expected value display issues. Athar to discuss ordering/alignment with Bhagwan and Saurabh; Kundan to follow up and fix UI alignment.
+  • Incident creation flow Demonstrated creating an incident from a true positive case in ACE → ServiceNow. Incident description is auto-populated from API (includes DKID, table name, variable, actual/expected values, justification). Some fields are not editable via current flow; team can propose changes.
+  • Email notification enhancement Current process does not send email notifications to owners on true positive incidents. Proposal: add an email utility bundle into BPMN so an email is triggered on true positive incidents. Kundan’s capacity to be reduced on self-serve tasks so he can implement email utility.
+    • Email should be configurable (properties file) — don't hard-code recipients or content.
+    • Retry mechanism to be implemented for emails (same pattern used elsewhere) to handle transient failures/TLS issues.
+    • Add condition so only true positive incidents create ServiceNow tickets/email (fix existing incorrect bypass).
+    • Expected delivery: E2 readiness within a couple of days; full wrap-up within 2–3 days (taking into account Monday holiday); target roughly by Tuesday/Wednesday.
+
+
+Incident Handling Demo & Troubleshooting
+
+  • Demo and troubleshooting steps Walked through reserving tasks, marking True Positive, submitting and waiting for process bundles to complete. Team generated an incident (ticket ID shared via Slack). Minor UI filter inconsistencies noted (Active/Completed filter).
+  • Incident content changes Team to propose exact modifications to incident description — screenshot or list to be provided to devs to implement. ServiceNow portal URL shared for cross-checking.
+
+
+Rally / User Story & Task Creation Governance
+
+  • Accidental deletion / improper creation A developer accidentally created a user story (instead of a task) and changed parent/child relationships, causing disappearance of original product-created user story. Sindhuja, Samir corrected by adding the story back to the sprint and adjusting story points (set to 5 originally).
+  • Governance reminder Developers must not create user stories in Rally; product team or designated leads (technical EPIC owners / Max / Anand) own story creation. Developers should create tasks under existing user stories. If placeholder work is needed (e.g., production support monitoring), create a placeholder task (40 hours) under correct user story and then split later.
+  • Training/demonstration Anand/Sindhuja will give a Rally walkthrough and how-to create tasks (separate session/call).
+
+
+Sprint Work / Production Support Workflow
+
+  • Placeholder tasks For sprint start uncertainty, create placeholder tasks for production support with 40 hours and refine later. Sindhuja to brief and chase Jason for requirement clarity.
+  • Scheduling Proposed call at 9:00 PM IST (Anand, Sindhuja, Jason) to collect details — attendees to confirm availability.
+
+
+Security / ChatGPT Usage Guidance
+
+  • Sensitive data caution Strong reminder: do not share PII, confidential project identifiers, table names, or client names with ChatGPT or similar tools. Use only random placeholder data (Table A/B, anonymized fields) when using external LLM tools. Team training reference noted; follow guidance provided in previous ChatGPT sessions.
+
+
+📋Overview
+
+  • Access/EPIC mapping issue due to enterprise LPM/project mapping; interim use of production-support workspace and Raj to be asked to create epics.
+  • For RISI MX Test 61, SRE assigned to do DCU; need call to confirm how existing data (encrypted columns) will be handled; backup exists for two months of data.
+  • Demo for build planned for Tuesday; proceed with promotion after validation.
+  • DQIM human task UI needs justification box alignment and expected-value display fix; Athar to coordinate with Bhagwan.
+  • Incident creation works but email notifications are missing; plan to add configurable email utility with retry and correct conditional flow for true positives. Kundan to implement with reduced other workload.
+  • ServiceNow incident description is auto-populated; team to request specific changes via screenshot/requirements.
+  • Rally governance reinforced: developers must not create user stories; create tasks under product stories. Placeholder tasks for production support should be created when scope is uncertain.
+  • ChatGPT/data-sharing guidance reiterated: do not share project-specific or PII details.
+
+
+🎯Todo List
+
+  • Anand:
+    
+    • Initiate chat with Raj to request creation/assignment of new US Consumer Insurance epic (ASAP).
+    • Attend/demo validation on upcoming Tuesday to approve first part of RISI build (by Tuesday).
+    • Coordinate Rally walkthrough/demo for developers (schedule separate session).
+
+  • Samir:
+    
+    • Schedule and run call with SRE for DCU data handling (tomorrow ~3:00 PM IST). Deliverable: SRE confirmation on whether they will handle existing data and approach (backup / re-ingest / in-place DCU).
+    • Re-add/restore any missing Rally user story entries if still required (ASAP).
+
+  • Kundan:
+    
+    • Fix DQIM human task UI alignment/justification box with Athar, coordinate with Bhagwan and Saurabh (today).
+    • Implement email notification bundle in BPMN (configurable via property file; include retry logic) and ensure only true positive triggers create ServiceNow incident/email. Target: E2 readiness in 2–3 days (aim by Tue/Wed).
+    • Reduce capacity on self-serve to prioritize email utility implementation (immediate).
+
+  • Athar:
+    
+    • Discuss UI justification/ordering with Bhagwan and Saurabh and provide updated requirements to Kundan (today).
+    • Assist on BPMN condition logic to ensure true positive path creates incident (coordinate with Kundan).
+
+  • SRE Team (contact via Samir):
+    
+    • Confirm DCU approach for encrypted columns and handling of existing data (backup/restore/re-ingest), provide timeline for completion to enable RFC promotion decision (on call tomorrow).
+
+  • Sindhuja:
+    
+    • Re-brief developers on Rally process; provide step-by-step demo on creating tasks (separate session), and assist in adding placeholder production-support tasks (ASAP).
+    • Chase Jason for requirement details and confirm 9:00 PM IST call availability (today).
+
+  • Sachin / Production Support:
+    
+    • Create a placeholder production-support task (40 hours) in Rally so effort can be tracked; refine later (ASAP).
+
+  • Dev Team / All:
+    
+    • Do not create user stories in Rally. Only create tasks under existing user stories. If unsure, contact Sindhuja/Anand before creating or deleting items (immediate).
+    • Follow ChatGPT/LLM policy: do not share PII, table names, project identifiers (immediate).
+
+  • General (whoever to provide screenshots/details):
+    
+    • Provide screenshot or exact text changes requested for ServiceNow incident description to Kundan/incident owner so the description formatting/content can be adjusted (ASAP).
+
+If any assignee needs clarification or completion times adjusted, please reply in the project chat so items can be re-prioritized.
+
+
+Transcription
+
+00:00:02 - 00:01:45 Unknown Speaker:
+
+Daily Standard AMEX 27, 22nd January I think this seems to be an abscess issue probably because I am unable to open this one. Can you search it here once, Aman? Yeah. That's what I'm doing. Yeah, it's an access issue. Because when I did the same thing, I was able to open directly. How should we do this now? Which workspace is that created? Because in US he does have the product owner access. Okay. This is the one, right? Yeah, so I think it's because of this enterprise LPM. The project, right, is wrongly mapped even for this. If you can change this, I think you can access it. But I'm assuming there are other features already tagged to this one, right? So we should just check it once. Oh. Yeah, also this is a capability, right?
+
+00:01:45 - 00:03:07 Unknown Speaker:
+
+So, sorry, this is a bid, right? It's an epic. So epic doesn't really get created in our US consumer Galileo. Yeah. Thing, Uh, can you just then create, Um, this is the one, right? Like, Um, just tell me if I'm wrongly giving the epic. It says, um, GCS G U.S. Consumer team, and then, uh, 979, yeah, it says 20.6 U.S. Insurance, so it's our team, right GCSG U.S. Consumer. So I I did it using uh, nine, seven, nine. Okay, nine, seven, nine, five, nine does not have a Uh insurance epic. There are only three there, which is, uh, Lumi, Migration, UH, unified marketing, data layer, and global dining. Yeah, I think what you can do is probably get access to this enterprise LPM1, right? That should solve for it.
+
+00:03:08 - 00:04:16 Unknown Speaker:
+
+There is some, I think, navigator training which is like five minutes or something that you have to do for that, I think. I think... Anand, he must ask Raj for like another EPIC because I'm seeing like under, so this, whatever EPIC I gave a stack to a team called EAS and the UNCDO, right, like how it does not have anything for Q-Track, it again does not have anything for insurance. Like there are only three EPICs that were given to us, right? Thank you, sir. So, like, in the meanwhile, I think, like you guys said, probably you can use the production support. I will initiate another conversation with Raj and ask to expedite for, you've not heard back from him, right, for the new epic creation? Is that for me? Yes, yes, that's right.
+
+00:04:16 - 00:05:23 Unknown Speaker:
+
+Yeah, yeah, yeah, so I can, um, initiate in the same chat window for this and for us consumer yeah, insurance, sorry, insurance, yeah, yeah. For the time being, we'll continue in the field like production, support, right? Yes, yeah, for the time being. Just create so that Sachin can track his efforts there. We'll remap it as soon as we hear back from Raj. Okay, I'll, I'll create it when, uh, it's there for N. C. I'll just create a clone of it. I'll take care. Okay, uh, anything else? Someone from insurance side? Oh, you already had a connect, right? Yeah, I'm good. Okay, thanks, thanks, someone. Thanks, okay. Uh. On and starting with the Raze MX Test 61, right? So I had a discussion with, Uh. So, you know, now she has routed us to the SRE team who will be doing the DCU.
+
+00:05:24 - 00:06:18 Unknown Speaker:
+
+That is data correction. Okay. So, now my answer to her was that how she is going to, you know, even the SRE team is going to do the data correction because in that case, for those couple of columns, they need to encrypt the data, right, for the state and jail. And that's, again, like, whether they are going to do it, You know, RFC implementation or post RFCR implementation. But that guy has mentioned like his shift is getting over and he is not available to connect. Uh, so Samir, Uh, what you can do? Set up a call tomorrow at 3 p.m. Uh, I'll brief you what needs to be, you know, detailed discussion required with our engine. You're already part of that group, right? SAMIR Yeah, yeah, um, this lag group you are saying, right?
+
+00:06:18 - 00:07:14 Unknown Speaker:
+
+No, no, no, you are not part of that. Let me add you, okay, so let me brief you so that you know you need you remember what needs to be done. I already looked you into that email, right? Uh, it's just that, uh, you're not part of this group where we were having that, uh discussion with Sristi. Okay, I already looped you to this email, which, uh, you know, I have sent it to our other gen. Yeah, okay, uh. So what? You need to ask him? Like, we already have this data for this table on the warehouse table. Okay, and we are going to, uh, you know, make those two columns as SD address in with this RFC. Okay, so now how they are going to take care of the existing data? Oh okay, either.
+
+00:07:14 - 00:08:07 Unknown Speaker:
+
+They are going to take a backup post RFC implementation, they are going to, you know, re-ingest the data or what is the plan? Just understand that from their side. Okay, for this one, go ahead, yeah. So basically, this RFC is to update the metadata change. And we need to check like how they are backing up or like, taking care of the data in this project. Yeah, existing data is being there, right? And this is being reported in this incident number, so the incident is also mentioned over this email if you go to this incident. Okay, right now it has been assigned to our religion, okay, and the required approval we received it from the LDOT team, okay. So get this clarity, like when they are promoting this, uh.
+
+00:08:08 - 00:09:04 Unknown Speaker:
+
+MD to the E3 environment, how they are going to take care of the existing data. So, on and on the backup part, we already did a backup of those two months of data. So, that backup is ready, but if they are going to take care of the data with the DCU, then that would ease out our job not to migrate the data again for those months, which is on this one. Question, right? Apart from the one-month to seven-month data, you have the old data as well, right? Correct, correct, okay, so that you just like from your side also just check the data. Okay, uh, so this is something, uh, Samir set up a call immediately, otherwise you are going to forget it. So he has asked tomorrow post 2 30. So maybe around 3 p.m.
+
+00:09:04 - 00:10:01 Unknown Speaker:
+
+September call, and, uh, me, you know, just see the feasibility and can join the same call. And in case in case there is some discrepancy or something, let me know immediately so that I can log in. And then push back this RFC to maybe Wednesday or Thursday, based on your discussion. If they are, they are going to handle it, uh, by Tuesday, we are good, uh, but if there is some discrepancy where they are denying that, then we have to post the RFC back to future date. That is on that RISI MX test Anand. When the build is ready for the first part, so we are planning for a demo with you on upcoming Tuesday so that you just can validate and confirm us so that we will be promoting it to the next environment.
+
+00:10:01 - 00:11:14 Unknown Speaker:
+
+And the rest part is in progress Anand. Okay, sure, uh, on the insurance validation that is still, you know, in progress, like, you know, uh, we are validating and sending you the result. Uh, any questions on that on the insurance part? No such. And I already had a connector with our pass update, also I have communicated. And on this one, human task creation, the changes have been done on E2 Anand. We will demo it post this call. Any other update that you would like to check? No, we're good. Okay. So, Kundan, please bring up your screen for the DQIM. Okay, so what would we start from? Where? Such in, uh, just, uh, reserving the task, taking an accent, that's it, and then I'll breathe. Not, this is, yeah, go back to here.
+
+00:11:14 - 00:12:30 Unknown Speaker:
+
+This is the entry you are seeing, right? This open status, so this is one of the human has to be created. Okay, and this is the, you know, these are known, just just let you know the next step. So that's just one thing which is required on, and the alignment of this text. Uh, that justification, so you can see that expected value, actually a loser appearing over here, reserve it, so look right now if you see justification box is still appearing. So this is something we need to discuss with Saurabh. And, you know, Bhagwan, why it is being there, so Athar would take care, you know, be having a word with Bhagwan today. Post that. Once you select True positive, just select True positive and then and then. So here when you create it, submit it.
+
+00:12:30 - 00:13:14 Unknown Speaker:
+
+Now, go to the Ace Control Center. So here one challenge. Anand I am going to tell you now the incident has been created for this one in the Ace side. Okay, but you are not going to get notified as you are not asking for an email, right? So while you are, you would be doing it. You won't be able to identify the incident, so in case you need us, do let us know. We will join you. Uh, we will. And that is the functionality, if you remember, I asked you at the very beginning. At least for true positive. If it is a one or two case, you can incorporate that email functionality so that you know email would got triggered to that person immediately. Yeah, yeah, let's do the idea, let's add that.
+
+00:13:14 - 00:14:32 Unknown Speaker:
+
+Okay, okay, we didn't noted the incident ID. So you can, you can take the previous process process instance and then undo it. So one second, this no one store one thing. Search it via Active State, go to the Select Status one. Yeah, yeah, I was doing that filter. The thing is that would have been completed, that would have been completed, man, active one would have been completed. What I'm asking you right now, take one active one. Okay, just give me one second. I'm looking for the activity. This filter is not working. Okay, fine. So take this task ID, go to the details, take the go to human task. No, no, no, not like this. It would not work like that. Go to the human task. What is the task ID? Uh, this is zero, one, one, eight, two, late.
+
+00:14:32 - 00:15:53 Unknown Speaker:
+
+Uh. Just search it by the task ID. Go back. No, no. In that. Look. Uh, zero, one, eight. It is there, right? This is the same task ID. I think not this one. Oh, yeah, correct, let me take action on this one. Yeah, correct, that's what I was mentioning. Click on reserve and then again, true positive, then just submit it. Hold on for a second, let it let, give the east time few minutes. But the process is still active because the rest of, the, you know, the uh, corresponding bundles are getting executed. It takes a few, you know, 30 40 seconds. Okay, yeah, let it get completed. I will show you the incident ID. See, that ticket number got created. I'm pinging you this one, so you can, if you want, you can show him.
+
+00:15:53 - 00:18:52 Unknown Speaker:
+
+Show another teacher. Give it to me. I pinged you over Slack, so you can take this. Stopping. Just a second 69. 69. Then if you can go on mute. Thank you. Okay. This is the incident that we have just created. So over here, if you see this one, this is the description or whatever, you know, rule description that has been there. We have created it. You won't be able to remove this one because by default, this is coming from the API itself. So there is no possibility of this one. Again, this is the description. This is your DKID, table name, variable name, actual value, expected value. And then the justification that he has did okay, okay, yeah, I mean, this description, everything we can change a little bit, that's fine. Oh, okay, yeah, but I think this looks good.
+
+00:18:52 - 00:19:41 Unknown Speaker:
+
+Yeah, but I think I would probably need you on that call for sure, then, for this part of the game. We will try to integrate the email any time. What I'll do, I'll reduce Kundan's capacity on self-serve and let him work on the email functionality because email functionality is a utility which is just we need to use that. So we just need to incorporate one additional bundle over there in that BPMN and then use that re-utility. That can be built within couple of days. So, you know, at least on E2, it would be ready. And two to three days, it replies. Yeah, then it would be good, right? If you can just bring up your screen, then create an incident. It shows the incident in that email itself, and then you can copy-paste and show.
+
+00:19:42 - 00:20:36 Unknown Speaker:
+
+Yeah, correct. Let's see if we are receiving email. Right now, I don't think. Yeah, okay. So, that's the part. We will be sending the email with all these. Body details. Maybe two to three days. We would be able to wrap it up right Tuesday or Wednesday, and that's Monday's holiday in that session. Can you also make changes to this description as well in the incident? Yeah, let us know what changes you need. Yeah, just give me a screenshot or something of that existing details and I'll tell you. Oh, okay, let me give you a same sort of this one and I'll. And I have already shared you the URL also, so if required, you can, you know, go to that service now portal and check the incident from there. Also, where exactly I didn't get that?
+
+00:20:36 - 00:21:59 Unknown Speaker:
+
+Uh, let me see my screen. So if you would like to check the incident, right? So let's go to this one from here. Let me ping you this incident. You can check this incident also from there. Yeah, okay, anything else that you would like to discuss? So we have demo on second or 27. On second, one, third, we'll keep it right now. Yeah, but uh, Kundan, we Kundan and Ather, we have to push Saurabh and team because we are not. Uh, you know, we are still in E2. Okay, so just don't think, uh, with respect to 27 or 28. If you are doing a deployment by 27th on E3, right, then, uh? Data migration is pending, that needs to be done for the month of Jan. And then the validation need to be closed on E2 before moving to E3.
+
+00:22:02 - 00:23:17 Unknown Speaker:
+
+That's why I was just, you know. I think from Saurabh's side, just follow up on this, you know, sequence of the text box, right? Once that is sorted out, they just need to merge the PR on the E3 environment. That's it. There is no other dependency apart from that. Okay, so just check with the government today. Okay, okay, thanks, thanks. Uh. RICHna Uh, folks, uh, please take back. Yeah, that's fine. Just just try to see, uh, like, uh, uh, you know, if you're not scared, don't take any decision. Uh, do let me know over the call. Sure, okay, because this is production data and we have to be careful, if required, to lie apart to the call. Okay, uh, yeah, anyone? Uh, couldn't. You are speaking something? No, no, I will. I will discuss one thing.
+
+00:23:17 - 00:24:13 Unknown Speaker:
+
+Uh, that is a true positive, right? As we are creating that service now. Incident, uh, certain there, but with that bundle, BPMN and that should come under that condition only, it should not will will suit the email. So what will be the email content? Whom to send the email? All the body description that you are sending? And right now send it to Anand and CCS. Later on, they may ask us to send it to maybe the distribution partner, then we. We just need to modify the properties, give the details from the property file, don't hard code it into the code base. Yeah, yeah, I will configure it, that is okay, okay, okay. First, let's do the ad cell, uh, you know, the mail part, yeah, this bundle gets over here, right? And this is skipping.
+
+00:24:13 - 00:25:04 Unknown Speaker:
+
+For, uh, if true positive, it should not be bypassing in case of true positive only. We are creating the incident. Oh, that is, you know, the uh, condition is, uh, different, but yeah, we are handling it. Leave it right. No, no, but but modify this, would, you know, if somebody wants to view this BPM? And right, they would be into a wrong adjunction. That if it is true positive, we are not creating the service or incident, which is incorrect. In case of true positive, only we are creating the service of incident. Okay, I will update it, okay, this one, so you just need to twist it like this one. Create one more utility bundle over here. Okay, and this should be sending you the email bundle. Okay, just email.
+
+00:25:04 - 00:26:06 Unknown Speaker:
+
+Okay, and when you are, yeah, and when you are doing for the email. Keep a note, you have to apply the retry functionality the way we did it for you. For email, we should apply retry. Yes, you should apply a retry also. Sometimes when you're sending the email, there might be a chance that your notification vendor may get impacted with some TLS connectivity and your email would not go to the end user. So that is the reason, apply the retry functionality. Okay. Just real quick, just loop it over here. Okay? And uh, change this and then again, like this one right error boundary if system accepts and stop the process. Yeah, modify this one, make these changes ready, and uh, other you need to, you know, change that one.
+
+00:26:06 - 00:27:32 Unknown Speaker:
+
+Okay, uh, so I I ask all of you to stay back. Uh, please, we. Uh, you know, not this placeholder man, why did you change the context of this one? Yeah, sorry, sir. I should have created for the task. I don't know why I did that exactly. You need to go to this one under this one. Create a task with placeholder. Yeah, that's what I did. Details. No, no. Now your user story is coming as placeholder. Man. Add new. I did. Add new means. Did you created a altogether new user story? Chill story? Only? Where let me share my screen? Where share your screen. So this is the task I created by adding add new. This is not a task. This is not a task. This is a user story. What happened to the old one?
+
+00:27:32 - 00:28:38 Unknown Speaker:
+
+I'm not sure what happened to the old one. Either you might have deleted it. There was a spike user story was already in there, right? Deleted I only created a task then, where it went, man, where it went, I don't see it. Sindhuja Can you find that user story for him? Yeah, it's disappeared, not even I'm checking that. Just give me a second. You might have deleted it wrongly. Okay, then where it went? Sorry? Yeah, where, where? Where you are able to see this? Spike, uh, spike one, spike one, robot. Yeah, three, five, eight, only where? Yeah, the same story. It is actually four. Ah, six, four, one, eight, four, three, eight is the new one, old one is six, four, zero, eight, three, five, eight. So where this three, five, eight went.
+
+00:28:42 - 00:29:37 Unknown Speaker:
+
+Give me this story copy and then just said this story to me. I think he's created Okay, he's changed the pair and he's he's made the parent Yeah parent and child and he's created a new story For himself. Let me just read that back to the sprint. Okay. Yeah, uh. First of all, you know, you guys are not supposed to create any user story. Please. Uh, you know, keep in mind user story. Either it would be created by the product team, or if that is the technical user story I'll be creating, or Max in which I would be creating. Okay, you guys are required just to create a task under those user stories. Okay, uh uh. If you are doing that, uh, please share your screen. Let's have a, you know, little demo to these folks.
+
+00:29:41 - 00:30:47 Unknown Speaker:
+
+Uh, separately, I'll do that over the call. That was the agenda. But, um, yeah, he's made it parent. I'm not even able to add it back to the sprint. This particular user story. So, um, not sure. And that was the actual user story created by the product. Yeah, yeah, uh, delete that one. I think the actual user story still lies with. Uh, Samir. Yeah, yeah, yeah, I deleted it. No issues, no issues. I'm adding it back to the sprint. Okay, um, folks, I mean, um, just just call out if you need help on this. Do not alter anything on the Rally world, especially creation of user stories by developers are not allowed. Okay, Can you recheck? It must be appearing on the board now. Yeah, yeah, it's there. But it's zero story point here, Sindhuja.
+
+00:30:47 - 00:31:40 Unknown Speaker:
+
+Yeah, yeah. Do you remember how much we had assigned him? Five, I said, Sachin? Yeah, five. Okay, I changed it. I anyways have a call, like just now we were supposed to connect. I'll let them know how to create tasks and rally walkthrough and that, okay? Let's not waste every resource's time here. Okay, okay, then that's okay. And assuming for you, uh, there was no task created for production support, so just create one placeholder task. Uh, Sindhuja is going to brief you on that. Okay, okay. So the. The simple ask is the whenever the sprint start, right? We? We might not be sure, like, what are the tasks that we are going to perform for those 40 years, right? So if that is the case, just sure that you are creating at least a placeholder with 40 hours, and later on, you can break that 40 hours.
+
+00:31:40 - 00:32:37 Unknown Speaker:
+
+Like, if you're monitoring some job and something right later on, you can do that. Yeah, okay, Nirman, you are not supposed to create any task on the lazy one. Because we are still not clear with the requirement what exactly they would like to make. Uh, during this print. So, uh, Sindhuja, please try to chase Jason if we can have a connect with him, then. 9 p..m. Call with you, me and Anand. Are you available 9 p.m. IST? I'll join. So, yeah, hopefully, I also have initiated. I think he had not logged in yet, so he had not seen my messages from the afternoon. We'll probably get all the details in that call. Okay. Okay, and just one call out to all of you. Like, if you're using the chat GPT, Please be very cautious what details you are sharing over to the chat GPT.
+
+00:32:37 - 00:33:26 Unknown Speaker:
+
+OKAY, sharing any PII record, any confidential record with respect to the project is not allowed. Okay, so even if you're, you know, trying to create some, you know, utility something that should be on the raw data. When I mean to say any confidential details, you are not supposed to share the table name, the data, uh, the project name, the you know, whatever you can consider, right? If you guys have attended yesterday and day before yesterday's session for Chat GPT. Even there, they are not even placing the client name, right? If you have observed it, I don't know how many of you have attended that session. So they're not, even, you know, disclosing the client name for which they are going to create that market strategy or sales, whatever data that they are doing.
+
+00:33:26 - 00:34:31 Unknown Speaker:
+
+Okay, so, please make sure no details with respect to project to be shared on the chat GPT Ather. Even for your use case. If you are creating a UI screen, please make sure you're not providing any Uh data to that UH chat GPT prompt. I I hope this is clear to all of you. Generally, I just give some random, yeah, random data is fine, right? Random data here and there, like table A, table B, like that, with something that is fine. But don't give a specific name, like C360 or something, right? Those are all internal details of MX. Sure, okay, okay, then, uh, any any questions for me? Or we can close up? Okay, then thank you, thanks. Hello?2026-01-23 BPMN Framework Configuration and Local Setup Assistance
+
+Creation Time: 2026/1/23
+
+
+📅About Meeting
+
+  • Date & Time: 2026-01-23 12:37 (Duration: 902 seconds)
+  • Location: Remote (video/Slack screen-share)
+  • Attendee: Sachin, Prudhvi (participant being assisted), Nirmal (mentioned), other team members (unnamed)
+
+
+📒Meeting Outline
+
+
+BPMN Framework Setup and Purpose
+
+  • Framework vs BPMN design The group clarified that the repository under discussion is the runtime framework that executes BPMN configurations (not just the BPMN designer). The BPMN definitions are designed/configured and then executed by this framework; service bundles and framework configuration live in this codebase.
+  • Difference between BPMN and DAG It was reiterated that BPMN is different from DAG. Team members confirmed BPMN is used (not DAG) and that the framework will run BPMN definitions.
+  • Who works on BPMN Team composition and experience were discussed: Nirmal knows parts of this framework from prior exposure; some team members work primarily on BPMN. One attendee recently joined (~2 months) and needs time to onboard.
+
+
+Running the Project Locally (IntelliJ Configuration)
+
+  • Why run locally Sachin asked why Prudhvi was trying to run the project locally if no code changes were planned. The response clarified that running locally is needed because configuration and BPMN execution are validated within the framework; some local checks and debugging require a running application.
+
+  • IntelliJ run configuration issues Walkthrough of IntelliJ steps:
+    
+    • Right-click current file → Run/Run Configuration → Edit Configuration.
+    • Locate the application configuration (spring-boot / application entry).
+    • Ensure correct Java version is selected (Java 21 was shown as incorrect in one view).
+    • Select the correct application main class; if it doesn’t appear, IntelliJ is not detecting the main method.
+    • Use Modify Options → Add VM options / Active profile as needed.
+    • If run configuration can't find the main class, try manually typing the class name or recreate the configuration.
+    • For spring-related applications, ensure Spring Boot main class is recognized (it should scan for main annotation or public static void main).
+
+  • Specific configuration troubleshooting The participant could not get the main class auto-detected. The helper suggested:
+    
+    • Verify the main method exists and is public static void main(String[] args).
+    • Use Modify Options to add VM options and active profile settings.
+    • If the main class still isn't picked up, delete the existing run configuration and create a new one, typing the main class name manually.
+    • Copy-paste of certain arguments was discussed but blocked due to secret values — those will be delivered via secure channel (email/Slack).
+
+  • IDE performance problems The remote machine was slow / hanging; recommendation to "Invalidate Caches / Restart" from IntelliJ (File → Invalidate Caches / Restart) was given. The participant reported the system was very slow and would take time to recover.
+
+
+Tooling and URLs
+
+  • Composer confusion Two composers were mentioned: "lomi composer" and "ace compose" (ace composer). The correct URL for the ace composer will be provided by the helper later.
+  • Repository/branch guidance The participant asked which branch to use and how to find the remote; the helper indicated how to search for the remote branch in the IDE (searching remotes). Exact branch name was not captured in the transcript; the helper offered to share the correct branch/remote reference via Slack.
+  • Secrets and properties Some run arguments/properties are secret; the helper will send required properties/arguments through a secure channel (email/Slack). There is no need for additional property files beyond what will be shared.
+
+
+Communication & Next Steps During the Session
+
+  • Screen-share and controls There were repeated screen-share switching and confusion about which screen was shared. The helper instructed to minimize chat windows and focus on the IntelliJ screen at the top-left where current file/run configuration appears.
+  • Assistance scope The helper confirmed they would share configuration details, run arguments, and the ace composer URL. They will also follow up with instructions/screenshots as needed.
+
+
+📋Overview
+
+  • The codebase being discussed is the BPMN runtime framework, which executes BPMN configurations and service bundles.
+  • BPMN is distinct from DAG; ensure team members understand the difference.
+  • Running the project locally is required to validate framework configuration and BPMN execution even if no code changes are planned.
+  • IntelliJ run configuration issues were preventing detection of the main class; steps were provided to recreate the configuration, add VM options and active profile.
+  • Some configuration values are secret and will be shared securely (email/Slack).
+  • IDE performance issues (hangs) observed; recommended invalidating caches and restarting IntelliJ.
+  • Helper to provide ace composer URL, branch/remote reference, and required run arguments/properties after the meeting.
+  • Newer team member(s) need onboarding; Nirmal has relevant experience and may be a resource.
+
+
+🎯Todo List
+
+  • Sachin / Helper:
+    
+    • Share ace composer URL via Slack (ASAP)
+    • Share branch/remote name and exact repo location via Slack (ASAP)
+    • Send required VM options / run arguments and any secret properties to Prudhvi via secure channel (email/Slack) (ASAP)
+
+  • Prudhvi:
+    
+    • Recreate or modify IntelliJ run configuration: select correct main class (or type it manually), set Active profile, add VM options as provided (by next working session)
+    • If IntelliJ is unresponsive, perform File → Invalidate Caches / Restart and retry (today)
+    • Confirm receipt and apply the properties/arguments shared by Sachin/helper (after they are sent)
+
+  • Team onboarding / Knowledge sharing:
+    
+    • Pair with Nirmal or an experienced BPM team member to cover framework basics and common run/debug steps (schedule within this week)
+
+Notes:
+
+  • Deadlines were not explicitly given; items marked ASAP should be completed before the next working session or within 1 business day if possible.
+
+
+Transcription
+
+00:00:00 - 00:01:18 Unknown Speaker:
+
+Which branch? Can you tell me that I am not able to open this chart? Okay, fine, I am bringing you over slack. It's like, that's this is not working already. Start you just check out this one, click on this one now. Yeah, correct. Check out that remote here. Search ever, you will find it this one. And why Sachin is asking me to run this locally? If we are not going to make any changes to this, or where we would be using this, if at all, in that we use design. No, no, see, uh, this is a framework, okay, so here the BPMN you will configure, right? Or you will design that total BPMN will, uh, execute in the framework value. And all those configuration.
+
+00:01:18 - 00:02:42 Unknown Speaker:
+
+We have to do it here, so this is framework is, uh, see code service about the configuration of the BPMN and our service bundles. Okay, okay. What is the BPMN tool we use? BPMN is not DAG. DAG is different, BPMN is different. Okay. BPMN, can I get the 10.1, sir? There is no endpoint for that one. There is a composer is there, okay. Okay, okay. Yesterday I did the setup, no? Composer no that is a different that is the lomi composer okay uh this is ace compose i will bring you the url okay let's go earlier you were in the uh you work on mx or some other project oh. He joined Sinecron recently only. Two months before. There are a lot of things you have to understand. Yeah, a lot of things.
+
+00:02:42 - 00:04:00 Unknown Speaker:
+
+I don't know how come Nirmal has an idea on that. He has worked on that part because everyone on the team works on BPM in one day. He worked in another team, is it? No, the floor where you are sitting. The entire age works on this BPM manually. They use this framework, it's called framework. Okay, so all those meetings and all you will be, uh, saying, right, yeah, those all are there, okay? So it is composed, uh, this one actually such in given me, yeah, now I got so. Here. Only the Java ID will process. We'll call. Right click on this current file above, Go to Edit Configuration right hand side. That current file is there. Click there. Top top, top Sir input. Can you minimize this chat window? We don't need this one, this.
+
+00:04:00 - 00:05:29 Unknown Speaker:
+
+What are you doing? One second, let me this is, uh, here, right on the same line at the top, that top only. You go at the top, top, top, top come left hand, side, on the same come left hand. Current file is there, right? I am telling tops there. How you said it? You worked on IntelliJ, right? Before? Wait, wait. You are, okay. I am sharing you the IntelliJ, no? Wait, wait. Okay. What is this? I was actually sharing you. One second. Let me share it again. I thought I shared you the other screen. Okay. Yeah. Now, can you see? Your current file is there at the top right. Okay. I was actually. No, no, no, okay. I click Select the screen Springboard. Basically. Yeah, springboard is the right click. What is the Java version here?
+
+00:05:33 - 00:08:14 Unknown Speaker:
+
+Where you are showing that build and done is there? Right? Select that one. No, not that one. Sir, that's the top down. Use this. Hmm, what is this? Is Virgin local machine build run Java, not Java. June 21 This is wrong, Java. And we have, okay, main class you are searching for, right? Yeah. Where can I put it on Slack? Yeah, Slack. I know I defaulted, so I didn't. Take this. Select codes. I can express first one is selected here. Yeah, select the application. That's fine, first API. Yeah, this one, it's not getting selected. It's not a main method, right? It is in, I mean, this is the main method. Wait, wait, wait, wait, wait. Modify option Click on the building. Click on the right hand side, that option is there in the project, right?
+
+00:08:15 - 00:09:43 Unknown Speaker:
+
+How come it will search? Can you scroll down? What is the problem? No, no, not. The library is what we will do with. Oh, that's why I'm telling you, you know, Connect, Uh, this one you can do. Where is the VM house? But the main class you have to provide it, right? I can tell you the VM of. But uh, uh, just uh. Delete this application, go back on dot a Exp. No, don't go ahead, type one by one, it will come, it should automatically come. No, it's not, it's not, it's not coming, but that is fine. See, ideally it should come with this name itself. If it is not coming here, it's not considering it as a main method. That I got your point, but that is the main method.
+
+00:09:44 - 00:11:24 Unknown Speaker:
+
+Okay, shall let me see that once, if it has a main method. It should scan it. It should scan the ACE code. Why it's not scanning for you? No, there's no main, okay, it has a main method. This is the main matter We are building a school when they write No, You're selling the project, your project is not coming there. Me, see what is there? In the Modifier option, we have only you have to select Active profile. Click on Modify option Modify options. Okay, what? All are selected Active profile, Add Dependency, Add VM, I'll select that. Add VM Options. Another thing is why it's not pointing here. It did not come in, that should come here now. How about this being that? Can you share your screenshot of your songs?
+
+00:11:24 - 00:14:10 Unknown Speaker:
+
+I will share it and any property file you need to put. There's no need to add anything, that's the point. Okay, if I configure this, that's enough. Okay, my video is there. Like, Okay, Julia, 21, Modified target. Okay, it's robot application only. Okay, can you copy paste those arguments? I'll send you over mail. We cannot paste it. Here. There's some secrets. Do I have to generate any certificates? No, What is the email address? Prudhvi.teja1. What is this? What system is this one? Mind. Why it is hanged? Do one thing, invalidate chaos, so maybe sometime it happens. Go to files and do that one what are you doing here click on the invalidate cache is there right just below the third one restart it. System is getting hanged. You shared those properties, right? No, no, no.
+
+00:14:10 - 00:14:36 Unknown Speaker:
+
+System got hanged, so it will take time. It's very slow. Not survive. Morning I am facing this. Okay. I will share and let you know, okay? Okay, fine. okay okay thank you thank you2026-01-23 Rally and Sprint Process Overview
+
+Creation Time: 2026/1/23
+
+
+📅About Meeting
+
+  • Date & Time: 2026-01-23 12:01 (Duration: 1418 seconds)
+  • Location: No location mentioned
+  • Attendee: No relevant content mentioned
+
+
+📒Meeting Outline
+
+
+Rally & Sprint Process
+
+  • Rally experience and onboarding Participants discussed prior experience with Rally; one person said they had used it and found it simple and intuitive. New members were reassured that the tool is easy to learn after the first few days.
+
+  • Iterations, PIs, and sprint structure Explained naming convention: "26" = year, "1" = PI number, last digit = sprint. Organization operates with ~5 PIs per year, each PI ~3 months, with ~4–5 sprints per PI. The last sprint of a PI is typically the release sprint.
+
+  • Sprint duration and ceremonies All sprints are 10 days (Tuesday start, Monday end). Iteration planning occurs on sprint start day; team discusses stories, clarifies with Product Owners (POs), and estimates story points. Demo and acceptance are on the last day of the sprint.
+
+  • Task creation and deadlines
+    
+    • Tasks must be created by the day after sprint start (e.g., sprint starts 20th, tasks created by 21st).
+    • Stories must be demoed and accepted by the PO on sprint end day (e.g., 2nd Feb for this sprint).
+    • These dates are non-negotiable because reports depend on them.
+
+  • Ownership and story lifecycle Developers can move stories to "Completed" but only Product Owners can move stories to "Accepted". Product Owners named: Anand and Rachana (for specific areas like Contro and Q-Track). Developers are responsible for creating/ updating tasks and ensuring stories are completed and demoed on time.
+
+  • Editing stories and tasks in Rally Demonstrated how to edit stories (change blocked state, move to next iteration, change owner), tag to features/releases/iterations, and add tasks under stories. Placeholder/dummy tasks were created by the presenter for newcomers and can be replaced/modified by the assignees.
+
+
+Metrics, Time Tracking & Test Cases
+
+  • Sprint metrics visibility Examples shown: available team capacity (e.g., 57 hours), story points on board (e.g., 55), days left in sprint (e.g., 8), percent accepted (e.g., 0%), number of active tasks (e.g., 32). These metrics feed leadership reports.
+  • Burn-down and daily hour updates Story-point-to-hour mapping: 1 story point = 8 hours. Example: a 5-point story = 40 hours. Team members must "burn" hours—update remaining hours as work progresses (daily or at least every other day). Demonstrated how members like Ayapa log minute-level updates and hours burned as an example to follow.
+  • Reporting and stakeholders Raj and Purna (program sponsors/directors) rely on Rally as single source of truth for progress. Therefore accurate daily/hourly updates matter for program reports.
+  • Leaves and capacity planning Team should update leave entries in Rally; presenter uses these values when calculating capacity for upcoming sprints. Ensure leave is updated (requested at least for next month).
+  • Test cases for testing stories If a testing or end-to-end integration story is picked, developers must add test cases in Rally. Team members can reach out to experienced developers (Ansi, Ayapa, Kundan) to learn how to add test cases.
+  • Confluence & timesheet Confluence pages were shared (timesheet and clarity timesheet). Team should update Confluence timesheets as part of tracking.
+
+
+Practical / Q&A / Administrative
+
+  • How to add tasks under stories Demo: go to story, add a new task, assign to self, enter estimate and burn hours against that task. Placeholder tasks were created by presenter for convenience.
+  • Clarification on assigned story mismatch A participant noted their current work (monitoring story assigned by Sachin) didn't match the visible story on the board. Guidance: create or move a task under the correct story and log efforts there. If unclear on story details, study the story description and follow up with the assigner (Sachin) or the presenter for clarity.
+  • Customizations & product configuration Rally has been customized for the team (example: custom fields/views). The product can be further configured when procured; customizations differ across tools (Artem, others).
+  • Suggested onboarding practice New members should follow Ayapa’s method of frequent, detailed updates for initial weeks. The presenter offered to create or modify placeholder tasks for individuals as needed and encouraged offline help/mentoring.
+  • Miscellaneous off-topic content The latter portion of the audio contains unrelated conversational fragments (external monitors, Spring Boot, GPT/agent/modeler remarks, informal planning about weekend setups and learning sessions). These contained no actionable Rally/sprint process items or concrete assignments.
+
+
+📋Overview
+
+  • Iteration naming, PI structure, and sprint cadence (10-day sprints, Tue–Mon) were explained.
+  • Task creation deadline: by day after sprint start. Story acceptance required on sprint end day; deadlines are non-negotiable.
+  • Developers may mark stories Completed; only Product Owners can mark Accepted. Named POs: Anand, Rachana.
+  • All work hours must be burned/updated regularly (daily or every other day); 1 story point = 8 hours used as guideline.
+  • Test cases must be added for any testing/integration stories; reach out to experienced developers for help.
+  • Team capacity and leaves must be kept up to date in Rally; Confluence timesheets should also be updated.
+  • Presenter created placeholder tasks for new members and offered to assist with creating/modifying tasks.
+  • Non-actionable/off-topic discussion about monitors, models, and tools occurred but contains no follow-up requirements.
+
+
+🎯Todo List
+
+  • Sachin / Presenter:
+    
+    • Create/modify placeholder tasks for new members in Rally (no specific deadline; do ASAP).
+
+  • Each Developer (all team members):
+    
+    • Create or assign tasks under the correct story by the day after sprint start (e.g., if sprint started 20th, create tasks by 21st).
+    • Update hours burned on assigned tasks daily or at least every other day for the duration of the sprint (ongoing; tracked each sprint).
+    • Move story to "Completed" when work is done and demo to PO on sprint end day for acceptance (sprint end date per sprint calendar).
+    • Add test cases in Rally for any testing/integration stories taken (before demo).
+
+  • Product Owners (Anand, Rachana):
+    
+    • Review demos on sprint end day and move stories from Completed to Accepted as appropriate (sprint end date per sprint calendar).
+
+  • All team members:
+    
+    • Update leaves in Rally to reflect availability for upcoming sprint(s) (update at least one month ahead where possible).
+    • Keep Confluence timesheet / clarity timesheet updated as previously shared (ongoing).
+
+  • New members / mentees:
+    
+    • Connect offline with Ayapa (or other experienced members: Ansi, Kundan) to learn the recommended detailed update practice in Rally (schedule within next week).
+
+Notes:
+
+  • Specific calendar dates referenced: sprint start example 20th → tasks by 21st; sprint end/demonstration example 2nd Feb → ensure acceptance by PO. Use actual sprint calendar for exact dates.
+  • If you are unsure which story you should log time against, contact Sachin or the assigned PO for clarification immediately.
+
+
+Transcription
+
+00:00:02 - 00:01:08 Unknown Speaker:
+
+So have you guys used Rally before? I have used. For me, it's no. Okay, it's pretty simple and intuitive. I think you'll just take your guys like initial few days. I think after that, you'll get hang of it. So iteration is the one which basically talks about the current sprint. That we are in, like, um, so 26 is the year, one is the PI number and one is like your sprint, so um, so you can check here. So generally we'll have like about five, uh, pis in the year, and each PI is like about three months. So you'll have like about five, uh, to four sprints in each BI. Okay, so the last print that you see, right IP, it's like the last print of the PI, where all the releases usually happen.
+
+00:01:08 - 00:02:05 Unknown Speaker:
+
+Clear so far, yeah. So all our sprints are 10 days long, it usually starts on a Tuesday and ends on Monday. Accordingly, you must have seen the ceremonies on your calendar. So on the day that your sprint starts, which is 20th, is when you will have iteration planning. So this a call where basically, like the product owners, will, you know, like, tell what are the stories you you know like you're supposed to take and stuff like that? And in that meeting, like you can, like story point. If you need any clarifications with respect to the stories, you can ask the product owners. Basically, like the usual stuff, okay? And on the last day that your print ends, um, which is like on second Feb. Which will be for this print.
+
+00:02:05 - 00:02:57 Unknown Speaker:
+
+By then, the expectation is that you have completed the story. If you complete the story, you go to the product owner, demo it and get it accepted. If not, we will have a demo call on the last day so you can demo it to the product owners and get your story accepted. So it is, uh, you need to remember this time. So the day the sprint starts, which is on, let's say, 20th, one day posted by 21st, you will have to get your task created. OK, and the day it is getting demoed, that is on, you know, like, let's say, 2nd Feb. You will have to ensure that your story is accepted by the PO. So these dates are non-negotiable because they get pulled up in the reports.
+
+00:02:58 - 00:03:54 Unknown Speaker:
+
+Okay, so your story is your responsibility and you must get both of these activities done on time. So you can, like, filter by your owner and see like the stories that is assigned to you. I created like placeholder task for you, so it's quite simple. So you want to edit the story right? Like, you can edit it based on like if you want to make it blocked. You want to like add it to the next iteration or change the owner. All of this is done here. You can also go into the story and then do all of these activities on the right hand side. You will get these. You want to change the, you know, like story points. You want to tag it to a feature. So release, iteration, all of this can be changed.
+
+00:03:56 - 00:05:53 Unknown Speaker:
+
+You can go to your task like I've done, add new, and then like, created, uh, you know, like new placeholder task. Okay, clear so far. Yeah, okay, yes, so, uh, yes, India. Please proceed yeah, okay on the demo day and you'll ask the PO to accept it. Just keep in mind you can move it only till completed. You should never move it to accepted. This can only be done by a product owner role. Who is playing product owner role in all day? So your product is Anand, Rachana for Contro and stuff for Q-Track. Are the product owners? Only they can move into accepted? You can only move until completed state. Okay, fine, Okay, yeah. I think as a developer, this is all you have to know in uh, uh.
+
+00:05:53 - 00:06:54 Unknown Speaker:
+
+Like, with respect to what you're supposed to do with your stories. If you want to create a new story, you just let me, Sachin, or the product owners know, shown you so once, I've already created a placeholder. But for the upcoming sprints, you can create your own task, okay, and a few other things is basically these are like your, uh, sprint metrics. So, for example, in this print, right? Available capacity of the entire team is 57, out of which on the board, you see like 55 story pointers. And eight days are left. Zero percent is accepted. Um, nobody's, uh, you know, like, mark any defect, and there are like 32 active tasks, such kind of things. If there is a testing story, sorry, if there is a testing story, any kind of end-to-end integration, whatever it is.
+
+00:06:54 - 00:07:49 Unknown Speaker:
+
+Do not forget to add a test case. You can reach out to any of the developers already, right? Like Ansi, uh, Ayapa, Kundan, and they will, uh, you know, like, know how to add a test case and stuff. But it must be present. If you've taken any testing story. I would suggest always, for the initial few days, follow Ayapa's uh way of updating. He, uh. He updates his task brilliantly, so he puts in like every minute task and the number of hours burned. So you try to follow him, you know, like, try to connect with him offline some. And, you know, just tell him to include you when he's updating his rally. You guys can, like, follow his lead. Now, there are these three things, okay? So, I told you something about burning your task.
+
+00:07:49 - 00:09:03 Unknown Speaker:
+
+So, for example, Let's say that this particular QTRAck user story takes about 40 hours of... Example If you take like a two-story pointer, okay, two-story pointer is like 16 hours of work. Now, if you see Antsy, right? She has not started working on her first story. Because 16 hours is the estimate and to do is still 60, but on the second story here, 40 is like the task estimate. And she's completed like about a solid, uh, 15 hours of work. You're getting my point, right? You guys will have to burn this hour. So if you've spent like, let's say six hours on this five quadro build, you need to put in 34 hours here. Getting it Prithvi and Nirmal? Yeah. So this you have to do every day or at least every other day.
+
+00:09:03 - 00:10:01 Unknown Speaker:
+
+Because again, these go into metrics which is tracked by Raj and Purna. They are like our program sponsors or directors. So for them, the single source of truth is this rally board. So your task, your, you know, like how you're burning down your hours, all of these are tracked by these leaders. Okay. So it's very important you guys do it. So even your, see like Sachin, right? He's not started work on RACI, but he's doing on Chotrak self-serve and he's doing on production support. So you have to keep reduce. Number of hours as and when, every other day getting it sure, and see, this is the way you will have to add your task. So, for example, if I look at this right, this is so intuitive, I know that. Okay, uh. He's like, Uh, done.
+
+00:10:01 - 00:12:00 Unknown Speaker:
+
+Even validation of the table, out of which he spent three hours on this, and he's not started his other task, right? Completed it. So, he will move it to completed once done. And story for 5 pointer you said 40 hours is it? Yeah, one pointer is 8 hours of your work. Leaves right, so this is our source, so ensure and even your. This is how I calculate the capacity for the upcoming sprint. You will have to update your leaves here. Okay, I see that you guys have already done it. So just ensure that at least for the next one month. It is updated here. Okay, use this for your calendar updates. I already shared with you the the Confluence page, right? Your clarity timesheet us, so that is another thing that you have to update.
+
+00:12:00 - 00:13:52 Unknown Speaker:
+
+So these are the, uh, you know, like, two conference pages that we usually use to track. Um, yeah, I think, um, yeah, that's it from my my end. Do you guys have, like, any questions? Uh, could you go to the rally? Good ones, okay, I had made some tasks under it, but the story that I am working right now, this is not that story. So this is not the adventure you are working on? Yeah, this is not the one. Sachin assigned me some monitoring story to make a new deck for some table monitoring. So it's on Qtrak, I guess. To you on the board? Uh, no, the on the board. I don't know the story name. I I guess he assigned me Samir Stars, or I might have been shadowing Samir for them, but this is not that.
+
+00:13:52 - 00:15:29 Unknown Speaker:
+
+Also, like another another resources story, you can create a task under it. You know how to create a task, right? Yeah, just go to the story and then, like, create a task under your name. And whatever efforts you're putting, it put, uh, put your efforts on under that task. You just add a new task here and assign it to yourself. Okay, okay, okay, sure, yeah. Um, anything else. Or any of the team members. Okay. Sure. Yeah. Okay. Anything else? Okay. Okay. Have a great day and happy weekend. I'll see you all next week. Thank you. This doesn't have that option. See, you can add a task like this and provide name estimate. Totally five wins five into eighty forty hours, is that? So daily some some hours you burn, you have one more no one more call.
+
+00:15:29 - 00:17:11 Unknown Speaker:
+
+It's a customization, this is done, customization for RAMX Rally itself, same thing for Artem, they have done some other customizations. Okay, so this is product, the Rally product. If you pay money, they'll give it, so when they're giving it, they'll say, I don't want this, I want this like that. And according to that, they make configuration and give it to you. Our task Okay, so I modify this one only because this is a placeholder, right? Okay, that's not me, placeholder. I will create something for you. You go and modify for your accord answer. Okay. Simple task I will create it. But it is not actual one. Dummy task. Okay. That is place hold. Then you go to 16 hours. Is it 15-15 madam? Last the 10 hours madam. This is going to complete here.
+
+00:17:12 - 00:20:52 Unknown Speaker:
+
+See, to give you the details, to give you the story details, there is a small statement here. So, if you understand this, what you are not doing is for me, I am not doing it. Now, you need clarity as to what story you are not doing. You need to study this. Okay? After that, let's connect the video. This is a quadrogram. Now, let's see the external monitor. Now, if we connect the external monitor, it will play in it. It will not charge. Now, let's put it in this and sort it in that. He's going to drag this and paste it. That's good. . . . . . . Oh, okay. This is a Spring Boot application. Open a new chart and create a new palette. If you use a chart GPT, it will work well.
+
+00:20:53 - 00:22:10 Unknown Speaker:
+
+But it is not equal to anti-gravity. Anti-gravity is not that good. We can use this to do coding. If we use agent modeler, it will answer the questions. If we use agent modeler, it will work like an agent. It will almost work like an anti-gravity, but it won't work that well. This is GPT-5, Mini, 4.1, these three versions are available to us. For example, this is intelligent tracking. It goes like this. It goes like this. It goes like this. It goes like this. It goes like this. It goes like this. It goes like this. It goes like this. Now, if someone sees it and writes it here, it will go fast. That's why I bought monitors. Not just for me, but also for you. The work to do is, we have to come up from the bottom.
+
+00:22:11 - 00:22:59 Unknown Speaker:
+
+Why shouldn't we come up slowly? Why should there be a lift? It's an easy process. That's how it is. It's an easy process. Someone has inverted it. We are saying, use it, use it and come out. Or, you come up slowly, come up slowly. It will be easy. That's how it is. So, for example, if I have an anti-gravity device, I can use it to do my work. I can use it to charge my phone. I can use it to do my work. I can use it to do my work. I can use it to do my work. I can use it to do my work. I can use it to do my work. I can use it to do my work. If we run this, next time we will run the pointer in the evening.
+
+00:23:00 - 00:23:28 Unknown Speaker:
+
+I will come at 6 o'clock. Then we will connect. We will connect and we will complete the pointer. We have two set ups. We will sit for a weekend and we will learn everything. We will ask Swamiji what he has to say. You will see Java without Java. You will see Python without Java. So you have the mission in that. How do you plan the mission? . . . .
